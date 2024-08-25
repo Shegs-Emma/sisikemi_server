@@ -147,7 +147,6 @@ type ProductMedium struct {
 }
 
 type User struct {
-	ID                int64     `json:"id"`
 	Username          string    `json:"username"`
 	HashedPassword    string    `json:"hashed_password"`
 	FirstName         string    `json:"first_name"`

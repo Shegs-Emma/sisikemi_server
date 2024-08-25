@@ -39,21 +39,21 @@ func (q *Queries) CreateMedia(ctx context.Context, arg CreateMediaParams) (Mediu
 
 const deleteMedia = `-- name: DeleteMedia :exec
 DELETE FROM media
-WHERE media_ref = $1
+WHERE id = $1
 `
 
-func (q *Queries) DeleteMedia(ctx context.Context, mediaRef string) error {
-	_, err := q.db.ExecContext(ctx, deleteMedia, mediaRef)
+func (q *Queries) DeleteMedia(ctx context.Context, id int64) error {
+	_, err := q.db.ExecContext(ctx, deleteMedia, id)
 	return err
 }
 
 const getMedia = `-- name: GetMedia :one
 SELECT id, media_ref, url, aws_id, created_at FROM media
-WHERE media_ref = $1 LIMIT 1
+WHERE id = $1 LIMIT 1
 `
 
-func (q *Queries) GetMedia(ctx context.Context, mediaRef string) (Medium, error) {
-	row := q.db.QueryRowContext(ctx, getMedia, mediaRef)
+func (q *Queries) GetMedia(ctx context.Context, id int64) (Medium, error) {
+	row := q.db.QueryRowContext(ctx, getMedia, id)
 	var i Medium
 	err := row.Scan(
 		&i.ID,
@@ -67,12 +67,12 @@ func (q *Queries) GetMedia(ctx context.Context, mediaRef string) (Medium, error)
 
 const getMediaForUpdate = `-- name: GetMediaForUpdate :one
 SELECT id, media_ref, url, aws_id, created_at FROM media
-WHERE media_ref = $1 LIMIT 1
+WHERE id = $1 LIMIT 1
 FOR NO KEY UPDATE
 `
 
-func (q *Queries) GetMediaForUpdate(ctx context.Context, mediaRef string) (Medium, error) {
-	row := q.db.QueryRowContext(ctx, getMediaForUpdate, mediaRef)
+func (q *Queries) GetMediaForUpdate(ctx context.Context, id int64) (Medium, error) {
+	row := q.db.QueryRowContext(ctx, getMediaForUpdate, id)
 	var i Medium
 	err := row.Scan(
 		&i.ID,
@@ -128,18 +128,18 @@ func (q *Queries) ListMedia(ctx context.Context, arg ListMediaParams) ([]Medium,
 const updateMedia = `-- name: UpdateMedia :one
 UPDATE media
 SET url = $2, aws_id = $3
-WHERE media_ref = $1
+WHERE id = $1
 RETURNING id, media_ref, url, aws_id, created_at
 `
 
 type UpdateMediaParams struct {
-	MediaRef string `json:"media_ref"`
-	Url      string `json:"url"`
-	AwsID    string `json:"aws_id"`
+	ID    int64  `json:"id"`
+	Url   string `json:"url"`
+	AwsID string `json:"aws_id"`
 }
 
 func (q *Queries) UpdateMedia(ctx context.Context, arg UpdateMediaParams) (Medium, error) {
-	row := q.db.QueryRowContext(ctx, updateMedia, arg.MediaRef, arg.Url, arg.AwsID)
+	row := q.db.QueryRowContext(ctx, updateMedia, arg.ID, arg.Url, arg.AwsID)
 	var i Medium
 	err := row.Scan(
 		&i.ID,

@@ -37,7 +37,7 @@ func TestCreateMedia(t *testing.T) {
 
 func TestGetMedia(t *testing.T) {
 	media1 := createRandomMedia(t)
-	media2, err := testQueries.GetMedia(context.Background(), media1.MediaRef)
+	media2, err := testQueries.GetMedia(context.Background(), media1.ID)
 
 	require.NoError(t, err)
 	require.NotEmpty(t, media2)
@@ -50,7 +50,7 @@ func TestGetMedia(t *testing.T) {
 
 func TestGetMediaForUpdate(t *testing.T) {
 	media1 := createRandomMedia(t)
-	media2, err := testQueries.GetMediaForUpdate(context.Background(), media1.MediaRef)
+	media2, err := testQueries.GetMediaForUpdate(context.Background(), media1.ID)
 
 	require.NoError(t, err)
 	require.NotEmpty(t, media2)
@@ -65,7 +65,7 @@ func TestUpdateMedia(t *testing.T) {
 	media1 := createRandomMedia(t)
 	fmt.Print("media1", media1)
 	arg := UpdateMediaParams{
-		MediaRef: media1.MediaRef,
+		ID: media1.ID,
 		Url: util.RandomString(15),
 		AwsID: util.RandomString(10),
 	}
@@ -85,10 +85,10 @@ func TestUpdateMedia(t *testing.T) {
 
 func TestDeleteMedia(t *testing.T) {
 	media1 := createRandomMedia(t)
-	err := testQueries.DeleteMedia(context.Background(), media1.MediaRef)
+	err := testQueries.DeleteMedia(context.Background(), media1.ID)
 	require.NoError(t, err)
 
-	media2, err := testQueries.GetMedia(context.Background(), media1.MediaRef)
+	media2, err := testQueries.GetMedia(context.Background(), media1.ID)
 	require.Error(t, err)
 	require.EqualError(t, err, sql.ErrNoRows.Error())
 	require.Empty(t, media2)

@@ -11,16 +11,12 @@ import (
 type Querier interface {
 	CreateMedia(ctx context.Context, arg CreateMediaParams) (Medium, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
-	DeleteMedia(ctx context.Context, mediaRef string) error
-	DeleteUser(ctx context.Context, id int64) error
-	GetMedia(ctx context.Context, mediaRef string) (Medium, error)
-	GetMediaForUpdate(ctx context.Context, mediaRef string) (Medium, error)
+	DeleteMedia(ctx context.Context, id int64) error
+	GetMedia(ctx context.Context, id int64) (Medium, error)
+	GetMediaForUpdate(ctx context.Context, id int64) (Medium, error)
 	GetUser(ctx context.Context, username string) (User, error)
-	GetUserForUpdate(ctx context.Context, id int64) (User, error)
 	ListMedia(ctx context.Context, arg ListMediaParams) ([]Medium, error)
-	ListUsers(ctx context.Context, arg ListUsersParams) ([]User, error)
 	UpdateMedia(ctx context.Context, arg UpdateMediaParams) (Medium, error)
-	UpdateUsers(ctx context.Context, arg UpdateUsersParams) (User, error)
 }
 
 var _ Querier = (*Queries)(nil)
