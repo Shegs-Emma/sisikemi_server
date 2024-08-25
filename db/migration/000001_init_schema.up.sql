@@ -3,8 +3,7 @@ CREATE TYPE order_status AS ENUM ('pending', 'shipped', 'delivered', 'cancelled'
 
 
 CREATE TABLE "users" (
-  "id" bigserial PRIMARY KEY,
-  "username" varchar UNIQUE NOT NULL,
+  "username" varchar UNIQUE NOT NULL PRIMARY KEY,
   "hashed_password" varchar NOT NULL,
   "first_name" varchar NOT NULL,
   "last_name" varchar NOT NULL,
