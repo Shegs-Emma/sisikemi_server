@@ -35,6 +35,21 @@ func (m *MockStore) EXPECT() *MockStoreMockRecorder {
 	return m.recorder
 }
 
+// CreateCollection mocks base method.
+func (m *MockStore) CreateCollection(arg0 context.Context, arg1 string) (db.Collection, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateCollection", arg0, arg1)
+	ret0, _ := ret[0].(db.Collection)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateCollection indicates an expected call of CreateCollection.
+func (mr *MockStoreMockRecorder) CreateCollection(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateCollection", reflect.TypeOf((*MockStore)(nil).CreateCollection), arg0, arg1)
+}
+
 // CreateMedia mocks base method.
 func (m *MockStore) CreateMedia(arg0 context.Context, arg1 db.CreateMediaParams) (db.Medium, error) {
 	m.ctrl.T.Helper()
@@ -77,6 +92,21 @@ func (m *MockStore) DeleteMedia(arg0 context.Context, arg1 int64) error {
 func (mr *MockStoreMockRecorder) DeleteMedia(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteMedia", reflect.TypeOf((*MockStore)(nil).DeleteMedia), arg0, arg1)
+}
+
+// GetCollection mocks base method.
+func (m *MockStore) GetCollection(arg0 context.Context, arg1 int64) (db.Collection, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetCollection", arg0, arg1)
+	ret0, _ := ret[0].(db.Collection)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetCollection indicates an expected call of GetCollection.
+func (mr *MockStoreMockRecorder) GetCollection(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCollection", reflect.TypeOf((*MockStore)(nil).GetCollection), arg0, arg1)
 }
 
 // GetMedia mocks base method.
@@ -122,6 +152,21 @@ func (m *MockStore) GetUser(arg0 context.Context, arg1 string) (db.User, error) 
 func (mr *MockStoreMockRecorder) GetUser(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUser", reflect.TypeOf((*MockStore)(nil).GetUser), arg0, arg1)
+}
+
+// ListCollection mocks base method.
+func (m *MockStore) ListCollection(arg0 context.Context, arg1 db.ListCollectionParams) ([]db.Collection, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListCollection", arg0, arg1)
+	ret0, _ := ret[0].([]db.Collection)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListCollection indicates an expected call of ListCollection.
+func (mr *MockStoreMockRecorder) ListCollection(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListCollection", reflect.TypeOf((*MockStore)(nil).ListCollection), arg0, arg1)
 }
 
 // ListMedia mocks base method.
