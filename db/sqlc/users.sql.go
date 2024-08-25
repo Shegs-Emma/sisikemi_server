@@ -22,7 +22,7 @@ INSERT INTO users (
 ) VALUES (
   $1, $2, $3, $4, $5, $6, $7, $8
 )
-RETURNING id, username, hashed_password, first_name, last_name, phone_number, profile_photo, email, is_admin, password_changed_at, created_at
+RETURNING username, hashed_password, first_name, last_name, phone_number, profile_photo, email, is_admin, password_changed_at, created_at
 `
 
 type CreateUserParams struct {
@@ -49,7 +49,6 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 	)
 	var i User
 	err := row.Scan(
-		&i.ID,
 		&i.Username,
 		&i.HashedPassword,
 		&i.FirstName,
@@ -64,18 +63,8 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 	return i, err
 }
 
-const deleteUser = `-- name: DeleteUser :exec
-DELETE FROM users
-WHERE id = $1
-`
-
-func (q *Queries) DeleteUser(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, deleteUser, id)
-	return err
-}
-
 const getUser = `-- name: GetUser :one
-SELECT id, username, hashed_password, first_name, last_name, phone_number, profile_photo, email, is_admin, password_changed_at, created_at FROM users
+SELECT username, hashed_password, first_name, last_name, phone_number, profile_photo, email, is_admin, password_changed_at, created_at FROM users
 WHERE username = $1 LIMIT 1
 `
 
@@ -83,127 +72,6 @@ func (q *Queries) GetUser(ctx context.Context, username string) (User, error) {
 	row := q.db.QueryRowContext(ctx, getUser, username)
 	var i User
 	err := row.Scan(
-		&i.ID,
-		&i.Username,
-		&i.HashedPassword,
-		&i.FirstName,
-		&i.LastName,
-		&i.PhoneNumber,
-		&i.ProfilePhoto,
-		&i.Email,
-		&i.IsAdmin,
-		&i.PasswordChangedAt,
-		&i.CreatedAt,
-	)
-	return i, err
-}
-
-const getUserForUpdate = `-- name: GetUserForUpdate :one
-SELECT id, username, hashed_password, first_name, last_name, phone_number, profile_photo, email, is_admin, password_changed_at, created_at FROM users
-WHERE id = $1 LIMIT 1
-FOR NO KEY UPDATE
-`
-
-func (q *Queries) GetUserForUpdate(ctx context.Context, id int64) (User, error) {
-	row := q.db.QueryRowContext(ctx, getUserForUpdate, id)
-	var i User
-	err := row.Scan(
-		&i.ID,
-		&i.Username,
-		&i.HashedPassword,
-		&i.FirstName,
-		&i.LastName,
-		&i.PhoneNumber,
-		&i.ProfilePhoto,
-		&i.Email,
-		&i.IsAdmin,
-		&i.PasswordChangedAt,
-		&i.CreatedAt,
-	)
-	return i, err
-}
-
-const listUsers = `-- name: ListUsers :many
-SELECT id, username, hashed_password, first_name, last_name, phone_number, profile_photo, email, is_admin, password_changed_at, created_at FROM users
-ORDER BY id
-LIMIT $1
-OFFSET $2
-`
-
-type ListUsersParams struct {
-	Limit  int32 `json:"limit"`
-	Offset int32 `json:"offset"`
-}
-
-func (q *Queries) ListUsers(ctx context.Context, arg ListUsersParams) ([]User, error) {
-	rows, err := q.db.QueryContext(ctx, listUsers, arg.Limit, arg.Offset)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	items := []User{}
-	for rows.Next() {
-		var i User
-		if err := rows.Scan(
-			&i.ID,
-			&i.Username,
-			&i.HashedPassword,
-			&i.FirstName,
-			&i.LastName,
-			&i.PhoneNumber,
-			&i.ProfilePhoto,
-			&i.Email,
-			&i.IsAdmin,
-			&i.PasswordChangedAt,
-			&i.CreatedAt,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const updateUsers = `-- name: UpdateUsers :one
-UPDATE users
-SET username = $2, first_name = $3, last_name = $4, phone_number = $5, profile_photo = $6, email = $7, is_admin = $8, hashed_password = $9
-WHERE id = $1
-RETURNING id, username, hashed_password, first_name, last_name, phone_number, profile_photo, email, is_admin, password_changed_at, created_at
-`
-
-type UpdateUsersParams struct {
-	ID             int64  `json:"id"`
-	Username       string `json:"username"`
-	FirstName      string `json:"first_name"`
-	LastName       string `json:"last_name"`
-	PhoneNumber    string `json:"phone_number"`
-	ProfilePhoto   string `json:"profile_photo"`
-	Email          string `json:"email"`
-	IsAdmin        bool   `json:"is_admin"`
-	HashedPassword string `json:"hashed_password"`
-}
-
-func (q *Queries) UpdateUsers(ctx context.Context, arg UpdateUsersParams) (User, error) {
-	row := q.db.QueryRowContext(ctx, updateUsers,
-		arg.ID,
-		arg.Username,
-		arg.FirstName,
-		arg.LastName,
-		arg.PhoneNumber,
-		arg.ProfilePhoto,
-		arg.Email,
-		arg.IsAdmin,
-		arg.HashedPassword,
-	)
-	var i User
-	err := row.Scan(
-		&i.ID,
 		&i.Username,
 		&i.HashedPassword,
 		&i.FirstName,
