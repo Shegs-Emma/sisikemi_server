@@ -17,23 +17,23 @@ RETURNING *;
 SELECT * FROM users
 WHERE username = $1 LIMIT 1;
 
--- name: GetUserForUpdate :one
-SELECT * FROM users
-WHERE id = $1 LIMIT 1
-FOR NO KEY UPDATE;
+-- -- name: GetUserForUpdate :one
+-- SELECT * FROM users
+-- WHERE username = $1 LIMIT 1
+-- FOR NO KEY UPDATE;
 
--- name: ListUsers :many
-SELECT * FROM users
-ORDER BY id
-LIMIT $1
-OFFSET $2;
+-- -- name: ListUsers :many
+-- SELECT * FROM users
+-- ORDER BY username
+-- LIMIT $1
+-- OFFSET $2;
 
--- name: UpdateUsers :one
-UPDATE users
-SET username = $2, first_name = $3, last_name = $4, phone_number = $5, profile_photo = $6, email = $7, is_admin = $8, hashed_password = $9
-WHERE id = $1
-RETURNING *;
+-- -- name: UpdateUsers :one
+-- UPDATE users
+-- SET first_name = $2, last_name = $3, phone_number = $4, profile_photo = $5, email = $6, is_admin = $7, hashed_password = $8
+-- WHERE username = $1
+-- RETURNING *;
 
--- name: DeleteUser :exec
-DELETE FROM users
-WHERE id = $1;
+-- -- name: DeleteUser :exec
+-- DELETE FROM users
+-- WHERE username = $1;
