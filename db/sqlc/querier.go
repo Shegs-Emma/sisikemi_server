@@ -9,12 +9,15 @@ import (
 )
 
 type Querier interface {
+	CreateCollection(ctx context.Context, collectionName string) (Collection, error)
 	CreateMedia(ctx context.Context, arg CreateMediaParams) (Medium, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
 	DeleteMedia(ctx context.Context, id int64) error
+	GetCollection(ctx context.Context, id int64) (Collection, error)
 	GetMedia(ctx context.Context, id int64) (Medium, error)
 	GetMediaForUpdate(ctx context.Context, id int64) (Medium, error)
 	GetUser(ctx context.Context, username string) (User, error)
+	ListCollection(ctx context.Context, arg ListCollectionParams) ([]Collection, error)
 	ListMedia(ctx context.Context, arg ListMediaParams) ([]Medium, error)
 	UpdateMedia(ctx context.Context, arg UpdateMediaParams) (Medium, error)
 }

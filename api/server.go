@@ -27,6 +27,7 @@ func NewServer (config util.Config, store db.Store) (*Server, error) {
 		store: store,
 		tokenMaker: tokenMaker,
 	}
+	
 
 	server.setupRouter()
 	return server, nil
@@ -43,6 +44,12 @@ func (server *Server) setupRouter() {
 	router.GET("/medium", server.listMedia)
 	router.DELETE("/medium/:id", server.deleteMedia)
 	router.PATCH("/medium/:id", server.updateMedia)
+
+	authRoutes := router.Group("/").Use(authMiddleware(server.tokenMaker))
+
+	authRoutes.POST("/collections", server.createCollection)
+	authRoutes.GET("/collections/:id", server.getCollection)
+	authRoutes.GET("/collections", server.listCollections)
 
 	server.router = router
 }
