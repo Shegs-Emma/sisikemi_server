@@ -7,6 +7,7 @@ package db
 
 import (
 	"context"
+	"database/sql"
 )
 
 const createUser = `-- name: CreateUser :one
@@ -70,6 +71,59 @@ WHERE username = $1 LIMIT 1
 
 func (q *Queries) GetUser(ctx context.Context, username string) (User, error) {
 	row := q.db.QueryRowContext(ctx, getUser, username)
+	var i User
+	err := row.Scan(
+		&i.Username,
+		&i.HashedPassword,
+		&i.FirstName,
+		&i.LastName,
+		&i.PhoneNumber,
+		&i.ProfilePhoto,
+		&i.Email,
+		&i.IsAdmin,
+		&i.PasswordChangedAt,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
+const updateUser = `-- name: UpdateUser :one
+UPDATE users
+SET
+  hashed_password = COALESCE($1, hashed_password),
+  password_changed_at = COALESCE($2, password_changed_at),
+  first_name = COALESCE($3, first_name),
+  last_name = COALESCE($4, last_name),
+  email = COALESCE($5, email),
+  phone_number = COALESCE($6, phone_number),
+  profile_photo = COALESCE($7, profile_photo)
+WHERE
+  username = $8
+RETURNING username, hashed_password, first_name, last_name, phone_number, profile_photo, email, is_admin, password_changed_at, created_at
+`
+
+type UpdateUserParams struct {
+	HashedPassword    sql.NullString `json:"hashed_password"`
+	PasswordChangedAt sql.NullTime   `json:"password_changed_at"`
+	FirstName         sql.NullString `json:"first_name"`
+	LastName          sql.NullString `json:"last_name"`
+	Email             sql.NullString `json:"email"`
+	PhoneNumber       sql.NullString `json:"phone_number"`
+	ProfilePhoto      sql.NullString `json:"profile_photo"`
+	Username          string         `json:"username"`
+}
+
+func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) (User, error) {
+	row := q.db.QueryRowContext(ctx, updateUser,
+		arg.HashedPassword,
+		arg.PasswordChangedAt,
+		arg.FirstName,
+		arg.LastName,
+		arg.Email,
+		arg.PhoneNumber,
+		arg.ProfilePhoto,
+		arg.Username,
+	)
 	var i User
 	err := row.Scan(
 		&i.Username,

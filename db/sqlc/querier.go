@@ -6,20 +6,25 @@ package db
 
 import (
 	"context"
+
+	"github.com/google/uuid"
 )
 
 type Querier interface {
 	CreateCollection(ctx context.Context, collectionName string) (Collection, error)
 	CreateMedia(ctx context.Context, arg CreateMediaParams) (Medium, error)
+	CreateSession(ctx context.Context, arg CreateSessionParams) (Session, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
 	DeleteMedia(ctx context.Context, id int64) error
 	GetCollection(ctx context.Context, id int64) (Collection, error)
 	GetMedia(ctx context.Context, id int64) (Medium, error)
 	GetMediaForUpdate(ctx context.Context, id int64) (Medium, error)
+	GetSession(ctx context.Context, id uuid.UUID) (Session, error)
 	GetUser(ctx context.Context, username string) (User, error)
 	ListCollection(ctx context.Context, arg ListCollectionParams) ([]Collection, error)
 	ListMedia(ctx context.Context, arg ListMediaParams) ([]Medium, error)
 	UpdateMedia(ctx context.Context, arg UpdateMediaParams) (Medium, error)
+	UpdateUser(ctx context.Context, arg UpdateUserParams) (User, error)
 }
 
 var _ Querier = (*Queries)(nil)
