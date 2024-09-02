@@ -1,3 +1,5 @@
+DB_URL=postgresql://root:secret@localhost:5432/sisikemi_db?sslmode=disable
+
 postgres:
 	docker run --name postgres16 -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:16-alpine
 
@@ -8,10 +10,10 @@ dropdb:
 	docker exec -it postgres16 dropdb sisikemi_db
 
 migrateup:
-	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/sisikemi_db?sslmode=disable" -verbose up
+	migrate -path db/migration -database "$(DB_URL)" -verbose up
 
 migratedown:
-	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/sisikemi_db?sslmode=disable" -verbose down
+	migrate -path db/migration -database "$(DB_URL)" -verbose down
 
 sqlc:
 	sqlc generate

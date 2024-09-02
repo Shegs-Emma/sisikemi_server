@@ -2,13 +2,19 @@ package api
 
 import (
 	"database/sql"
+	"errors"
+	"fmt"
 	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"github.com/lib/pq"
 	db "github.com/techschool/simplebank/db/sqlc"
+	"github.com/techschool/simplebank/token"
 	"github.com/techschool/simplebank/util"
+	"github.com/techschool/simplebank/val"
+	"google.golang.org/genproto/googleapis/rpc/errdetails"
 )
 
 type createUserRequest struct {
@@ -106,6 +112,10 @@ type loginUserRequest struct {
 type loginUserResponse struct {
 	AccessToken string `json:"access_token"`
 	User userResponse `json:"user"`
+	SessionID uuid.UUID `json:"session_id"`
+	AccessTokenExpiresAt time.Time `json:"access_token_expires_at"`
+	RefreshToken string `json:"refresh_token"`
+	RefreshTokenExpiresAt time.Time `json:"refresh_token_expires_at"`
 }
 
 func (server *Server) loginUser(ctx *gin.Context) {
@@ -131,7 +141,7 @@ func (server *Server) loginUser(ctx *gin.Context) {
 		return
 	}
 
-	accessToken, err := server.tokenMaker.CreateToken(
+	accessToken, accessPayload, err := server.tokenMaker.CreateToken(
 		user.Username,
 		server.config.AccessTokenDuration,
 		user.IsAdmin,
@@ -141,10 +151,167 @@ func (server *Server) loginUser(ctx *gin.Context) {
 		return
 	}
 
+	refreshToken, refreshPayload, err := server.tokenMaker.CreateToken(
+		user.Username,
+		server.config.RefreshTokenDuration,
+		user.IsAdmin,
+	)
+
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+	
+	session, err := server.store.CreateSession(ctx, db.CreateSessionParams{
+		ID: refreshPayload.ID,
+		Username: user.Username,
+		RefreshToken: refreshToken,
+		UserAgent: ctx.Request.UserAgent(),
+		ClientIp: ctx.ClientIP(),
+		IsBlocked: false,
+		ExpiresAt: refreshPayload.ExpiredAt,
+	})
+
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
 	rsp := loginUserResponse{
+		SessionID: session.ID,
 		AccessToken: accessToken,
+		AccessTokenExpiresAt: accessPayload.ExpiredAt,
+		RefreshToken: refreshToken,
+		RefreshTokenExpiresAt: refreshPayload.ExpiredAt,
 		User: newUserResponse(user),
 	}
 
 	ctx.JSON(http.StatusOK, rsp)
+}
+
+// Update a user
+type updateUserRequest struct {
+	Username string `json:"username" binding:"required,alphanum"`
+	Password *string `json:"password"`
+	FirstName *string `json:"first_name"`
+	LastName *string `json:"last_name"`
+	Email *string `json:"email"`
+	PhoneNumber *string `json:"phone_number"`
+	ProfilePhoto *string `json:"profile_photo"`
+}
+
+func (server *Server) updateUser(ctx *gin.Context) {
+	var req updateUserRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+	
+	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
+
+	if authPayload.Username != req.Username {
+		err := errors.New("you are not authorized to update user you did not create")
+		ctx.JSON(http.StatusForbidden, errorResponse(err))
+		return
+	}
+	
+	violations := validateUpdateUserRequest(req)
+
+	if violations != nil {
+		err := errors.New("the entries are invalid")
+		ctx.JSON(http.StatusForbidden, errorResponse(err))
+		return
+	}
+
+	arg := db.UpdateUserParams{
+		Username: req.Username,
+		FirstName: nullableString(req.FirstName),
+		LastName: nullableString(req.LastName),
+		Email: nullableString(req.Email),
+		PhoneNumber: nullableString(req.PhoneNumber),
+		ProfilePhoto: nullableString(req.ProfilePhoto),
+	}
+
+	if req.Password != nil {
+		hashedPassword, err := util.HashPassword(*req.Password)
+
+		if err != nil {
+			err := errors.New("failed to hash password")
+			ctx.JSON(http.StatusForbidden, errorResponse(err))
+			return
+		}
+
+		arg.HashedPassword = sql.NullString{
+			String: hashedPassword,
+			Valid: true,
+		}
+
+		arg.PasswordChangedAt = sql.NullTime{
+			Time: time.Now(),
+			Valid: true,
+		}
+	}
+
+	user, err := server.store.UpdateUser(ctx, arg)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			err := errors.New("user not found")
+			ctx.JSON(http.StatusForbidden, errorResponse(err))
+			return
+		}
+		err := errors.New("failed to update user")
+		ctx.JSON(http.StatusForbidden, errorResponse(err))
+		return
+	}
+
+	rsp := newUserResponse(user)
+
+	ctx.JSON(http.StatusOK, rsp)
+}
+
+func validateUpdateUserRequest(req updateUserRequest) (violations []*errdetails.BadRequest_FieldViolation) {
+	fmt.Println("req", req)
+	
+	if err := val.ValidateUsername(req.Username); err != nil {
+		violations = append(violations, fieldViolation("username", err))
+	}
+
+	if req.Password != nil {
+		if err := val.ValidatePassword(*req.Password); err != nil {
+			violations = append(violations, fieldViolation("password", err))
+		}
+	}
+
+	if req.Email != nil {
+		if err := val.ValidateEmail(*req.Email); err != nil {
+			violations = append(violations, fieldViolation("email", err))
+		}
+	}
+
+	if req.FirstName != nil {
+		if err := val.ValidateFirstName(*req.FirstName); err != nil {
+			violations = append(violations, fieldViolation("first_name", err))
+		}
+	}	
+
+	if req.LastName != nil {
+		if err := val.ValidateLastName(*req.LastName); err != nil {
+			violations = append(violations, fieldViolation("last_name", err))
+		}
+	}
+	
+	return violations
+}
+
+func nullableString(s *string) sql.NullString {
+	if s != nil {
+		return sql.NullString{
+			String: *s,
+			Valid:  true,
+		}
+	}
+	return sql.NullString{
+		String: "",
+		Valid:  false,
+	}
 }

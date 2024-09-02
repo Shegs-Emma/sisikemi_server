@@ -38,6 +38,7 @@ func (server *Server) setupRouter() {
 
 	router.POST("/users", server.createUser)
 	router.POST("/users/login", server.loginUser)
+	router.POST("/tokens/renew_access", server.renewAccessToken)
 
 	router.POST("/medium", server.createMedia)
 	router.GET("/medium/:id", server.getMedia)
@@ -50,6 +51,7 @@ func (server *Server) setupRouter() {
 	authRoutes.POST("/collections", server.createCollection)
 	authRoutes.GET("/collections/:id", server.getCollection)
 	authRoutes.GET("/collections", server.listCollections)
+	authRoutes.PATCH("/users", server.updateUser)
 
 	server.router = router
 }

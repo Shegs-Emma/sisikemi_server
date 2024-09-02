@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"database/sql"
 	"testing"
 	"time"
 
@@ -64,88 +65,206 @@ func TestGetUser(t *testing.T) {
 	require.WithinDuration(t, user1.PasswordChangedAt, user2.PasswordChangedAt, time.Second)
 }
 
-// func TestGetUserForUpdate(t *testing.T) {
-// 	media := createRandomMedia(t)
+func TestUpdateUserOnlyFirstName(t *testing.T) {
+	media := createRandomMedia(t)
+	oldUser := createRandomUser(t, media)
 
-// 	user1 := createRandomUser(t, media)
-// 	user2, err := testQueries.GetUserForUpdate(context.Background(), user1.ID)
+	newFirstName := util.RandomUser()
+	updatedUser, err := testQueries.UpdateUser(context.Background(), UpdateUserParams{
+		Username: oldUser.Username,
+		FirstName: sql.NullString{
+			String: newFirstName,
+			Valid: true,
+		},
+	})
 
-// 	require.NoError(t, err)
-// 	require.NotEmpty(t, user2)
-// 	require.Equal(t, user1.Username, user2.Username)
-// 	require.Equal(t, user1.FirstName, user2.FirstName)
-// 	require.Equal(t, user1.LastName, user2.LastName)
-// 	require.Equal(t, user1.Email, user2.Email)
-// 	require.Equal(t, user1.PhoneNumber, user2.PhoneNumber)
-// 	require.Equal(t, user1.ProfilePhoto, user2.ProfilePhoto)
-// 	require.Equal(t, user1.IsAdmin, user2.IsAdmin)
-// 	require.Equal(t, user1.HashedPassword, user2.HashedPassword)
-// 	require.WithinDuration(t, user1.CreatedAt, user2.CreatedAt, time.Second)
-// 	require.WithinDuration(t, user1.PasswordChangedAt, user2.PasswordChangedAt, time.Second)
-// }
+	require.NoError(t, err)
+	require.NotEqual(t, oldUser.FirstName, updatedUser.FirstName)
+	require.Equal(t, oldUser.Username, updatedUser.Username)
+	require.Equal(t, oldUser.Email, updatedUser.Email)
+	require.Equal(t, oldUser.LastName, updatedUser.LastName)
+	require.Equal(t, oldUser.HashedPassword, updatedUser.HashedPassword)
+	require.Equal(t, oldUser.PhoneNumber, updatedUser.PhoneNumber)
+	require.Equal(t, oldUser.ProfilePhoto, updatedUser.ProfilePhoto)
+}
 
-// func TestUpdateUser(t *testing.T) {
-// 	media := createRandomMedia(t)
+func TestUpdateUserOnlyLastName(t *testing.T) {
+	media := createRandomMedia(t)
+	oldUser := createRandomUser(t, media)
 
-// 	user1 := createRandomUser(t, media)
+	newLastName := util.RandomUser()
+	updatedUser, err := testQueries.UpdateUser(context.Background(), UpdateUserParams{
+		Username: oldUser.Username,
+		LastName: sql.NullString{
+			String: newLastName,
+			Valid: true,
+		},
+	})
 
-// 	arg := UpdateUsersParams{
-// 		ID: user1.ID,
-// 		Username: util.RandomUser(),
-// 		HashedPassword: "secret",
-// 		FirstName: util.RandomUser(),
-// 		LastName: util.RandomUser(),
-// 		Email: util.RandomEmail(),
-// 		PhoneNumber: util.RandomString(11),
-// 		ProfilePhoto: media.MediaRef,
-// 		IsAdmin: true,
-// 	}
+	require.NoError(t, err)
+	require.NotEqual(t, oldUser.LastName, updatedUser.LastName)
+	require.Equal(t, oldUser.Username, updatedUser.Username)
+	require.Equal(t, oldUser.Email, updatedUser.Email)
+	require.Equal(t, oldUser.FirstName, updatedUser.FirstName)
+	require.Equal(t, oldUser.HashedPassword, updatedUser.HashedPassword)
+	require.Equal(t, oldUser.PhoneNumber, updatedUser.PhoneNumber)
+	require.Equal(t, oldUser.ProfilePhoto, updatedUser.ProfilePhoto)
+}
 
-// 	user2, err := testQueries.UpdateUsers(context.Background(), arg)
-// 	require.NoError(t, err)
-// 	require.NotEmpty(t, user2)
-// 	require.Equal(t, user1.ID, user2.ID)
-// 	require.Equal(t, arg.Username, user2.Username)
-// 	require.Equal(t, arg.HashedPassword, user2.HashedPassword)
-// 	require.Equal(t, arg.FirstName, user2.FirstName)
-// 	require.Equal(t, arg.LastName, user2.LastName)
-// 	require.Equal(t, arg.Email, user2.Email)
-// 	require.Equal(t, arg.PhoneNumber, user2.PhoneNumber)
-// 	require.Equal(t, arg.ProfilePhoto, user2.ProfilePhoto)
-// 	require.Equal(t, arg.IsAdmin, user2.IsAdmin)
-// 	require.WithinDuration(t, user1.CreatedAt, user2.CreatedAt, time.Second)
-// }
+func TestUpdateUserOnlyEmail(t *testing.T) {
+	media := createRandomMedia(t)
+	oldUser := createRandomUser(t, media)
 
-// func TestDeleteUser(t *testing.T){
-// 	media := createRandomMedia(t)
+	newEmail := util.RandomEmail()
+	updatedUser, err := testQueries.UpdateUser(context.Background(), UpdateUserParams{
+		Username: oldUser.Username,
+		Email: sql.NullString{
+			String: newEmail,
+			Valid: true,
+		},
+	})
 
-// 	user1 := createRandomUser(t, media)
-// 	err := testQueries.DeleteUser(context.Background(), user1.ID)
+	require.NoError(t, err)
+	require.NotEqual(t, oldUser.Email, updatedUser.Email)
+	require.Equal(t, oldUser.Username, updatedUser.Username)
+	require.Equal(t, oldUser.LastName, updatedUser.LastName)
+	require.Equal(t, oldUser.FirstName, updatedUser.FirstName)
+	require.Equal(t, oldUser.HashedPassword, updatedUser.HashedPassword)
+	require.Equal(t, oldUser.PhoneNumber, updatedUser.PhoneNumber)
+	require.Equal(t, oldUser.ProfilePhoto, updatedUser.ProfilePhoto)
+}
 
-// 	require.NoError(t, err)
-// 	user2, err := testQueries.GetUser(context.Background(), user1.Username)
+func TestUpdateUserOnlyPhoneNumber(t *testing.T) {
+	media := createRandomMedia(t)
+	oldUser := createRandomUser(t, media)
 
-// 	require.Error(t, err)
-// 	require.EqualError(t, err, sql.ErrNoRows.Error())
-// 	require.Empty(t, user2)
-// }
+	newPhoneNumber := util.RandomUser()
+	updatedUser, err := testQueries.UpdateUser(context.Background(), UpdateUserParams{
+		Username: oldUser.Username,
+		PhoneNumber: sql.NullString{
+			String: newPhoneNumber,
+			Valid: true,
+		},
+	})
 
-// func TestListUsers(t *testing.T){
-// 	for i := 0; i < 5; i++ {
-// 		media := createRandomMedia(t)
-// 		createRandomUser(t, media)
-// 	}
+	require.NoError(t, err)
+	require.NotEqual(t, oldUser.PhoneNumber, updatedUser.PhoneNumber)
+	require.Equal(t, oldUser.Username, updatedUser.Username)
+	require.Equal(t, oldUser.LastName, updatedUser.LastName)
+	require.Equal(t, oldUser.FirstName, updatedUser.FirstName)
+	require.Equal(t, oldUser.HashedPassword, updatedUser.HashedPassword)
+	require.Equal(t, oldUser.Email, updatedUser.Email)
+	require.Equal(t, oldUser.ProfilePhoto, updatedUser.ProfilePhoto)
+}
 
-// 	arg := ListUsersParams{
-// 		Limit: 3,
-// 		Offset: 3,
-// 	}
-// 	users, err := testQueries.ListUsers(context.Background(), arg)
-// 	require.NoError(t, err)
-// 	require.NotEmpty(t, users)
-// 	require.Len(t, users, 3)
+func TestUpdateUserOnlyProfilePhoto(t *testing.T) {
+	oldMedia := createRandomMedia(t)
+	oldUser := createRandomUser(t, oldMedia)
 
-// 	for _, user := range users {
-// 		require.NotEmpty(t, user)
-// 	}
-// }
+	newMedia := createRandomMedia(t)
+	updatedUser, err := testQueries.UpdateUser(context.Background(), UpdateUserParams{
+		Username: oldUser.Username,
+		ProfilePhoto: sql.NullString{
+			String: newMedia.MediaRef,
+			Valid: true,
+		},
+	})
+
+	require.NoError(t, err)
+	require.NotEqual(t, oldUser.ProfilePhoto, updatedUser.ProfilePhoto)
+	require.Equal(t, oldUser.Username, updatedUser.Username)
+	require.Equal(t, oldUser.LastName, updatedUser.LastName)
+	require.Equal(t, oldUser.FirstName, updatedUser.FirstName)
+	require.Equal(t, oldUser.HashedPassword, updatedUser.HashedPassword)
+	require.Equal(t, oldUser.Email, updatedUser.Email)
+	require.Equal(t, oldUser.PhoneNumber, updatedUser.PhoneNumber)
+}
+
+func TestUpdateUserOnlyPassword(t *testing.T) {
+	media := createRandomMedia(t)
+	oldUser := createRandomUser(t, media)
+
+	newPassword := util.RandomString(8)
+	newHashPassword, err := util.HashPassword(newPassword)
+
+	require.NoError(t, err)
+
+	updatedUser, err := testQueries.UpdateUser(context.Background(), UpdateUserParams{
+		Username: oldUser.Username,
+		HashedPassword: sql.NullString{
+			String: newHashPassword,
+			Valid: true,
+		},
+	})
+
+	require.NoError(t, err)
+	require.NotEqual(t, oldUser.HashedPassword, updatedUser.HashedPassword)
+	require.Equal(t, oldUser.Username, updatedUser.Username)
+	require.Equal(t, oldUser.LastName, updatedUser.LastName)
+	require.Equal(t, oldUser.FirstName, updatedUser.FirstName)
+	require.Equal(t, oldUser.PhoneNumber, updatedUser.PhoneNumber)
+	require.Equal(t, oldUser.Email, updatedUser.Email)
+	require.Equal(t, oldUser.ProfilePhoto, updatedUser.ProfilePhoto)
+}
+
+func TestUpdateUserAllFields(t *testing.T) {
+	media := createRandomMedia(t)
+	oldUser := createRandomUser(t, media)
+
+	newFirstName := util.RandomUser()
+	newLastName := util.RandomUser()
+	newEmail := util.RandomEmail()
+	newPhoneNumber := util.RandomString(11)
+	newMedia := createRandomMedia(t)
+	newPassword := util.RandomString(8)
+	newHashPassword, err := util.HashPassword(newPassword)
+
+	require.NoError(t, err)
+
+	updatedUser, err := testQueries.UpdateUser(context.Background(), UpdateUserParams{
+		Username: oldUser.Username,
+		HashedPassword: sql.NullString{
+			String: newHashPassword,
+			Valid: true,
+		},
+		FirstName: sql.NullString{
+			String: newFirstName,
+			Valid: true,
+		},
+		LastName: sql.NullString{
+			String: newLastName,
+			Valid: true,
+		},
+		PhoneNumber: sql.NullString{
+			String: newPhoneNumber,
+			Valid: true,
+		},
+		Email: sql.NullString{
+			String: newEmail,
+			Valid: true,
+		},
+		ProfilePhoto: sql.NullString{
+			String: newMedia.MediaRef,
+			Valid: true,
+		},
+	})
+
+	require.NoError(t, err)
+	require.NotEqual(t, oldUser.HashedPassword, updatedUser.HashedPassword)
+	require.Equal(t, updatedUser.HashedPassword, newHashPassword)
+
+	require.NotEqual(t, oldUser.FirstName, updatedUser.FirstName)
+	require.Equal(t, updatedUser.FirstName, newFirstName)
+
+	require.NotEqual(t, oldUser.LastName, updatedUser.LastName)
+	require.Equal(t, updatedUser.LastName, newLastName)
+
+	require.NotEqual(t, oldUser.Email, updatedUser.Email)
+	require.Equal(t, updatedUser.Email, newEmail)
+
+	require.NotEqual(t, oldUser.PhoneNumber, updatedUser.PhoneNumber)
+	require.Equal(t, updatedUser.PhoneNumber, newPhoneNumber)
+
+	require.NotEqual(t, oldUser.ProfilePhoto, updatedUser.ProfilePhoto)
+	require.Equal(t, updatedUser.ProfilePhoto, newMedia.MediaRef)
+}

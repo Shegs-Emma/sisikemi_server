@@ -17,23 +17,17 @@ RETURNING *;
 SELECT * FROM users
 WHERE username = $1 LIMIT 1;
 
--- -- name: GetUserForUpdate :one
--- SELECT * FROM users
--- WHERE username = $1 LIMIT 1
--- FOR NO KEY UPDATE;
-
--- -- name: ListUsers :many
--- SELECT * FROM users
--- ORDER BY username
--- LIMIT $1
--- OFFSET $2;
-
--- -- name: UpdateUsers :one
--- UPDATE users
--- SET first_name = $2, last_name = $3, phone_number = $4, profile_photo = $5, email = $6, is_admin = $7, hashed_password = $8
--- WHERE username = $1
--- RETURNING *;
-
--- -- name: DeleteUser :exec
--- DELETE FROM users
--- WHERE username = $1;
+-- name: UpdateUser :one
+UPDATE users
+SET
+  hashed_password = COALESCE(sqlc.narg(hashed_password), hashed_password),
+  password_changed_at = COALESCE(sqlc.narg(password_changed_at), password_changed_at),
+  first_name = COALESCE(sqlc.narg(first_name), first_name),
+  last_name = COALESCE(sqlc.narg(last_name), last_name),
+  email = COALESCE(sqlc.narg(email), email),
+  phone_number = COALESCE(sqlc.narg(phone_number), phone_number),
+  profile_photo = COALESCE(sqlc.narg(profile_photo), profile_photo)
+WHERE
+  username = sqlc.arg(username)
+RETURNING *;
+  
