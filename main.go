@@ -2,21 +2,26 @@ package main
 
 import (
 	"context"
+	"net"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 
+	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/hibiken/asynq"
 	_ "github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/rakyll/statik/fs"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
-	"github.com/techschool/simplebank/api"
 	db "github.com/techschool/simplebank/db/sqlc"
+	"github.com/techschool/simplebank/gapi"
 	"github.com/techschool/simplebank/mail"
+	"github.com/techschool/simplebank/pb"
 	"github.com/techschool/simplebank/util"
 	"github.com/techschool/simplebank/worker"
+	"google.golang.org/protobuf/encoding/protojson"
 )
 
 var interruptSignals = []os.Signal{
@@ -54,6 +59,8 @@ func main() {
 	go runTaskProcessor(config, redisOpt, store)
 	go runGatewayServer(ctx, config, store, taskDistributor)
 
+
+
 	
 	
 	
@@ -77,37 +84,52 @@ func runTaskProcessor(config util.Config, redisOpt asynq.RedisClientOpt, store d
 }
 
 func runGatewayServer(ctx context.Context, config util.Config, store db.Store, taskDistributor worker.TaskDistributor) {
-	server, err := api.NewServer(config, store, taskDistributor)
+	server, err := gapi.NewServer(config, store, taskDistributor)
 
 	if err != nil {
 		log.Fatal().Msg("cannot create server")
 	}
 
-	err = server.Start(config.ServerAddress)
-	if err != nil {
-		log.Fatal().Msg("cannot start server")
-	}
-
-	c := cors.New(cors.Options{
-		AllowedOrigins: config.AllowedOrigins,
-		AllowedMethods: []string{
-			http.MethodGet,
-			http.MethodPost,
-			http.MethodPut,
-			http.MethodPatch,
-			http.MethodDelete,
+	jsonOption := runtime.WithMarshalerOption(runtime.MIMEWildcard, &runtime.JSONPb{
+		MarshalOptions: protojson.MarshalOptions{
+			UseProtoNames: true,
 		},
-		AllowedHeaders: []string{
-			"Authorization",
-			"Content-Type",
+		UnmarshalOptions: protojson.UnmarshalOptions{
+			DiscardUnknown: true,
 		},
-		AllowCredentials: true,
 	})
 
-	handler := c.Handler(api.HttpLogger)
+	grpcMux := runtime.NewServeMux(jsonOption)
 
-	httpServer := &http.Server{
-		Handler: ,
-		Addr: config.ServerAddress,
+	// ctx, cancel := context.WithCancel(context.Background())
+	// defer cancel()
+
+	err = pb.RegisterSisikemiFashionHandler(ctx, grpcMux, server)
+
+	if err != nil {
+		log.Fatal().Msg("cannot register handler server")
 	}
+
+	mux := http.NewServeMux()
+	mux.Handle("/", grpcMux)
+
+	statikFS, err := fs.New()
+	if err != nil {
+		log.Fatal().Msg("cannot create statik fs")
+	}
+
+	swaggerHandler := http.StripPrefix("/swagger/", http.FileServer(statikFS))
+	mux.Handle("/swagger/", swaggerHandler)
+
+	listener, err := net.Listen("tcp", config.ServerAddress)
+	if err != nil {
+		log.Fatal().Msg("cannot create listener")
+	}
+
+	log.Printf("start HHTP gateway server at %s", listener.Addr().String())
+	err = http.Serve(listener, mux)
+	if err != nil {
+		log.Fatal().Msg("cannot start HTTP gateway server")
+	}
+
 }
