@@ -1,0 +1,16 @@
+// syntax = "proto3";
+// package pb;
+// import "google/protobuf/timestamp.proto";
+// option go_package = "github.com/techschool/simplebank/pb";
+
+// message User {
+//     string username = 1;
+//     string first_name = 2;
+//     string last_name = 3;
+//     string phone_number = 4;
+//     string profile_photo = 5;
+//     string email = 6;
+//     string is_admin = 7;
+//     google.protobuf.Timestamp password_changed_at = 8;
+//     google.protobuf.Timestamp created_at = 9;
+// }

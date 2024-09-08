@@ -19,7 +19,7 @@ RETURNING id, collection_name, last_updated_at, created_at
 `
 
 func (q *Queries) CreateCollection(ctx context.Context, collectionName string) (Collection, error) {
-	row := q.db.QueryRowContext(ctx, createCollection, collectionName)
+	row := q.db.QueryRow(ctx, createCollection, collectionName)
 	var i Collection
 	err := row.Scan(
 		&i.ID,
@@ -37,7 +37,7 @@ FOR NO KEY UPDATE
 `
 
 func (q *Queries) GetCollection(ctx context.Context, id int64) (Collection, error) {
-	row := q.db.QueryRowContext(ctx, getCollection, id)
+	row := q.db.QueryRow(ctx, getCollection, id)
 	var i Collection
 	err := row.Scan(
 		&i.ID,
@@ -61,7 +61,7 @@ type ListCollectionParams struct {
 }
 
 func (q *Queries) ListCollection(ctx context.Context, arg ListCollectionParams) ([]Collection, error) {
-	rows, err := q.db.QueryContext(ctx, listCollection, arg.Limit, arg.Offset)
+	rows, err := q.db.Query(ctx, listCollection, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}
@@ -78,9 +78,6 @@ func (q *Queries) ListCollection(ctx context.Context, arg ListCollectionParams) 
 			return nil, err
 		}
 		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
