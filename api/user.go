@@ -9,11 +9,13 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/lib/pq"
+	"github.com/hibiken/asynq"
+	"github.com/jackc/pgx/v5/pgtype"
 	db "github.com/techschool/simplebank/db/sqlc"
 	"github.com/techschool/simplebank/token"
 	"github.com/techschool/simplebank/util"
 	"github.com/techschool/simplebank/val"
+	"github.com/techschool/simplebank/worker"
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
 )
 
@@ -72,32 +74,44 @@ func (server *Server) createUser(ctx *gin.Context) {
 		isAdmin = true
 	}
 
-	arg := db.CreateUserParams{
-		Username: req.Username,
-		HashedPassword: hashedPassword,
-		FirstName: req.FirstName,
-		LastName: req.LastName,
-		Email: req.Email,
-		IsAdmin: isAdmin,
-		PhoneNumber: req.PhoneNumber,
-		ProfilePhoto: req.ProfilePhoto,
+	arg := db.CreateUserTxParams{
+		CreateUserParams: db.CreateUserParams{
+			Username: req.Username,
+			HashedPassword: hashedPassword,
+			FirstName: req.FirstName,
+			LastName: req.LastName,
+			Email: req.Email,
+			IsAdmin: isAdmin,
+			PhoneNumber: req.PhoneNumber,
+			ProfilePhoto: req.ProfilePhoto,
+		},
+		AfterCreate: func(user db.User) error {
+			taskPayload := &worker.PayloadSendVerifyEmail{
+				Username: user.Username,
+			}
+
+			opts := []asynq.Option{
+				asynq.MaxRetry(10),
+				asynq.ProcessIn(10 * time.Second),
+				asynq.Queue(worker.QueueCritical),
+			}
+
+			return server.taskDistributor.DistributeTaskSendVerifyEmail(ctx, taskPayload, opts...)
+		},
 	}
 
-	user, err := server.store.CreateUser(ctx, arg)
+	txResult, err := server.store.CreateUserTx(ctx, arg)
 
 	if err != nil {
-		if pqErr, ok := err.(*pq.Error); ok {
-			switch pqErr.Code.Name() {
-			case "unique_violation":
-				ctx.JSON(http.StatusForbidden, errorResponse(err))
-				return
-			}
+		if db.ErrorCode(err) == db.UniqueViolation {
+			ctx.JSON(http.StatusAlreadyReported, errorResponse(err))
+			return
 		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
-
-	rsp := newUserResponse(user)
+	
+	rsp := newUserResponse(txResult.User)
 
 	ctx.JSON(http.StatusOK, rsp)
 }
@@ -209,7 +223,7 @@ func (server *Server) updateUser(ctx *gin.Context) {
 	
 	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
 
-	if authPayload.Username != req.Username {
+	if authPayload.Username != req.Username && !authPayload.IsAdmin {
 		err := errors.New("you are not authorized to update user you did not create")
 		ctx.JSON(http.StatusForbidden, errorResponse(err))
 		return
@@ -241,12 +255,12 @@ func (server *Server) updateUser(ctx *gin.Context) {
 			return
 		}
 
-		arg.HashedPassword = sql.NullString{
+		arg.HashedPassword = pgtype.Text{
 			String: hashedPassword,
 			Valid: true,
 		}
 
-		arg.PasswordChangedAt = sql.NullTime{
+		arg.PasswordChangedAt = pgtype.Timestamptz{
 			Time: time.Now(),
 			Valid: true,
 		}
@@ -303,14 +317,14 @@ func validateUpdateUserRequest(req updateUserRequest) (violations []*errdetails.
 	return violations
 }
 
-func nullableString(s *string) sql.NullString {
+func nullableString(s *string) pgtype.Text {
 	if s != nil {
-		return sql.NullString{
+		return pgtype.Text{
 			String: *s,
 			Valid:  true,
 		}
 	}
-	return sql.NullString{
+	return pgtype.Text{
 		String: "",
 		Valid:  false,
 	}

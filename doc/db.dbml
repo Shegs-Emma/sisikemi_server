@@ -1,0 +1,82 @@
+Table users as U {
+  id bigserial [pk]
+  username varchar [unique]
+  hashed_password varchar [not null]
+  first_name varchar [not null]
+  last_name varchar [not null]
+  phone_number varchar [not null]
+  profile_photo bigint [ref: > M.id, not null]
+  email varchar [unique, not null]
+  isAdmin boolean [default: false]
+  password_changed_at timestamptz [not null, default: '0001-01-01 00:00:00Z']
+  created_at timestamptz [not null, default: `now()`]
+
+  Indexes {
+    profile_photo
+  }
+}
+
+Table media as M {
+  id bigserial [pk]
+  media_ref varchar [not null, unique]
+  url varchar [unique, not null]
+  aws_id varchar [unique, not null]
+  created_at timestamptz [not null, default: `now()`]
+}
+
+Table products as P {
+  id bigserial [pk]
+  product_ref_no varchar [not null, unique]
+  product_name varchar [unique, not null]
+  price numeric [not null]
+  product_images varchar [ref: > PM.product_media_ref, not null]
+  collection bigint [ref: > C.id, not null]
+  quantity int [not null]
+  status enum('available', 'out_of_stock', 'discontinued') [not null]
+  last_updated_at timestamptz [not null, default: '0001-01-01 00:00:00Z']
+  created_at timestamptz [not null, default: `now()`]
+  
+  Indexes {
+    collection
+    product_images
+    (collection, product_images)
+  }
+}
+
+Table collections as C {
+  id bigserial [pk]
+  collection_name varchar [unique, not null]
+  last_updated_at timestamptz [not null, default: '0001-01-01 00:00:00Z']
+  created_at timestamptz [not null, default: `now()`]
+}
+
+Table orders as O {
+  id bigserial [pk]
+  ref_no varchar
+  username varchar [ref: > U.username, not null]
+  amount bigint [not null, note: 'it must be positive']
+  payment_method varchar [not null]
+  product varchar [ref: > P.product_ref_no, not null]
+  order_status enum('pending', 'shipped', 'delivered', 'cancelled') [not null]
+  last_updated_at timestamptz [not null, default: '0001-01-01 00:00:00Z']
+  created_at timestamptz [not null, default: `now()`]
+
+  Indexes {
+    username
+    product
+    (username, product)
+  }
+}
+
+TABLE product_media as PM {
+  id bigserial [pk, not null]
+  product_media_ref varchar [unique, not null]
+  product_id varchar [not null, ref: > P.product_ref_no]
+  media_id varchar [not null, ref: > M.media_ref]
+
+  Indexes {
+    product_id
+    media_id
+    (product_id, media_id)
+  }
+}

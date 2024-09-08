@@ -8,7 +8,9 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/require"
+	mockdb "github.com/techschool/simplebank/db/mock"
 	"github.com/techschool/simplebank/token"
 )
 
@@ -85,7 +87,15 @@ func TestAuthMiddleware(t *testing.T) {
 		tc := testCases[i]
 
 		t.Run(tc.name, func(t *testing.T) {
-			server := newTestServer(t, nil)
+			storeCtrl := gomock.NewController(t)
+			defer storeCtrl.Finish()
+			store := mockdb.NewMockStore(storeCtrl)
+
+			taskCtrl := gomock.NewController(t)
+			taskDistributor := mockwk.NewMockTaskDistributor(taskCtrl)
+			tc.buildStubs(store, taskDistributor)
+
+			server := newTestServer(t, store, taskDistributor)
 
 			authPath := "/auth"
 			server.router.GET(

@@ -12,7 +12,7 @@ import (
 func createRandomCollection(t *testing.T) Collection {
 	collectionName := util.RandomString(6)
 
-	collection, err := testQueries.CreateCollection(context.Background(), collectionName)
+	collection, err := testStore.CreateCollection(context.Background(), collectionName)
 
 	require.NoError(t, err)
 	require.NotEmpty(t, collection)
@@ -29,7 +29,7 @@ func TestCreateCollection(t *testing.T) {
 
 func TestGetCollection(t *testing.T) {
 	collection1 := createRandomCollection(t)
-	collection2, err := testQueries.GetCollection(context.Background(), collection1.ID)
+	collection2, err := testStore.GetCollection(context.Background(), collection1.ID)
 
 	require.NoError(t, err)
 	require.NotEmpty(t, collection2)
@@ -49,7 +49,7 @@ func TestListCollection(t *testing.T) {
 		Offset: 3,
 	}
 
-	collections, err := testQueries.ListCollection(context.Background(), arg)
+	collections, err := testStore.ListCollection(context.Background(), arg)
 	require.NoError(t, err)
 	require.Len(t, collections, 3)
 	

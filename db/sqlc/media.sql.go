@@ -25,7 +25,7 @@ type CreateMediaParams struct {
 }
 
 func (q *Queries) CreateMedia(ctx context.Context, arg CreateMediaParams) (Medium, error) {
-	row := q.db.QueryRowContext(ctx, createMedia, arg.MediaRef, arg.Url, arg.AwsID)
+	row := q.db.QueryRow(ctx, createMedia, arg.MediaRef, arg.Url, arg.AwsID)
 	var i Medium
 	err := row.Scan(
 		&i.ID,
@@ -43,7 +43,7 @@ WHERE id = $1
 `
 
 func (q *Queries) DeleteMedia(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, deleteMedia, id)
+	_, err := q.db.Exec(ctx, deleteMedia, id)
 	return err
 }
 
@@ -53,7 +53,7 @@ WHERE id = $1 LIMIT 1
 `
 
 func (q *Queries) GetMedia(ctx context.Context, id int64) (Medium, error) {
-	row := q.db.QueryRowContext(ctx, getMedia, id)
+	row := q.db.QueryRow(ctx, getMedia, id)
 	var i Medium
 	err := row.Scan(
 		&i.ID,
@@ -72,7 +72,7 @@ FOR NO KEY UPDATE
 `
 
 func (q *Queries) GetMediaForUpdate(ctx context.Context, id int64) (Medium, error) {
-	row := q.db.QueryRowContext(ctx, getMediaForUpdate, id)
+	row := q.db.QueryRow(ctx, getMediaForUpdate, id)
 	var i Medium
 	err := row.Scan(
 		&i.ID,
@@ -97,7 +97,7 @@ type ListMediaParams struct {
 }
 
 func (q *Queries) ListMedia(ctx context.Context, arg ListMediaParams) ([]Medium, error) {
-	rows, err := q.db.QueryContext(ctx, listMedia, arg.Limit, arg.Offset)
+	rows, err := q.db.Query(ctx, listMedia, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}
@@ -115,9 +115,6 @@ func (q *Queries) ListMedia(ctx context.Context, arg ListMediaParams) ([]Medium,
 			return nil, err
 		}
 		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
@@ -139,7 +136,7 @@ type UpdateMediaParams struct {
 }
 
 func (q *Queries) UpdateMedia(ctx context.Context, arg UpdateMediaParams) (Medium, error) {
-	row := q.db.QueryRowContext(ctx, updateMedia, arg.ID, arg.Url, arg.AwsID)
+	row := q.db.QueryRow(ctx, updateMedia, arg.ID, arg.Url, arg.AwsID)
 	var i Medium
 	err := row.Scan(
 		&i.ID,
