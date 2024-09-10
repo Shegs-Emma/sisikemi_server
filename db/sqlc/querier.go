@@ -16,15 +16,11 @@ type Querier interface {
 	CreateSession(ctx context.Context, arg CreateSessionParams) (Session, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
 	CreateVerifyEmail(ctx context.Context, arg CreateVerifyEmailParams) (VerifyEmail, error)
-	DeleteMedia(ctx context.Context, id int64) error
 	GetCollection(ctx context.Context, id int64) (Collection, error)
 	GetMedia(ctx context.Context, id int64) (Medium, error)
-	GetMediaForUpdate(ctx context.Context, id int64) (Medium, error)
 	GetSession(ctx context.Context, id uuid.UUID) (Session, error)
 	GetUser(ctx context.Context, username string) (User, error)
 	ListCollection(ctx context.Context, arg ListCollectionParams) ([]Collection, error)
-	ListMedia(ctx context.Context, arg ListMediaParams) ([]Medium, error)
-	UpdateMedia(ctx context.Context, arg UpdateMediaParams) (Medium, error)
 	UpdateUser(ctx context.Context, arg UpdateUserParams) (User, error)
 	UpdateVerifyEmail(ctx context.Context, arg UpdateVerifyEmailParams) (VerifyEmail, error)
 }
