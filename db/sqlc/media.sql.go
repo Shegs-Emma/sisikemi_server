@@ -37,16 +37,6 @@ func (q *Queries) CreateMedia(ctx context.Context, arg CreateMediaParams) (Mediu
 	return i, err
 }
 
-const deleteMedia = `-- name: DeleteMedia :exec
-DELETE FROM media
-WHERE id = $1
-`
-
-func (q *Queries) DeleteMedia(ctx context.Context, id int64) error {
-	_, err := q.db.Exec(ctx, deleteMedia, id)
-	return err
-}
-
 const getMedia = `-- name: GetMedia :one
 SELECT id, media_ref, url, aws_id, created_at FROM media
 WHERE id = $1 LIMIT 1
@@ -54,89 +44,6 @@ WHERE id = $1 LIMIT 1
 
 func (q *Queries) GetMedia(ctx context.Context, id int64) (Medium, error) {
 	row := q.db.QueryRow(ctx, getMedia, id)
-	var i Medium
-	err := row.Scan(
-		&i.ID,
-		&i.MediaRef,
-		&i.Url,
-		&i.AwsID,
-		&i.CreatedAt,
-	)
-	return i, err
-}
-
-const getMediaForUpdate = `-- name: GetMediaForUpdate :one
-SELECT id, media_ref, url, aws_id, created_at FROM media
-WHERE id = $1 LIMIT 1
-FOR NO KEY UPDATE
-`
-
-func (q *Queries) GetMediaForUpdate(ctx context.Context, id int64) (Medium, error) {
-	row := q.db.QueryRow(ctx, getMediaForUpdate, id)
-	var i Medium
-	err := row.Scan(
-		&i.ID,
-		&i.MediaRef,
-		&i.Url,
-		&i.AwsID,
-		&i.CreatedAt,
-	)
-	return i, err
-}
-
-const listMedia = `-- name: ListMedia :many
-SELECT id, media_ref, url, aws_id, created_at FROM media
-ORDER BY id
-LIMIT $1
-OFFSET $2
-`
-
-type ListMediaParams struct {
-	Limit  int32 `json:"limit"`
-	Offset int32 `json:"offset"`
-}
-
-func (q *Queries) ListMedia(ctx context.Context, arg ListMediaParams) ([]Medium, error) {
-	rows, err := q.db.Query(ctx, listMedia, arg.Limit, arg.Offset)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	items := []Medium{}
-	for rows.Next() {
-		var i Medium
-		if err := rows.Scan(
-			&i.ID,
-			&i.MediaRef,
-			&i.Url,
-			&i.AwsID,
-			&i.CreatedAt,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const updateMedia = `-- name: UpdateMedia :one
-UPDATE media
-SET url = $2, aws_id = $3
-WHERE id = $1
-RETURNING id, media_ref, url, aws_id, created_at
-`
-
-type UpdateMediaParams struct {
-	ID    int64  `json:"id"`
-	Url   string `json:"url"`
-	AwsID string `json:"aws_id"`
-}
-
-func (q *Queries) UpdateMedia(ctx context.Context, arg UpdateMediaParams) (Medium, error) {
-	row := q.db.QueryRow(ctx, updateMedia, arg.ID, arg.Url, arg.AwsID)
 	var i Medium
 	err := row.Scan(
 		&i.ID,

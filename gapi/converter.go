@@ -18,3 +18,12 @@ func convertUser(user db.User) *pb.User {
 		CreatedAt: timestamppb.New(user.CreatedAt),
 	}
 }
+
+func convertMedia(media db.Medium) *pb.Media {
+	return &pb.Media{
+		MediaRef: media.MediaRef,
+		Url: media.Url,
+		AwsId: media.AwsID,
+		CreatedAt: timestamppb.New(media.CreatedAt),
+	}
+}

@@ -9,24 +9,3 @@ RETURNING *;
 -- name: GetMedia :one
 SELECT * FROM media
 WHERE id = $1 LIMIT 1;
-
--- name: GetMediaForUpdate :one
-SELECT * FROM media
-WHERE id = $1 LIMIT 1
-FOR NO KEY UPDATE;
-
--- name: ListMedia :many
-SELECT * FROM media
-ORDER BY id
-LIMIT $1
-OFFSET $2;
-
--- name: UpdateMedia :one
-UPDATE media
-SET url = $2, aws_id = $3
-WHERE id = $1
-RETURNING *;
-
--- name: DeleteMedia :exec
-DELETE FROM media
-WHERE id = $1;

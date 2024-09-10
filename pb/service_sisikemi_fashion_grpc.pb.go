@@ -19,8 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	SisikemiFashion_CreateUser_FullMethodName = "/pb.SisikemiFashion/CreateUser"
-	SisikemiFashion_LoginUser_FullMethodName  = "/pb.SisikemiFashion/LoginUser"
+	SisikemiFashion_CreateUser_FullMethodName  = "/pb.SisikemiFashion/CreateUser"
+	SisikemiFashion_LoginUser_FullMethodName   = "/pb.SisikemiFashion/LoginUser"
+	SisikemiFashion_UpdateUser_FullMethodName  = "/pb.SisikemiFashion/UpdateUser"
+	SisikemiFashion_VerifyEmail_FullMethodName = "/pb.SisikemiFashion/VerifyEmail"
+	SisikemiFashion_CreateMedia_FullMethodName = "/pb.SisikemiFashion/CreateMedia"
 )
 
 // SisikemiFashionClient is the client API for SisikemiFashion service.
@@ -29,6 +32,9 @@ const (
 type SisikemiFashionClient interface {
 	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserResponse, error)
 	LoginUser(ctx context.Context, in *LoginUserRequest, opts ...grpc.CallOption) (*LoginUserResponse, error)
+	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UpdateUserResponse, error)
+	VerifyEmail(ctx context.Context, in *VerifyEmailRequest, opts ...grpc.CallOption) (*VerifyEmailResponse, error)
+	CreateMedia(ctx context.Context, in *CreateMediaRequest, opts ...grpc.CallOption) (*CreateMediaResponse, error)
 }
 
 type sisikemiFashionClient struct {
@@ -59,12 +65,45 @@ func (c *sisikemiFashionClient) LoginUser(ctx context.Context, in *LoginUserRequ
 	return out, nil
 }
 
+func (c *sisikemiFashionClient) UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UpdateUserResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateUserResponse)
+	err := c.cc.Invoke(ctx, SisikemiFashion_UpdateUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *sisikemiFashionClient) VerifyEmail(ctx context.Context, in *VerifyEmailRequest, opts ...grpc.CallOption) (*VerifyEmailResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(VerifyEmailResponse)
+	err := c.cc.Invoke(ctx, SisikemiFashion_VerifyEmail_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *sisikemiFashionClient) CreateMedia(ctx context.Context, in *CreateMediaRequest, opts ...grpc.CallOption) (*CreateMediaResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateMediaResponse)
+	err := c.cc.Invoke(ctx, SisikemiFashion_CreateMedia_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SisikemiFashionServer is the server API for SisikemiFashion service.
 // All implementations must embed UnimplementedSisikemiFashionServer
 // for forward compatibility.
 type SisikemiFashionServer interface {
 	CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error)
 	LoginUser(context.Context, *LoginUserRequest) (*LoginUserResponse, error)
+	UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error)
+	VerifyEmail(context.Context, *VerifyEmailRequest) (*VerifyEmailResponse, error)
+	CreateMedia(context.Context, *CreateMediaRequest) (*CreateMediaResponse, error)
 	mustEmbedUnimplementedSisikemiFashionServer()
 }
 
@@ -80,6 +119,15 @@ func (UnimplementedSisikemiFashionServer) CreateUser(context.Context, *CreateUse
 }
 func (UnimplementedSisikemiFashionServer) LoginUser(context.Context, *LoginUserRequest) (*LoginUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LoginUser not implemented")
+}
+func (UnimplementedSisikemiFashionServer) UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
+}
+func (UnimplementedSisikemiFashionServer) VerifyEmail(context.Context, *VerifyEmailRequest) (*VerifyEmailResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VerifyEmail not implemented")
+}
+func (UnimplementedSisikemiFashionServer) CreateMedia(context.Context, *CreateMediaRequest) (*CreateMediaResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateMedia not implemented")
 }
 func (UnimplementedSisikemiFashionServer) mustEmbedUnimplementedSisikemiFashionServer() {}
 func (UnimplementedSisikemiFashionServer) testEmbeddedByValue()                         {}
@@ -138,6 +186,60 @@ func _SisikemiFashion_LoginUser_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SisikemiFashion_UpdateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SisikemiFashionServer).UpdateUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SisikemiFashion_UpdateUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SisikemiFashionServer).UpdateUser(ctx, req.(*UpdateUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SisikemiFashion_VerifyEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VerifyEmailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SisikemiFashionServer).VerifyEmail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SisikemiFashion_VerifyEmail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SisikemiFashionServer).VerifyEmail(ctx, req.(*VerifyEmailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SisikemiFashion_CreateMedia_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateMediaRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SisikemiFashionServer).CreateMedia(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SisikemiFashion_CreateMedia_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SisikemiFashionServer).CreateMedia(ctx, req.(*CreateMediaRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SisikemiFashion_ServiceDesc is the grpc.ServiceDesc for SisikemiFashion service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -152,6 +254,18 @@ var SisikemiFashion_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "LoginUser",
 			Handler:    _SisikemiFashion_LoginUser_Handler,
+		},
+		{
+			MethodName: "UpdateUser",
+			Handler:    _SisikemiFashion_UpdateUser_Handler,
+		},
+		{
+			MethodName: "VerifyEmail",
+			Handler:    _SisikemiFashion_VerifyEmail_Handler,
+		},
+		{
+			MethodName: "CreateMedia",
+			Handler:    _SisikemiFashion_CreateMedia_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

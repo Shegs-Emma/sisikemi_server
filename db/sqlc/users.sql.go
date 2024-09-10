@@ -98,10 +98,11 @@ SET
   first_name = COALESCE($3, first_name),
   last_name = COALESCE($4, last_name),
   email = COALESCE($5, email),
-  phone_number = COALESCE($6, phone_number),
-  profile_photo = COALESCE($7, profile_photo)
+  is_email_verified = COALESCE($6, is_email_verified),
+  phone_number = COALESCE($7, phone_number),
+  profile_photo = COALESCE($8, profile_photo)
 WHERE
-  username = $8
+  username = $9
 RETURNING username, hashed_password, first_name, last_name, phone_number, profile_photo, email, is_admin, password_changed_at, created_at, is_email_verified
 `
 
@@ -111,6 +112,7 @@ type UpdateUserParams struct {
 	FirstName         pgtype.Text        `json:"first_name"`
 	LastName          pgtype.Text        `json:"last_name"`
 	Email             pgtype.Text        `json:"email"`
+	IsEmailVerified   pgtype.Bool        `json:"is_email_verified"`
 	PhoneNumber       pgtype.Text        `json:"phone_number"`
 	ProfilePhoto      pgtype.Text        `json:"profile_photo"`
 	Username          string             `json:"username"`
@@ -123,6 +125,7 @@ func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) (User, e
 		arg.FirstName,
 		arg.LastName,
 		arg.Email,
+		arg.IsEmailVerified,
 		arg.PhoneNumber,
 		arg.ProfilePhoto,
 		arg.Username,
