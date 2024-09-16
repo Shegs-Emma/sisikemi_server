@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package image;
+
+option go_package = "github.com/techschool/simplebank/pb";
+
+service ImageService {
+    rpc UploadImage(stream UploadImageRequest) returns (UploadImageResponse);
+}
+
+message UploadImageRequest {
+    bytes image_data = 1;
+    string file_name = 2;
+}
+
+message UploadImageResponse {
+    string message = 1;
+    string image_url = 2;
+}

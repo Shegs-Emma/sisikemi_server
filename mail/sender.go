@@ -9,7 +9,7 @@ import (
 
 const (
 	smtpAuthAddress = "smtp.gmail.com"
-	smtpServerAddress = "smtp.gmail.com:587"
+	smtpHttpServerAddress = "smtp.gmail.com:587"
 )
 
 type EmailSender interface {
@@ -61,5 +61,5 @@ func (sender *GmailSender) SendEmail(
 	}
 
 	smtpAuth := smtp.PlainAuth("", sender.fromEmailAddress, sender.fromEmailPassword, smtpAuthAddress)
-	return e.Send(smtpServerAddress, smtpAuth)
+	return e.Send(smtpHttpServerAddress, smtpAuth)
 }
