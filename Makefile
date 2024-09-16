@@ -46,9 +46,12 @@ proto:
 	protoc --proto_path=proto --go_out=pb --go_opt=paths=source_relative \
     --go-grpc_out=pb --go-grpc_opt=paths=source_relative \
 	--grpc-gateway_out=pb --grpc-gateway_opt=paths=source_relative \
-	--openapiv2_out=doc/swagger  --openapiv2_opt=allow_merge=true,merge_file_name=simple_bank \
+	--openapiv2_out=doc/swagger --openapiv2_opt=allow_merge=true,merge_file_name=sisikemi_fashion \
     proto/*.proto
 	statik -src=./doc/swagger -dest=./doc
+
+image_proto:
+	protoc -I. --go_out=. --go-grpc_out=. --grpc-gateway_out=. proto/image_upload.proto
 
 redis:
 	docker run --name redis -p 6379:6379 -d redis:7-alpine
