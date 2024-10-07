@@ -37,7 +37,7 @@ func (m *MockStore) EXPECT() *MockStoreMockRecorder {
 }
 
 // CreateCollection mocks base method.
-func (m *MockStore) CreateCollection(arg0 context.Context, arg1 string) (db.Collection, error) {
+func (m *MockStore) CreateCollection(arg0 context.Context, arg1 db.CreateCollectionParams) (db.Collection, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateCollection", arg0, arg1)
 	ret0, _ := ret[0].(db.Collection)
@@ -64,6 +64,51 @@ func (m *MockStore) CreateMedia(arg0 context.Context, arg1 db.CreateMediaParams)
 func (mr *MockStoreMockRecorder) CreateMedia(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateMedia", reflect.TypeOf((*MockStore)(nil).CreateMedia), arg0, arg1)
+}
+
+// CreateProduct mocks base method.
+func (m *MockStore) CreateProduct(arg0 context.Context, arg1 db.CreateProductParams) (db.Product, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateProduct", arg0, arg1)
+	ret0, _ := ret[0].(db.Product)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateProduct indicates an expected call of CreateProduct.
+func (mr *MockStoreMockRecorder) CreateProduct(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateProduct", reflect.TypeOf((*MockStore)(nil).CreateProduct), arg0, arg1)
+}
+
+// CreateProductMedia mocks base method.
+func (m *MockStore) CreateProductMedia(arg0 context.Context, arg1 db.CreateProductMediaParams) (db.ProductMedium, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateProductMedia", arg0, arg1)
+	ret0, _ := ret[0].(db.ProductMedium)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateProductMedia indicates an expected call of CreateProductMedia.
+func (mr *MockStoreMockRecorder) CreateProductMedia(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateProductMedia", reflect.TypeOf((*MockStore)(nil).CreateProductMedia), arg0, arg1)
+}
+
+// CreateProductTx mocks base method.
+func (m *MockStore) CreateProductTx(arg0 context.Context, arg1 db.CreateProductTxParams) (db.CreateProductTxResult, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateProductTx", arg0, arg1)
+	ret0, _ := ret[0].(db.CreateProductTxResult)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateProductTx indicates an expected call of CreateProductTx.
+func (mr *MockStoreMockRecorder) CreateProductTx(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateProductTx", reflect.TypeOf((*MockStore)(nil).CreateProductTx), arg0, arg1)
 }
 
 // CreateSession mocks base method.
@@ -96,18 +141,34 @@ func (mr *MockStoreMockRecorder) CreateUser(arg0, arg1 interface{}) *gomock.Call
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUser", reflect.TypeOf((*MockStore)(nil).CreateUser), arg0, arg1)
 }
 
-// DeleteMedia mocks base method.
-func (m *MockStore) DeleteMedia(arg0 context.Context, arg1 int64) error {
+// CreateUserTx mocks base method.
+func (m *MockStore) CreateUserTx(arg0 context.Context, arg1 db.CreateUserTxParams) (db.CreateUserTxResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteMedia", arg0, arg1)
-	ret0, _ := ret[0].(error)
-	return ret0
+	ret := m.ctrl.Call(m, "CreateUserTx", arg0, arg1)
+	ret0, _ := ret[0].(db.CreateUserTxResult)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
-// DeleteMedia indicates an expected call of DeleteMedia.
-func (mr *MockStoreMockRecorder) DeleteMedia(arg0, arg1 interface{}) *gomock.Call {
+// CreateUserTx indicates an expected call of CreateUserTx.
+func (mr *MockStoreMockRecorder) CreateUserTx(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteMedia", reflect.TypeOf((*MockStore)(nil).DeleteMedia), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUserTx", reflect.TypeOf((*MockStore)(nil).CreateUserTx), arg0, arg1)
+}
+
+// CreateVerifyEmail mocks base method.
+func (m *MockStore) CreateVerifyEmail(arg0 context.Context, arg1 db.CreateVerifyEmailParams) (db.VerifyEmail, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateVerifyEmail", arg0, arg1)
+	ret0, _ := ret[0].(db.VerifyEmail)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateVerifyEmail indicates an expected call of CreateVerifyEmail.
+func (mr *MockStoreMockRecorder) CreateVerifyEmail(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateVerifyEmail", reflect.TypeOf((*MockStore)(nil).CreateVerifyEmail), arg0, arg1)
 }
 
 // GetCollection mocks base method.
@@ -140,19 +201,79 @@ func (mr *MockStoreMockRecorder) GetMedia(arg0, arg1 interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMedia", reflect.TypeOf((*MockStore)(nil).GetMedia), arg0, arg1)
 }
 
-// GetMediaForUpdate mocks base method.
-func (m *MockStore) GetMediaForUpdate(arg0 context.Context, arg1 int64) (db.Medium, error) {
+// GetMediaByRef mocks base method.
+func (m *MockStore) GetMediaByRef(arg0 context.Context, arg1 string) (db.Medium, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetMediaForUpdate", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetMediaByRef", arg0, arg1)
 	ret0, _ := ret[0].(db.Medium)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// GetMediaForUpdate indicates an expected call of GetMediaForUpdate.
-func (mr *MockStoreMockRecorder) GetMediaForUpdate(arg0, arg1 interface{}) *gomock.Call {
+// GetMediaByRef indicates an expected call of GetMediaByRef.
+func (mr *MockStoreMockRecorder) GetMediaByRef(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMediaForUpdate", reflect.TypeOf((*MockStore)(nil).GetMediaForUpdate), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMediaByRef", reflect.TypeOf((*MockStore)(nil).GetMediaByRef), arg0, arg1)
+}
+
+// GetProduct mocks base method.
+func (m *MockStore) GetProduct(arg0 context.Context, arg1 int64) (db.Product, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetProduct", arg0, arg1)
+	ret0, _ := ret[0].(db.Product)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetProduct indicates an expected call of GetProduct.
+func (mr *MockStoreMockRecorder) GetProduct(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetProduct", reflect.TypeOf((*MockStore)(nil).GetProduct), arg0, arg1)
+}
+
+// GetProductMedia mocks base method.
+func (m *MockStore) GetProductMedia(arg0 context.Context, arg1 int64) (db.ProductMedium, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetProductMedia", arg0, arg1)
+	ret0, _ := ret[0].(db.ProductMedium)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetProductMedia indicates an expected call of GetProductMedia.
+func (mr *MockStoreMockRecorder) GetProductMedia(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetProductMedia", reflect.TypeOf((*MockStore)(nil).GetProductMedia), arg0, arg1)
+}
+
+// GetProductMediaByRef mocks base method.
+func (m *MockStore) GetProductMediaByRef(arg0 context.Context, arg1 string) (db.ProductMedium, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetProductMediaByRef", arg0, arg1)
+	ret0, _ := ret[0].(db.ProductMedium)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetProductMediaByRef indicates an expected call of GetProductMediaByRef.
+func (mr *MockStoreMockRecorder) GetProductMediaByRef(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetProductMediaByRef", reflect.TypeOf((*MockStore)(nil).GetProductMediaByRef), arg0, arg1)
+}
+
+// GetProductsMedium mocks base method.
+func (m *MockStore) GetProductsMedium(arg0 context.Context, arg1 db.GetProductsMediumParams) ([]db.ProductMedium, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetProductsMedium", arg0, arg1)
+	ret0, _ := ret[0].([]db.ProductMedium)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetProductsMedium indicates an expected call of GetProductsMedium.
+func (mr *MockStoreMockRecorder) GetProductsMedium(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetProductsMedium", reflect.TypeOf((*MockStore)(nil).GetProductsMedium), arg0, arg1)
 }
 
 // GetSession mocks base method.
@@ -215,19 +336,64 @@ func (mr *MockStoreMockRecorder) ListMedia(arg0, arg1 interface{}) *gomock.Call 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListMedia", reflect.TypeOf((*MockStore)(nil).ListMedia), arg0, arg1)
 }
 
-// UpdateMedia mocks base method.
-func (m *MockStore) UpdateMedia(arg0 context.Context, arg1 db.UpdateMediaParams) (db.Medium, error) {
+// ListProductMedia mocks base method.
+func (m *MockStore) ListProductMedia(arg0 context.Context, arg1 db.ListProductMediaParams) ([]db.ProductMedium, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateMedia", arg0, arg1)
-	ret0, _ := ret[0].(db.Medium)
+	ret := m.ctrl.Call(m, "ListProductMedia", arg0, arg1)
+	ret0, _ := ret[0].([]db.ProductMedium)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// UpdateMedia indicates an expected call of UpdateMedia.
-func (mr *MockStoreMockRecorder) UpdateMedia(arg0, arg1 interface{}) *gomock.Call {
+// ListProductMedia indicates an expected call of ListProductMedia.
+func (mr *MockStoreMockRecorder) ListProductMedia(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateMedia", reflect.TypeOf((*MockStore)(nil).UpdateMedia), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListProductMedia", reflect.TypeOf((*MockStore)(nil).ListProductMedia), arg0, arg1)
+}
+
+// ListProducts mocks base method.
+func (m *MockStore) ListProducts(arg0 context.Context, arg1 db.ListProductsParams) ([]db.Product, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListProducts", arg0, arg1)
+	ret0, _ := ret[0].([]db.Product)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListProducts indicates an expected call of ListProducts.
+func (mr *MockStoreMockRecorder) ListProducts(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListProducts", reflect.TypeOf((*MockStore)(nil).ListProducts), arg0, arg1)
+}
+
+// UpdateCollection mocks base method.
+func (m *MockStore) UpdateCollection(arg0 context.Context, arg1 db.UpdateCollectionParams) (db.Collection, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateCollection", arg0, arg1)
+	ret0, _ := ret[0].(db.Collection)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateCollection indicates an expected call of UpdateCollection.
+func (mr *MockStoreMockRecorder) UpdateCollection(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateCollection", reflect.TypeOf((*MockStore)(nil).UpdateCollection), arg0, arg1)
+}
+
+// UpdateProduct mocks base method.
+func (m *MockStore) UpdateProduct(arg0 context.Context, arg1 db.UpdateProductParams) (db.Product, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateProduct", arg0, arg1)
+	ret0, _ := ret[0].(db.Product)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateProduct indicates an expected call of UpdateProduct.
+func (mr *MockStoreMockRecorder) UpdateProduct(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateProduct", reflect.TypeOf((*MockStore)(nil).UpdateProduct), arg0, arg1)
 }
 
 // UpdateUser mocks base method.
@@ -243,4 +409,34 @@ func (m *MockStore) UpdateUser(arg0 context.Context, arg1 db.UpdateUserParams) (
 func (mr *MockStoreMockRecorder) UpdateUser(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateUser", reflect.TypeOf((*MockStore)(nil).UpdateUser), arg0, arg1)
+}
+
+// UpdateVerifyEmail mocks base method.
+func (m *MockStore) UpdateVerifyEmail(arg0 context.Context, arg1 db.UpdateVerifyEmailParams) (db.VerifyEmail, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateVerifyEmail", arg0, arg1)
+	ret0, _ := ret[0].(db.VerifyEmail)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateVerifyEmail indicates an expected call of UpdateVerifyEmail.
+func (mr *MockStoreMockRecorder) UpdateVerifyEmail(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateVerifyEmail", reflect.TypeOf((*MockStore)(nil).UpdateVerifyEmail), arg0, arg1)
+}
+
+// VerifyEmailTx mocks base method.
+func (m *MockStore) VerifyEmailTx(arg0 context.Context, arg1 db.VerifyEmailTxParams) (db.VerifyEmailTxResult, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "VerifyEmailTx", arg0, arg1)
+	ret0, _ := ret[0].(db.VerifyEmailTxResult)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// VerifyEmailTx indicates an expected call of VerifyEmailTx.
+func (mr *MockStoreMockRecorder) VerifyEmailTx(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "VerifyEmailTx", reflect.TypeOf((*MockStore)(nil).VerifyEmailTx), arg0, arg1)
 }

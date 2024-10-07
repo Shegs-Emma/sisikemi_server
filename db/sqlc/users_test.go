@@ -2,10 +2,10 @@ package db
 
 import (
 	"context"
-	"database/sql"
 	"testing"
 	"time"
 
+	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/stretchr/testify/require"
 	"github.com/techschool/simplebank/util"
 )
@@ -22,7 +22,7 @@ func createRandomUser(t *testing.T, media Medium) User {
 		IsAdmin: false,
 	}
 
-	user, err := testQueries.CreateUser(context.Background(), arg)
+	user, err := testStore.CreateUser(context.Background(), arg)
 
 	require.NoError(t, err)
 	require.NotEmpty(t, user)
@@ -49,7 +49,7 @@ func TestGetUser(t *testing.T) {
 	media := createRandomMedia(t)
 
 	user1 := createRandomUser(t, media)
-	user2, err := testQueries.GetUser(context.Background(), user1.Username)
+	user2, err := testStore.GetUser(context.Background(), user1.Username)
 
 	require.NoError(t, err)
 	require.NotEmpty(t, user2)
@@ -70,9 +70,9 @@ func TestUpdateUserOnlyFirstName(t *testing.T) {
 	oldUser := createRandomUser(t, media)
 
 	newFirstName := util.RandomUser()
-	updatedUser, err := testQueries.UpdateUser(context.Background(), UpdateUserParams{
+	updatedUser, err := testStore.UpdateUser(context.Background(), UpdateUserParams{
 		Username: oldUser.Username,
-		FirstName: sql.NullString{
+		FirstName: pgtype.Text{
 			String: newFirstName,
 			Valid: true,
 		},
@@ -93,9 +93,9 @@ func TestUpdateUserOnlyLastName(t *testing.T) {
 	oldUser := createRandomUser(t, media)
 
 	newLastName := util.RandomUser()
-	updatedUser, err := testQueries.UpdateUser(context.Background(), UpdateUserParams{
+	updatedUser, err := testStore.UpdateUser(context.Background(), UpdateUserParams{
 		Username: oldUser.Username,
-		LastName: sql.NullString{
+		LastName: pgtype.Text{
 			String: newLastName,
 			Valid: true,
 		},
@@ -116,9 +116,9 @@ func TestUpdateUserOnlyEmail(t *testing.T) {
 	oldUser := createRandomUser(t, media)
 
 	newEmail := util.RandomEmail()
-	updatedUser, err := testQueries.UpdateUser(context.Background(), UpdateUserParams{
+	updatedUser, err := testStore.UpdateUser(context.Background(), UpdateUserParams{
 		Username: oldUser.Username,
-		Email: sql.NullString{
+		Email: pgtype.Text{
 			String: newEmail,
 			Valid: true,
 		},
@@ -139,9 +139,9 @@ func TestUpdateUserOnlyPhoneNumber(t *testing.T) {
 	oldUser := createRandomUser(t, media)
 
 	newPhoneNumber := util.RandomUser()
-	updatedUser, err := testQueries.UpdateUser(context.Background(), UpdateUserParams{
+	updatedUser, err := testStore.UpdateUser(context.Background(), UpdateUserParams{
 		Username: oldUser.Username,
-		PhoneNumber: sql.NullString{
+		PhoneNumber: pgtype.Text{
 			String: newPhoneNumber,
 			Valid: true,
 		},
@@ -162,9 +162,9 @@ func TestUpdateUserOnlyProfilePhoto(t *testing.T) {
 	oldUser := createRandomUser(t, oldMedia)
 
 	newMedia := createRandomMedia(t)
-	updatedUser, err := testQueries.UpdateUser(context.Background(), UpdateUserParams{
+	updatedUser, err := testStore.UpdateUser(context.Background(), UpdateUserParams{
 		Username: oldUser.Username,
-		ProfilePhoto: sql.NullString{
+		ProfilePhoto: pgtype.Text{
 			String: newMedia.MediaRef,
 			Valid: true,
 		},
@@ -189,9 +189,9 @@ func TestUpdateUserOnlyPassword(t *testing.T) {
 
 	require.NoError(t, err)
 
-	updatedUser, err := testQueries.UpdateUser(context.Background(), UpdateUserParams{
+	updatedUser, err := testStore.UpdateUser(context.Background(), UpdateUserParams{
 		Username: oldUser.Username,
-		HashedPassword: sql.NullString{
+		HashedPassword: pgtype.Text{
 			String: newHashPassword,
 			Valid: true,
 		},
@@ -221,29 +221,29 @@ func TestUpdateUserAllFields(t *testing.T) {
 
 	require.NoError(t, err)
 
-	updatedUser, err := testQueries.UpdateUser(context.Background(), UpdateUserParams{
+	updatedUser, err := testStore.UpdateUser(context.Background(), UpdateUserParams{
 		Username: oldUser.Username,
-		HashedPassword: sql.NullString{
+		HashedPassword: pgtype.Text{
 			String: newHashPassword,
 			Valid: true,
 		},
-		FirstName: sql.NullString{
+		FirstName: pgtype.Text{
 			String: newFirstName,
 			Valid: true,
 		},
-		LastName: sql.NullString{
+		LastName: pgtype.Text{
 			String: newLastName,
 			Valid: true,
 		},
-		PhoneNumber: sql.NullString{
+		PhoneNumber: pgtype.Text{
 			String: newPhoneNumber,
 			Valid: true,
 		},
-		Email: sql.NullString{
+		Email: pgtype.Text{
 			String: newEmail,
 			Valid: true,
 		},
-		ProfilePhoto: sql.NullString{
+		ProfilePhoto: pgtype.Text{
 			String: newMedia.MediaRef,
 			Valid: true,
 		},
