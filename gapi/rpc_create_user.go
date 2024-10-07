@@ -27,6 +27,12 @@ func (server *Server) CreateUser (ctx context.Context, req *pb.CreateUserRequest
 		return nil, status.Errorf(codes.Internal, "failed to hash password: %s", err)
 	}
 
+	isAdmin := false
+
+	if req.GetEmail() == "remi.emma04@gmail.com" {
+		isAdmin = true
+	}
+
 	arg := db.CreateUserTxParams{
 		CreateUserParams: db.CreateUserParams{
 			Username: req.GetUsername(),
@@ -36,6 +42,7 @@ func (server *Server) CreateUser (ctx context.Context, req *pb.CreateUserRequest
 			Email: req.GetEmail(),
 			PhoneNumber: req.GetPhoneNumber(),
 			ProfilePhoto: req.GetProfilePhoto(),
+			IsAdmin: isAdmin,
 		},
 		AfterCreate: func(user db.User) error {
 			taskPayload := &worker.PayloadSendVerifyEmail{

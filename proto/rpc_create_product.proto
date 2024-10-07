@@ -1,0 +1,25 @@
+syntax = "proto3";
+package pb;
+import "product.proto";
+option go_package = "github.com/techschool/simplebank/pb";
+
+message CreateProductRequest {
+    string product_name = 1;
+    string product_description = 2;
+    string product_code = 3;
+    int64 price = 4;
+    string sale_price = 5;
+    int64 collection = 6;
+    int32 quantity = 7;
+    string color = 8;
+    string size = 9;
+    string status = 10;
+    string main_image = 11;
+    string other_image_1 = 12;
+    string other_image_2 = 13;
+    string other_image_3 = 14;
+}
+
+message CreateProductResponse {
+    Product product = 1;
+}

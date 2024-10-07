@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "github.com/techschool/simplebank/pb";
+import "media.proto";
+import "google/api/field_behavior.proto";
+
+
+// The request message which carries the image file chunk
+message UploadImageRequest {
+  bytes image = 1 [(google.api.field_behavior) = REQUIRED]; // This is the image data in bytes
+  string filename = 2 [(google.api.field_behavior) = REQUIRED];  // Optional, for sending the file name
+}
+
+// message UploadImageRequest {
+//   string image = 1 [(google.api.field_behavior) = REQUIRED];  // Base64 encoded image data
+//   string filename = 2 [(google.api.field_behavior) = REQUIRED];  // Optional, for sending the file name
+// }
+
+// The response message after successful upload
+message UploadImageResponse {
+  Media media = 1;
+}

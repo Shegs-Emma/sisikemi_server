@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package pb;
+
+import "media.proto";
+option go_package = "github.com/techschool/simplebank/pb";
+
+message ListMediaRequest {
+    int32 page_id = 1;
+    int32 page_size = 2;
+}
+
+message ListMediaResponse {
+    repeated Media media = 1;
+    string next_page_token = 2;
+}

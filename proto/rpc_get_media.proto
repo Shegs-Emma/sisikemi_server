@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package pb;
+
+import "media.proto";
+option go_package = "github.com/techschool/simplebank/pb";
+
+message GetMediaRequest {
+    int64 id = 1;
+}
+
+message GetMediaResponse {
+    Media media = 1;
+}

@@ -7,23 +7,43 @@ package db
 
 import (
 	"context"
+
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const createCollection = `-- name: CreateCollection :one
 INSERT INTO collections (
-    collection_name
+    collection_name,
+    collection_description,
+    thumbnail_image,
+    header_image
 ) VALUES (
-    $1
+    $1, $2, $3, $4
 )
-RETURNING id, collection_name, last_updated_at, created_at
+RETURNING id, collection_name, collection_description, thumbnail_image, header_image, last_updated_at, created_at
 `
 
-func (q *Queries) CreateCollection(ctx context.Context, collectionName string) (Collection, error) {
-	row := q.db.QueryRow(ctx, createCollection, collectionName)
+type CreateCollectionParams struct {
+	CollectionName        string `json:"collection_name"`
+	CollectionDescription string `json:"collection_description"`
+	ThumbnailImage        string `json:"thumbnail_image"`
+	HeaderImage           string `json:"header_image"`
+}
+
+func (q *Queries) CreateCollection(ctx context.Context, arg CreateCollectionParams) (Collection, error) {
+	row := q.db.QueryRow(ctx, createCollection,
+		arg.CollectionName,
+		arg.CollectionDescription,
+		arg.ThumbnailImage,
+		arg.HeaderImage,
+	)
 	var i Collection
 	err := row.Scan(
 		&i.ID,
 		&i.CollectionName,
+		&i.CollectionDescription,
+		&i.ThumbnailImage,
+		&i.HeaderImage,
 		&i.LastUpdatedAt,
 		&i.CreatedAt,
 	)
@@ -31,7 +51,7 @@ func (q *Queries) CreateCollection(ctx context.Context, collectionName string) (
 }
 
 const getCollection = `-- name: GetCollection :one
-SELECT id, collection_name, last_updated_at, created_at FROM collections
+SELECT id, collection_name, collection_description, thumbnail_image, header_image, last_updated_at, created_at FROM collections
 WHERE id = $1 LIMIT 1 
 FOR NO KEY UPDATE
 `
@@ -42,6 +62,9 @@ func (q *Queries) GetCollection(ctx context.Context, id int64) (Collection, erro
 	err := row.Scan(
 		&i.ID,
 		&i.CollectionName,
+		&i.CollectionDescription,
+		&i.ThumbnailImage,
+		&i.HeaderImage,
 		&i.LastUpdatedAt,
 		&i.CreatedAt,
 	)
@@ -49,7 +72,7 @@ func (q *Queries) GetCollection(ctx context.Context, id int64) (Collection, erro
 }
 
 const listCollection = `-- name: ListCollection :many
-SELECT id, collection_name, last_updated_at, created_at FROM collections
+SELECT id, collection_name, collection_description, thumbnail_image, header_image, last_updated_at, created_at FROM collections
 ORDER BY id
 LIMIT $1
 OFFSET $2
@@ -72,6 +95,9 @@ func (q *Queries) ListCollection(ctx context.Context, arg ListCollectionParams) 
 		if err := rows.Scan(
 			&i.ID,
 			&i.CollectionName,
+			&i.CollectionDescription,
+			&i.ThumbnailImage,
+			&i.HeaderImage,
 			&i.LastUpdatedAt,
 			&i.CreatedAt,
 		); err != nil {
@@ -83,4 +109,45 @@ func (q *Queries) ListCollection(ctx context.Context, arg ListCollectionParams) 
 		return nil, err
 	}
 	return items, nil
+}
+
+const updateCollection = `-- name: UpdateCollection :one
+UPDATE collections
+SET
+  collection_name = COALESCE($1, collection_name),
+  collection_description = COALESCE($2, collection_description),
+  thumbnail_image = COALESCE($3, thumbnail_image),
+  header_image = COALESCE($4, header_image)
+WHERE
+  id = $5
+RETURNING id, collection_name, collection_description, thumbnail_image, header_image, last_updated_at, created_at
+`
+
+type UpdateCollectionParams struct {
+	CollectionName        pgtype.Text `json:"collection_name"`
+	CollectionDescription pgtype.Text `json:"collection_description"`
+	ThumbnailImage        pgtype.Text `json:"thumbnail_image"`
+	HeaderImage           pgtype.Text `json:"header_image"`
+	ID                    int64       `json:"id"`
+}
+
+func (q *Queries) UpdateCollection(ctx context.Context, arg UpdateCollectionParams) (Collection, error) {
+	row := q.db.QueryRow(ctx, updateCollection,
+		arg.CollectionName,
+		arg.CollectionDescription,
+		arg.ThumbnailImage,
+		arg.HeaderImage,
+		arg.ID,
+	)
+	var i Collection
+	err := row.Scan(
+		&i.ID,
+		&i.CollectionName,
+		&i.CollectionDescription,
+		&i.ThumbnailImage,
+		&i.HeaderImage,
+		&i.LastUpdatedAt,
+		&i.CreatedAt,
+	)
+	return i, err
 }

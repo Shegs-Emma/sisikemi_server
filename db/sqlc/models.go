@@ -101,10 +101,13 @@ func (ns NullProductStatus) Value() (driver.Value, error) {
 }
 
 type Collection struct {
-	ID             int64     `json:"id"`
-	CollectionName string    `json:"collection_name"`
-	LastUpdatedAt  time.Time `json:"last_updated_at"`
-	CreatedAt      time.Time `json:"created_at"`
+	ID                    int64     `json:"id"`
+	CollectionName        string    `json:"collection_name"`
+	CollectionDescription string    `json:"collection_description"`
+	ThumbnailImage        string    `json:"thumbnail_image"`
+	HeaderImage           string    `json:"header_image"`
+	LastUpdatedAt         time.Time `json:"last_updated_at"`
+	CreatedAt             time.Time `json:"created_at"`
 }
 
 type Medium struct {
@@ -129,22 +132,31 @@ type Order struct {
 }
 
 type Product struct {
-	ID            int64          `json:"id"`
-	ProductRefNo  string         `json:"product_ref_no"`
-	ProductName   string         `json:"product_name"`
-	Price         pgtype.Numeric `json:"price"`
-	ProductImages string         `json:"product_images"`
-	Collection    int64          `json:"collection"`
-	Quantity      int32          `json:"quantity"`
-	Status        ProductStatus  `json:"status"`
-	LastUpdatedAt time.Time      `json:"last_updated_at"`
-	CreatedAt     time.Time      `json:"created_at"`
+	ID                 int64         `json:"id"`
+	ProductRefNo       string        `json:"product_ref_no"`
+	ProductName        string        `json:"product_name"`
+	ProductDescription string        `json:"product_description"`
+	ProductCode        string        `json:"product_code"`
+	Price              int64         `json:"price"`
+	SalePrice          string        `json:"sale_price"`
+	ProductImageMain   pgtype.Text   `json:"product_image_main"`
+	ProductImageOther1 pgtype.Text   `json:"product_image_other_1"`
+	ProductImageOther2 pgtype.Text   `json:"product_image_other_2"`
+	ProductImageOther3 pgtype.Text   `json:"product_image_other_3"`
+	Collection         int64         `json:"collection"`
+	Quantity           int32         `json:"quantity"`
+	Color              string        `json:"color"`
+	Size               string        `json:"size"`
+	Status             ProductStatus `json:"status"`
+	LastUpdatedAt      time.Time     `json:"last_updated_at"`
+	CreatedAt          time.Time     `json:"created_at"`
 }
 
 type ProductMedium struct {
 	ID              int64  `json:"id"`
 	ProductMediaRef string `json:"product_media_ref"`
 	ProductID       string `json:"product_id"`
+	IsMainImage     bool   `json:"is_main_image"`
 	MediaID         string `json:"media_id"`
 }
 
