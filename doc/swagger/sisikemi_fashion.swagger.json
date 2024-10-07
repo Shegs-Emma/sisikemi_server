@@ -12,9 +12,6 @@
   "tags": [
     {
       "name": "SisikemiFashion"
-    },
-    {
-      "name": "ImageService"
     }
   ],
   "consumes": [
@@ -24,6 +21,40 @@
     "application/json"
   ],
   "paths": {
+    "/v1/create_collection": {
+      "post": {
+        "summary": "Create new collection",
+        "description": "Use this api to create new collection",
+        "operationId": "SisikemiFashion_CreateCollection",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbCreateCollectionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbCreateCollectionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SisikemiFashion"
+        ]
+      }
+    },
     "/v1/create_media": {
       "post": {
         "summary": "Create new media",
@@ -50,6 +81,40 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/pbCreateMediaRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SisikemiFashion"
+        ]
+      }
+    },
+    "/v1/create_product": {
+      "post": {
+        "summary": "Create Product",
+        "description": "Use this api to create a product",
+        "operationId": "SisikemiFashion_CreateProduct",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbCreateProductResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbCreateProductRequest"
             }
           }
         ],
@@ -92,6 +157,86 @@
         ]
       }
     },
+    "/v1/list_collection": {
+      "get": {
+        "summary": "List collections",
+        "description": "Use this api to list all collections",
+        "operationId": "SisikemiFashion_ListCollections",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbListCollectionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pageId",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "SisikemiFashion"
+        ]
+      }
+    },
+    "/v1/list_product": {
+      "get": {
+        "summary": "Lsit Products",
+        "description": "Use this api to list products",
+        "operationId": "SisikemiFashion_ListProducts",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbListProductResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pageId",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "SisikemiFashion"
+        ]
+      }
+    },
     "/v1/login_user": {
       "post": {
         "summary": "Login user",
@@ -126,6 +271,79 @@
         ]
       }
     },
+    "/v1/media": {
+      "get": {
+        "summary": "Fetch all Media",
+        "description": "Use this api to get all media",
+        "operationId": "SisikemiFashion_ListMedia",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbListMediaResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pageId",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "SisikemiFashion"
+        ]
+      }
+    },
+    "/v1/media/{id}": {
+      "get": {
+        "summary": "Fetch single Media",
+        "description": "Use this api to get single media",
+        "operationId": "SisikemiFashion_GetMedia",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetMediaResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "SisikemiFashion"
+        ]
+      }
+    },
     "/v1/update_user": {
       "post": {
         "summary": "Update user",
@@ -152,6 +370,40 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/pbUpdateUserRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SisikemiFashion"
+        ]
+      }
+    },
+    "/v1/upload_image": {
+      "post": {
+        "summary": "Create new image",
+        "description": "Use this api to create new image",
+        "operationId": "SisikemiFashion_UploadImage",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbUploadImageResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbUploadImageRequest"
             }
           }
         ],
@@ -201,14 +453,53 @@
     }
   },
   "definitions": {
-    "imageUploadImageResponse": {
+    "pbCollection": {
       "type": "object",
       "properties": {
-        "message": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "collectionName": {
           "type": "string"
         },
-        "imageUrl": {
+        "collectionDescription": {
           "type": "string"
+        },
+        "thumbnailImage": {
+          "type": "string"
+        },
+        "headerImage": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "pbCreateCollectionRequest": {
+      "type": "object",
+      "properties": {
+        "collectionName": {
+          "type": "string"
+        },
+        "collectionDescription": {
+          "type": "string"
+        },
+        "thumbnailImage": {
+          "type": "string"
+        },
+        "headerImage": {
+          "type": "string"
+        }
+      }
+    },
+    "pbCreateCollectionResponse": {
+      "type": "object",
+      "properties": {
+        "collection": {
+          "$ref": "#/definitions/pbCollection"
         }
       }
     },
@@ -231,6 +522,64 @@
       "properties": {
         "media": {
           "$ref": "#/definitions/pbMedia"
+        }
+      }
+    },
+    "pbCreateProductRequest": {
+      "type": "object",
+      "properties": {
+        "productName": {
+          "type": "string"
+        },
+        "productDescription": {
+          "type": "string"
+        },
+        "productCode": {
+          "type": "string"
+        },
+        "price": {
+          "type": "string",
+          "format": "int64"
+        },
+        "salePrice": {
+          "type": "string"
+        },
+        "collection": {
+          "type": "string",
+          "format": "int64"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "color": {
+          "type": "string"
+        },
+        "size": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "mainImage": {
+          "type": "string"
+        },
+        "otherImage1": {
+          "type": "string"
+        },
+        "otherImage2": {
+          "type": "string"
+        },
+        "otherImage3": {
+          "type": "string"
+        }
+      }
+    },
+    "pbCreateProductResponse": {
+      "type": "object",
+      "properties": {
+        "product": {
+          "$ref": "#/definitions/pbProduct"
         }
       }
     },
@@ -265,6 +614,59 @@
       "properties": {
         "user": {
           "$ref": "#/definitions/pbUser"
+        }
+      }
+    },
+    "pbGetMediaResponse": {
+      "type": "object",
+      "properties": {
+        "media": {
+          "$ref": "#/definitions/pbMedia"
+        }
+      }
+    },
+    "pbListCollectionResponse": {
+      "type": "object",
+      "properties": {
+        "collection": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbCollection"
+          }
+        },
+        "nextPageToken": {
+          "type": "string"
+        }
+      }
+    },
+    "pbListMediaResponse": {
+      "type": "object",
+      "properties": {
+        "media": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbMedia"
+          }
+        },
+        "nextPageToken": {
+          "type": "string"
+        }
+      }
+    },
+    "pbListProductResponse": {
+      "type": "object",
+      "properties": {
+        "product": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbProduct"
+          }
+        },
+        "nextPageToken": {
+          "type": "string"
         }
       }
     },
@@ -307,6 +709,10 @@
     "pbMedia": {
       "type": "object",
       "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
         "mediaRef": {
           "type": "string"
         },
@@ -315,6 +721,92 @@
         },
         "awsId": {
           "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "pbProduct": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "productRefNo": {
+          "type": "string"
+        },
+        "productName": {
+          "type": "string"
+        },
+        "productDescription": {
+          "type": "string"
+        },
+        "productCode": {
+          "type": "string"
+        },
+        "price": {
+          "type": "string",
+          "format": "int64"
+        },
+        "salePrice": {
+          "type": "string"
+        },
+        "productImageMain": {
+          "$ref": "#/definitions/pbProductMedium"
+        },
+        "productImageOther1": {
+          "$ref": "#/definitions/pbProductMedium"
+        },
+        "productImageOther2": {
+          "$ref": "#/definitions/pbProductMedium"
+        },
+        "productImageOther3": {
+          "$ref": "#/definitions/pbProductMedium"
+        },
+        "collection": {
+          "type": "string",
+          "format": "int64"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "color": {
+          "type": "string"
+        },
+        "size": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "pbProductMedium": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "productMediaRef": {
+          "type": "string"
+        },
+        "productId": {
+          "type": "string"
+        },
+        "isMainImage": {
+          "type": "boolean"
+        },
+        "mediaId": {
+          "$ref": "#/definitions/pbMedia"
         },
         "createdAt": {
           "type": "string",
@@ -356,6 +848,34 @@
         }
       }
     },
+    "pbUploadImageRequest": {
+      "type": "object",
+      "properties": {
+        "image": {
+          "type": "string",
+          "format": "byte",
+          "title": "This is the image data in bytes"
+        },
+        "filename": {
+          "type": "string",
+          "title": "Optional, for sending the file name"
+        }
+      },
+      "title": "The request message which carries the image file chunk",
+      "required": [
+        "image",
+        "filename"
+      ]
+    },
+    "pbUploadImageResponse": {
+      "type": "object",
+      "properties": {
+        "media": {
+          "$ref": "#/definitions/pbMedia"
+        }
+      },
+      "title": "The response message after successful upload"
+    },
     "pbUser": {
       "type": "object",
       "properties": {
@@ -378,7 +898,7 @@
           "type": "string"
         },
         "isAdmin": {
-          "type": "string"
+          "type": "boolean"
         },
         "passwordChangedAt": {
           "type": "string",

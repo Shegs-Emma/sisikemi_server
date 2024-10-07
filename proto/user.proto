@@ -10,7 +10,7 @@ message User {
     string phone_number = 4;
     string profile_photo = 5;
     string email = 6;
-    string is_admin = 7;
+    bool is_admin = 7;
     google.protobuf.Timestamp password_changed_at = 8;
     google.protobuf.Timestamp created_at = 9;
 }

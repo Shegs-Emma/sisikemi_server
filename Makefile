@@ -50,9 +50,6 @@ proto:
     proto/*.proto
 	statik -src=./doc/swagger -dest=./doc
 
-image_proto:
-	protoc -I. --go_out=. --go-grpc_out=. --grpc-gateway_out=. proto/image_upload.proto
-
 redis:
 	docker run --name redis -p 6379:6379 -d redis:7-alpine
 

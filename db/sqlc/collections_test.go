@@ -11,8 +11,14 @@ import (
 
 func createRandomCollection(t *testing.T) Collection {
 	collectionName := util.RandomString(6)
+	arg := CreateCollectionParams{
+		CollectionName: util.RandomString(6),
+		CollectionDescription: util.RandomString(20),
+		ThumbnailImage: util.RandomString(12),
+		HeaderImage: util.RandomString(12),
+	}
 
-	collection, err := testStore.CreateCollection(context.Background(), collectionName)
+	collection, err := testStore.CreateCollection(context.Background(), arg)
 
 	require.NoError(t, err)
 	require.NotEmpty(t, collection)

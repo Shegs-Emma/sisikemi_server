@@ -32,7 +32,6 @@ import (
 	"github.com/techschool/simplebank/worker"
 	"golang.org/x/sync/errgroup"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/reflection"
 	"google.golang.org/protobuf/encoding/protojson"
 )
@@ -41,10 +40,6 @@ var interruptSignals = []os.Signal{
 	os.Interrupt,
 	syscall.SIGTERM,
 	syscall.SIGINT,
-}
-
-type imageServer struct {
-	pb.UnimplementedImageServiceServer
 }
 
 func main() {
@@ -88,95 +83,6 @@ func main() {
 	}
 }
 
-func saveImageToFile(fileName string, data []byte) error {
-	dir := "./uploads/"
-	os.MkdirAll(dir, os.ModePerm)
-
-	filePath := filepath.Join(dir, fileName)
-	return os.WriteFile(filePath, data, 0644)
-}
-
-func (s *imageServer) UploadImage(stream pb.ImageService_UploadImageServer) error {
-	var fileName string
-	var fileData []byte
-
-	for {
-		req, err := stream.Recv()
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			return err
-		}
-
-		fileName = req.GetFileName()
-		fileData = append(fileData, req.GetImageData()...)
-	}
-
-	if err := saveImageToFile(fileName, fileData); err != nil {
-		return err
-	}
-
-	return stream.SendAndClose(&pb.UploadImageResponse{
-		Message: "Image uploaded successfully",
-		ImageUrl: fmt.Sprintf("/uploads/%s", fileName),
-	})
-}
-
-func HandleImageUpload(w http.ResponseWriter, r *http.Request) {
-	err := r.ParseMultipartForm(10 << 20)  // Max 10MB
-	if err != nil {
-		http.Error(w, "unable to parse form", http.StatusBadRequest)
-		return
-	}
-
-	file, handler, err := r.FormFile("image")
-	if err != nil {
-		http.Error(w, "unable to retrieve file", http.StatusBadRequest)
-		return
-	}
-	defer file.Close()
-
-	fileData := make([]byte, handler.Size)
-	_, err = file.Read(fileData)
-	if err != nil {
-		http.Error(w, "unable to read file", http.StatusInternalServerError)
-		return
-	}
-
-	// Create a connection to the gRPC server
-	conn, err := grpc.NewClient("localhost:9090", grpc.WithTransportCredentials(insecure.NewCredentials()))
-    if err != nil {
-        http.Error(w, "Failed to connect to gRPC server", http.StatusInternalServerError)
-        return
-    }
-    defer conn.Close()
-
-	client := pb.NewImageServiceClient(conn)
-
-	// Create the stream to send image data
-    stream, err := client.UploadImage(context.Background())
-    if err != nil {
-        http.Error(w, "Failed to create gRPC stream", http.StatusInternalServerError)
-        return
-    }
-
-	// Send the file data as a stream to the gRPC server
-    stream.Send(&pb.UploadImageRequest{
-        ImageData: fileData,
-        FileName:  handler.Filename,
-    })
-
-	res, err := stream.CloseAndRecv()
-    if err != nil {
-        http.Error(w, "Failed to upload image", http.StatusInternalServerError)
-        return
-    }
-
-    // Respond with the image URL
-    fmt.Fprintf(w, "Image uploaded successfully: %s", res.GetImageUrl())
-}
-
 func runDBMigration(migrationURL string, dbSource string) {
 	migration, err := migrate.New(migrationURL, dbSource)
 
@@ -213,6 +119,64 @@ func runTaskProcessor(ctx context.Context, waitGroup *errgroup.Group, config uti
 	})
 }
 
+// UploadImageHandler is the handler for file uploads with pathParams
+func uploadImageHandler(w http.ResponseWriter, r *http.Request, pathParams map[string]string) {
+	// Parse multipart form data
+	err := r.ParseMultipartForm(10 << 20) // Limit upload size to 10MB
+	fmt.Println("err", err)
+	if err != nil {
+		http.Error(w, "Unable to parse form", http.StatusBadRequest)
+		return
+	}
+
+	// Retrieve the file from the posted form-data
+	file, handler, err := r.FormFile("image")
+	if err != nil {
+		http.Error(w, "Error retrieving file", http.StatusBadRequest)
+		return
+	}
+	defer file.Close()
+
+	// Read the file's content
+	fileBytes, err := io.ReadAll(file)
+	if err != nil {
+		http.Error(w, "Error reading file", http.StatusInternalServerError)
+		return
+	}
+
+	// Get the filename from form data or pathParams if provided
+	filename := r.FormValue("filename")
+	if filename == "" {
+		filename = handler.Filename // Default to uploaded filename if not provided
+	}
+
+	// Use pathParams if needed (for example, adding to the filename)
+	if val, ok := pathParams["id"]; ok {
+		filename = val + "_" + filename // Modify the filename with pathParam
+	}
+
+	// Create the file path to save
+	imagePath := filepath.Join("uploads", filename)
+
+	// Ensure the directory exists
+	if err := os.MkdirAll(filepath.Dir(imagePath), 0755); err != nil {
+		http.Error(w, "Failed to create upload directory", http.StatusInternalServerError)
+		return
+	}
+
+	// Write the image to a file
+	err = os.WriteFile(imagePath, fileBytes, 0644)
+	if err != nil {
+		http.Error(w, "Failed to save image", http.StatusInternalServerError)
+		return
+	}
+
+	// Respond with the URL of the uploaded image
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintf(w, `{"message": "Image uploaded successfully", "url": "http://localhost:8080/uploads/%s"}`, filename)
+}
+
 func runGrpcServer(ctx context.Context, waitGroup *errgroup.Group, config util.Config, store db.Store, taskDistributor worker.TaskDistributor) {
 	server, err := gapi.NewServer(config, store, taskDistributor)
 	if err != nil {
@@ -222,7 +186,6 @@ func runGrpcServer(ctx context.Context, waitGroup *errgroup.Group, config util.C
 	grpcLogger := grpc.UnaryInterceptor(gapi.GrpcLogger)
 	grpcServer := grpc.NewServer(grpcLogger)
 	pb.RegisterSisikemiFashionServer(grpcServer, server)
-	pb.RegisterImageServiceServer(grpcServer, &imageServer{})
 	reflection.Register(grpcServer)
 
 	listener, err := net.Listen("tcp", config.GrpcServerAddress)
@@ -276,6 +239,9 @@ func runGatewayServer(ctx context.Context, waitGroup *errgroup.Group, config uti
 
 	grpcMux := runtime.NewServeMux(jsonOption)
 
+	// Use the wrapper for the upload image handler
+	grpcMux.HandlePath("POST", "/v1/upload_image", uploadImageHandler)
+
 	err = pb.RegisterSisikemiFashionHandlerServer(ctx, grpcMux, server)
 
 	if err != nil {
@@ -285,15 +251,19 @@ func runGatewayServer(ctx context.Context, waitGroup *errgroup.Group, config uti
 	mux := http.NewServeMux()
 	mux.Handle("/", grpcMux)
 
-	mux.HandleFunc("/uploads", HandleImageUpload)
-
 	statikFS, err := fs.New()
 	if err != nil {
 		log.Fatal().Msg("cannot create statik fs")
 	}
 
 	swaggerHandler := http.StripPrefix("/swagger/", http.FileServer(statikFS))
+
 	mux.Handle("/swagger/", swaggerHandler)
+
+	// Serve static files from the uploads directory
+	uploadsHandler := http.StripPrefix("/uploads/", http.FileServer(http.Dir("uploads/")))
+	mux.Handle("/uploads/", uploadsHandler) // Add this line to serve uploads
+
 
 	c := cors.New(cors.Options{
 		AllowedOrigins: config.AllowedOrigins,

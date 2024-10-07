@@ -6,8 +6,15 @@ import "rpc_create_user.proto";
 import "rpc_login_user.proto";
 import "rpc_update_user.proto";
 import "rpc_verify_email.proto";
-
+import "rpc_image_upload.proto";
 import "rpc_create_media.proto";
+import "rpc_list_media.proto";
+import "rpc_get_media.proto";
+import "rpc_create_collection.proto";
+import "rpc_list_collection.proto";
+import "rpc_create_product.proto";
+import "rpc_list_product.proto";
+
 import "protoc-gen-openapiv2/options/annotations.proto";
 
 option go_package = "github.com/techschool/simplebank/pb";
@@ -35,6 +42,7 @@ service SisikemiFashion {
             summary: "Create new user"
           };
     }
+
     rpc LoginUser(LoginUserRequest) returns (LoginUserResponse) {
         option (google.api.http) = {
             post: "/v1/login_user"
@@ -45,6 +53,7 @@ service SisikemiFashion {
             summary: "Login user"
         };
     }
+
     rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse) {
         option (google.api.http) = {
             post: "/v1/update_user"
@@ -73,6 +82,79 @@ service SisikemiFashion {
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
             description: "Use this api to create new media";
             summary: "Create new media"
+          };
+    }
+
+    rpc UploadImage(UploadImageRequest) returns (UploadImageResponse) {
+        option (google.api.http) = {
+            post: "/v1/upload_image"
+            body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this api to create new image";
+            summary: "Create new image"
+          };
+    }
+
+    rpc ListMedia(ListMediaRequest) returns (ListMediaResponse) {
+        option (google.api.http) = {
+            get: "/v1/media"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this api to get all media";
+            summary: "Fetch all Media"
+          };
+    }
+
+    rpc GetMedia(GetMediaRequest) returns (GetMediaResponse) {
+        option (google.api.http) = {
+            get: "/v1/media/{id}"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this api to get single media";
+            summary: "Fetch single Media"
+          };
+    }
+
+    rpc CreateCollection(CreateCollectionRequest) returns (CreateCollectionResponse) {
+        option (google.api.http) = {
+            post: "/v1/create_collection"
+            body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this api to create new collection";
+            summary: "Create new collection"
+          };
+    }
+
+    rpc ListCollections(ListCollectionRequest) returns (ListCollectionResponse) {
+        option (google.api.http) = {
+            get: "/v1/list_collection"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this api to list all collections";
+            summary: "List collections"
+          };
+    }
+
+    rpc CreateProduct(CreateProductRequest) returns (CreateProductResponse) {
+        option (google.api.http) = {
+            post: "/v1/create_product"
+            body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this api to create a product";
+            summary: "Create Product"
+          };
+    }
+
+    rpc ListProducts(ListProductRequest) returns (ListProductResponse) {
+        option (google.api.http) = {
+            get: "/v1/list_product"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this api to list products";
+            summary: "Lsit Products"
           };
     }
 }
