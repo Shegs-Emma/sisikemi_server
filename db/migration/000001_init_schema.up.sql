@@ -27,10 +27,18 @@ CREATE TABLE "products" (
   "id" bigserial PRIMARY KEY,
   "product_ref_no" varchar UNIQUE NOT NULL,
   "product_name" varchar UNIQUE NOT NULL,
-  "price" numeric NOT NULL,
-  "product_images" varchar NOT NULL,
+  "product_description" varchar NOT NULL,
+  "product_code" varchar UNIQUE NOT NULL,
+  "price" bigint NOT NULL,
+  "sale_price" varchar NOT NULL,
+  "product_image_main" varchar,
+  "product_image_other_1" varchar,
+  "product_image_other_2" varchar,
+  "product_image_other_3" varchar,
   "collection" bigint NOT NULL,
   "quantity" int NOT NULL,
+  "color" varchar NOT NULL,
+  "size" varchar NOT NULL,
   "status" product_status NOT NULL,
   "last_updated_at" timestamptz NOT NULL DEFAULT '0001-01-01 00:00:00Z',
   "created_at" timestamptz NOT NULL DEFAULT (now())
@@ -39,6 +47,9 @@ CREATE TABLE "products" (
 CREATE TABLE "collections" (
   "id" bigserial PRIMARY KEY,
   "collection_name" varchar UNIQUE NOT NULL,
+  "collection_description" varchar NOT NULL,
+  "thumbnail_image" varchar NOT NULL,
+  "header_image" varchar NOT NULL,
   "last_updated_at" timestamptz NOT NULL DEFAULT '0001-01-01 00:00:00Z',
   "created_at" timestamptz NOT NULL DEFAULT (now())
 );
@@ -59,6 +70,7 @@ CREATE TABLE "product_media" (
   "id" bigserial PRIMARY KEY NOT NULL,
   "product_media_ref" varchar UNIQUE NOT NULL,
   "product_id" varchar NOT NULL,
+  "is_main_image" boolean DEFAULT false NOT NULL,
   "media_id" varchar NOT NULL
 );
 
@@ -66,9 +78,7 @@ CREATE INDEX ON "users" ("profile_photo");
 
 CREATE INDEX ON "products" ("collection");
 
-CREATE INDEX ON "products" ("product_images");
-
-CREATE INDEX ON "products" ("collection", "product_images");
+CREATE INDEX ON "products" ("collection");
 
 CREATE INDEX ON "orders" ("username");
 
@@ -85,8 +95,6 @@ CREATE INDEX ON "product_media" ("product_id", "media_id");
 COMMENT ON COLUMN "orders"."amount" IS 'it must be positive';
 
 ALTER TABLE "users" ADD FOREIGN KEY ("profile_photo") REFERENCES "media" ("media_ref");
-
-ALTER TABLE "products" ADD FOREIGN KEY ("product_images") REFERENCES "product_media" ("product_media_ref");
 
 ALTER TABLE "products" ADD FOREIGN KEY ("collection") REFERENCES "collections" ("id");
 

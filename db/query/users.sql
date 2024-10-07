@@ -25,6 +25,7 @@ SET
   first_name = COALESCE(sqlc.narg(first_name), first_name),
   last_name = COALESCE(sqlc.narg(last_name), last_name),
   email = COALESCE(sqlc.narg(email), email),
+  is_email_verified = COALESCE(sqlc.narg(is_email_verified), is_email_verified),
   phone_number = COALESCE(sqlc.narg(phone_number), phone_number),
   profile_photo = COALESCE(sqlc.narg(profile_photo), profile_photo)
 WHERE

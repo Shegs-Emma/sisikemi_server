@@ -1,0 +1,14 @@
+syntax = "proto3";
+package pb;
+import "google/protobuf/timestamp.proto";
+import "media.proto";
+option go_package = "github.com/techschool/simplebank/pb";
+
+message ProductMedium {
+    int64 id = 1;
+    string product_media_ref = 2;
+    string product_id = 3;
+    bool is_main_image = 4;
+    Media media_id = 5;
+    google.protobuf.Timestamp created_at = 17;
+}

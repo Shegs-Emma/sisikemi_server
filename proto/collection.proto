@@ -1,0 +1,13 @@
+syntax = "proto3";
+package pb;
+import "google/protobuf/timestamp.proto";
+option go_package = "github.com/techschool/simplebank/pb";
+
+message Collection {
+    int64 id = 1;
+    string collection_name = 2;
+    string collection_description = 3;
+    string thumbnail_image = 4;
+    string header_image = 5;
+    google.protobuf.Timestamp created_at = 6;
+}

@@ -1,0 +1,12 @@
+syntax = "proto3";
+package pb;
+import "google/protobuf/timestamp.proto";
+option go_package = "github.com/techschool/simplebank/pb";
+
+message Media {
+    int64 id = 1;
+    string media_ref = 2;
+    string url = 3;
+    string aws_id = 4;
+    google.protobuf.Timestamp created_at = 5;
+}

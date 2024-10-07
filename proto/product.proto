@@ -1,0 +1,25 @@
+syntax = "proto3";
+package pb;
+import "google/protobuf/timestamp.proto";
+import "product_media.proto";
+option go_package = "github.com/techschool/simplebank/pb";
+
+message Product {
+    int64 id = 1;
+    string product_ref_no = 2;
+    string product_name = 3;
+    string product_description = 4;
+    string product_code = 5;
+    int64 price = 6;
+    string sale_price = 7;
+    ProductMedium product_image_main = 8;
+    ProductMedium product_image_other_1 = 9;
+    ProductMedium product_image_other_2 = 10;
+    ProductMedium product_image_other_3 = 11;
+    int64 collection = 12;
+    int32 quantity = 13;
+    string color = 14;
+    string size = 15;
+    string status = 16;
+    google.protobuf.Timestamp created_at = 17;
+}

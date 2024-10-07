@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package pb;
+
+import "media.proto";
+option go_package = "github.com/techschool/simplebank/pb"; 
+
+message CreateMediaRequest {
+    string media_ref = 1;
+    string url = 2;
+    string aws_id = 3;
+}
+
+message CreateMediaResponse {
+    Media media = 1;
+}
