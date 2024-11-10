@@ -1,4 +1,4 @@
-CREATE TYPE product_status AS ENUM ('available', 'out_of_stock', 'discontinued');
+CREATE TYPE product_status AS ENUM ('active', 'out_of_stock', 'archived');
 CREATE TYPE order_status AS ENUM ('pending', 'shipped', 'delivered', 'cancelled');
 
 
@@ -8,7 +8,7 @@ CREATE TABLE "users" (
   "first_name" varchar NOT NULL,
   "last_name" varchar NOT NULL,
   "phone_number" varchar NOT NULL,
-  "profile_photo" varchar NOT NULL,
+  "profile_photo" varchar,
   "email" varchar UNIQUE NOT NULL,
   "is_admin" boolean DEFAULT false NOT NULL,
   "password_changed_at" timestamptz NOT NULL DEFAULT '0001-01-01 00:00:00Z',
@@ -48,6 +48,7 @@ CREATE TABLE "collections" (
   "id" bigserial PRIMARY KEY,
   "collection_name" varchar UNIQUE NOT NULL,
   "collection_description" varchar NOT NULL,
+  "product_count" bigint DEFAULT 0,
   "thumbnail_image" varchar NOT NULL,
   "header_image" varchar NOT NULL,
   "last_updated_at" timestamptz NOT NULL DEFAULT '0001-01-01 00:00:00Z',
@@ -74,8 +75,6 @@ CREATE TABLE "product_media" (
   "media_id" varchar NOT NULL
 );
 
-CREATE INDEX ON "users" ("profile_photo");
-
 CREATE INDEX ON "products" ("collection");
 
 CREATE INDEX ON "products" ("collection");
@@ -93,8 +92,6 @@ CREATE INDEX ON "product_media" ("media_id");
 CREATE INDEX ON "product_media" ("product_id", "media_id");
 
 COMMENT ON COLUMN "orders"."amount" IS 'it must be positive';
-
-ALTER TABLE "users" ADD FOREIGN KEY ("profile_photo") REFERENCES "media" ("media_ref");
 
 ALTER TABLE "products" ADD FOREIGN KEY ("collection") REFERENCES "collections" ("id");
 

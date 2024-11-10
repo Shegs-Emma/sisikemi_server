@@ -1,6 +1,6 @@
 -- SQL dump generated using DBML (dbml.dbdiagram.io)
 -- Database: PostgreSQL
--- Generated at: 2024-09-09T09:48:39.179Z
+-- Generated at: 2024-10-13T18:38:42.580Z
 
 CREATE TABLE "users" (
   "id" bigserial PRIMARY KEY,
@@ -9,7 +9,7 @@ CREATE TABLE "users" (
   "first_name" varchar NOT NULL,
   "last_name" varchar NOT NULL,
   "phone_number" varchar NOT NULL,
-  "profile_photo" bigint NOT NULL,
+  "profile_photo" varchar,
   "email" varchar UNIQUE NOT NULL,
   "is_email_verified" bool NOT NULL DEFAULT false,
   "isAdmin" boolean DEFAULT false,
@@ -40,8 +40,8 @@ CREATE TABLE "products" (
   "product_ref_no" varchar UNIQUE NOT NULL,
   "product_name" varchar UNIQUE NOT NULL,
   "product_description" varchar NOT NULL,
-  "product_code" varchar UNIQUE NOT NULL,
-  "price" bigint NOT NULL,
+  "product_code" varchar NOT NULL,
+  "price" numeric NOT NULL,
   "sale_price" varchar NOT NULL,
   "product_image_main" varchar NOT NULL,
   "product_image_other_1" varchar NOT NULL,
@@ -60,6 +60,7 @@ CREATE TABLE "collections" (
   "id" bigserial PRIMARY KEY,
   "collection_name" varchar UNIQUE NOT NULL,
   "collection_description" varchar NOT NULL,
+  "product_count" int,
   "thumbnail_image" varchar NOT NULL,
   "header_image" varchar NOT NULL,
   "last_updated_at" timestamptz NOT NULL DEFAULT '0001-01-01 00:00:00Z',
@@ -82,17 +83,34 @@ CREATE TABLE "product_media" (
   "id" bigserial PRIMARY KEY NOT NULL,
   "product_media_ref" varchar UNIQUE NOT NULL,
   "product_id" varchar NOT NULL,
-  "is_main_image" boolean DEFAULT false NOT NULL,
+  "is_main_image" boolean NOT NULL DEFAULT false,
   "media_id" varchar NOT NULL
 );
 
-CREATE INDEX ON "users" ("profile_photo");
+CREATE TABLE "cart" (
+  "id" bigserial PRIMARY KEY,
+  "user_ref_id" bigint NOT NULL,
+  "product_id" int NOT NULL,
+  "product_name" varchar NOT NULL,
+  "product_price" varchar NOT NULL,
+  "product_quantity" bigint NOT NULL,
+  "product_image" varchar NOT NULL,
+  "product_color" varchar NOT NULL,
+  "product_size" varchar NOT NULL,
+  "created_at" timestamptz NOT NULL DEFAULT (now())
+);
 
 CREATE INDEX ON "products" ("collection");
 
-CREATE INDEX ON "products" ("product_images");
+CREATE INDEX ON "products" ("product_image_main");
 
-CREATE INDEX ON "products" ("collection", "product_images");
+CREATE INDEX ON "products" ("product_image_other_1");
+
+CREATE INDEX ON "products" ("product_image_other_2");
+
+CREATE INDEX ON "products" ("product_image_other_3");
+
+CREATE INDEX ON "products" ("collection", "product_image_main", "product_image_other_1", "product_image_other_2", "product_image_other_3");
 
 CREATE INDEX ON "orders" ("username");
 
@@ -107,8 +125,6 @@ CREATE INDEX ON "product_media" ("media_id");
 CREATE INDEX ON "product_media" ("product_id", "media_id");
 
 COMMENT ON COLUMN "orders"."amount" IS 'it must be positive';
-
-ALTER TABLE "users" ADD FOREIGN KEY ("profile_photo") REFERENCES "media" ("id");
 
 ALTER TABLE "verify_emails" ADD FOREIGN KEY ("username") REFERENCES "users" ("username");
 

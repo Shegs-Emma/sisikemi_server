@@ -13,11 +13,6 @@ message UploadImageRequest {
   string filename = 2 [(google.api.field_behavior) = REQUIRED];  // Optional, for sending the file name
 }
 
-// message UploadImageRequest {
-//   string image = 1 [(google.api.field_behavior) = REQUIRED];  // Base64 encoded image data
-//   string filename = 2 [(google.api.field_behavior) = REQUIRED];  // Optional, for sending the file name
-// }
-
 // The response message after successful upload
 message UploadImageResponse {
   Media media = 1;

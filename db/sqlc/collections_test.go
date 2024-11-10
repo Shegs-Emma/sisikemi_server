@@ -10,9 +10,9 @@ import (
 )
 
 func createRandomCollection(t *testing.T) Collection {
-	collectionName := util.RandomString(6)
+	collectionNameItem := util.RandomString(6)
 	arg := CreateCollectionParams{
-		CollectionName: util.RandomString(6),
+		CollectionName: collectionNameItem,
 		CollectionDescription: util.RandomString(20),
 		ThumbnailImage: util.RandomString(12),
 		HeaderImage: util.RandomString(12),
@@ -22,7 +22,7 @@ func createRandomCollection(t *testing.T) Collection {
 
 	require.NoError(t, err)
 	require.NotEmpty(t, collection)
-	require.Equal(t, collectionName, collection.CollectionName)
+	require.Equal(t, collectionNameItem, collection.CollectionName)
 	require.NotZero(t, collection.ID)
 	require.NotZero(t, collection.CreatedAt)
 

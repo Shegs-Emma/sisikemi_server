@@ -2,10 +2,11 @@
 INSERT INTO collections (
     collection_name,
     collection_description,
+    product_count,
     thumbnail_image,
     header_image
 ) VALUES (
-    $1, $2, $3, $4
+    $1, $2, $3, $4, $5
 )
 RETURNING *;
 
@@ -25,6 +26,7 @@ UPDATE collections
 SET
   collection_name = COALESCE(sqlc.narg(collection_name), collection_name),
   collection_description = COALESCE(sqlc.narg(collection_description), collection_description),
+  product_count = COALESCE(sqlc.narg(product_count), product_count),
   thumbnail_image = COALESCE(sqlc.narg(thumbnail_image), thumbnail_image),
   header_image = COALESCE(sqlc.narg(header_image), header_image)
 WHERE

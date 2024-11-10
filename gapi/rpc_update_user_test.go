@@ -43,7 +43,6 @@ func TestUpdateUserAPI(t *testing.T) {
 				LastName: &newLastName,
 				PhoneNumber: &newPhoneNumber,
 				ProfilePhoto: &newProfilePhoto,
-				Email:     &newEmail,
 			},
 			buildStubs: func(store *mockdb.MockStore) {
 				arg := db.UpdateUserParams{
@@ -64,10 +63,6 @@ func TestUpdateUserAPI(t *testing.T) {
 						String: newProfilePhoto,
 						Valid: true,
 					},
-					Email: pgtype.Text{
-						String: newEmail,
-						Valid: true,
-					},
 				}
 
 				updatedUser := db.User{
@@ -76,8 +71,7 @@ func TestUpdateUserAPI(t *testing.T) {
 					FirstName: newFirstName,
 					LastName: newLastName,
 					PhoneNumber: newPhoneNumber,
-					ProfilePhoto: newProfilePhoto,
-					Email: newEmail,
+					ProfilePhoto: arg.ProfilePhoto,
 					IsAdmin: user.IsAdmin,
 					PasswordChangedAt: user.PasswordChangedAt,
 					CreatedAt: user.CreatedAt,
@@ -102,7 +96,6 @@ func TestUpdateUserAPI(t *testing.T) {
 				require.Equal(t, newLastName, updatedUser.LastName)
 				require.Equal(t, newPhoneNumber, updatedUser.PhoneNumber)
 				require.Equal(t, newProfilePhoto, updatedUser.ProfilePhoto)
-				require.Equal(t, newEmail, updatedUser.Email)
 			},
 		},
 		{
