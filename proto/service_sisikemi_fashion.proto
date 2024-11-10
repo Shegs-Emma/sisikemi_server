@@ -14,6 +14,11 @@ import "rpc_create_collection.proto";
 import "rpc_list_collection.proto";
 import "rpc_create_product.proto";
 import "rpc_list_product.proto";
+import "rpc_get_product.proto";
+import "rpc_create_cart_item.proto";
+import "rpc_remove_cart_item.proto";
+import "rpc_list_user_cart_items.proto";
+import "rpc_update_cart_qty.proto";
 
 import "protoc-gen-openapiv2/options/annotations.proto";
 
@@ -56,7 +61,7 @@ service SisikemiFashion {
 
     rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse) {
         option (google.api.http) = {
-            post: "/v1/update_user"
+            patch: "/v1/update_user"
             body: "*"
         };
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
@@ -64,6 +69,7 @@ service SisikemiFashion {
             summary: "Update user"
         };
     }
+
     rpc VerifyEmail (VerifyEmailRequest) returns (VerifyEmailResponse) {
         option (google.api.http) = {
             get: "/v1/verify_email"
@@ -156,5 +162,57 @@ service SisikemiFashion {
             description: "Use this api to list products";
             summary: "Lsit Products"
           };
+    }
+
+    rpc GetProduct(GetProductRequest) returns (GetProductResponse) {
+        option (google.api.http) = {
+            get: "/v1/product/{id}"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this api to get single product";
+            summary: "Fetch single Product"
+          };
+    }
+
+    rpc CreateCartItem(CreateCartItemRequest) returns (CreateCartItemResponse) {
+        option (google.api.http) = {
+            post: "/v1/create_cart_item"
+            body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this api to create a cart item";
+            summary: "Create Cart"
+          };
+    }
+
+    rpc DeleteCartItem(DeleteCartItemRequest) returns (DeleteCartItemResponse) {
+        option (google.api.http) = {
+            delete: "/v1/delete_cart_item/{product_id}"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this api to delete a cart item";
+            summary: "Delete Cart"
+          };
+    }
+
+    rpc ListUserCartItems(ListUserCartRequest) returns (ListUserCartResponse) {
+        option (google.api.http) = {
+            get: "/v1/list_user_cart"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this api to get all user cart items";
+            summary: "Fetch all User Cart Items"
+          };
+    }
+
+    rpc UpdateCartItemQty(UpdateCartItemQtyRequest) returns (UpdateCartItemQtyResponse) {
+        option (google.api.http) = {
+            patch: "/v1/update_cart_item_qty"
+            body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this api to update cart item qty";
+            summary: "Update cart item qty"
+        };
     }
 }

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package pb;
+import "cart.proto";
+option go_package = "github.com/techschool/simplebank/pb";
+
+message ListUserCartRequest {
+    int32 page_id = 1;
+    int32 page_size = 2;
+}
+
+message ListUserCartResponse {
+    repeated Cart cart = 1;
+    string next_page_token = 2;
+}

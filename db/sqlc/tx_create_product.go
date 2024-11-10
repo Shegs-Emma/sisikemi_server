@@ -18,6 +18,7 @@ type CreateProductTxParams struct {
 type CreateProductTxResult struct {
 	Product Product
 	ProductMedium ProductMedium
+	Collection Collection
 }
 
 func (store *SQLStore) CreateProductTx (ctx context.Context, arg CreateProductTxParams) (CreateProductTxResult, error) {
@@ -92,6 +93,7 @@ func (store *SQLStore) CreateProductTx (ctx context.Context, arg CreateProductTx
 			return err
 		}
 
+		// update the product with the details
 		result.Product, err = q.UpdateProduct(ctx, UpdateProductParams{
 			ID: result.Product.ID,
 			ProductImageMain: pgtype.Text{
@@ -108,6 +110,29 @@ func (store *SQLStore) CreateProductTx (ctx context.Context, arg CreateProductTx
 			},
 			ProductImageOther3: pgtype.Text{
 				String: otherImage3.ProductMediaRef,
+				Valid: true,
+			},
+		})
+
+		if err != nil {
+			return err
+		}
+
+		// finnally update the collection product count
+		// first fetch the collection and retrieve the current quantity
+		result.Collection, err = q.GetCollection(ctx, result.Product.Collection)
+
+		if err != nil {
+			return err
+		}
+
+		currentProductCount := result.Collection.ProductCount.Int64
+
+		// Update the new product count
+		result.Collection, err = q.UpdateCollection(ctx, UpdateCollectionParams{
+			ID: result.Product.Collection,
+			ProductCount: pgtype.Int8{
+				Int64: currentProductCount + 1,
 				Valid: true,
 			},
 		})

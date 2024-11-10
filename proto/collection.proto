@@ -9,5 +9,6 @@ message Collection {
     string collection_description = 3;
     string thumbnail_image = 4;
     string header_image = 5;
-    google.protobuf.Timestamp created_at = 6;
+    int64 product_count = 6;
+    google.protobuf.Timestamp created_at = 7;
 }

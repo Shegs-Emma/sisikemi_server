@@ -1,0 +1,19 @@
+syntax = "proto3";
+package pb;
+
+import "cart.proto";
+option go_package = "github.com/techschool/simplebank/pb";
+
+message CreateCartItemRequest {
+    int64 product_id = 1;
+    string product_name = 2;
+    string product_price = 3;
+    int64 product_quantity = 4;
+    string product_image = 5;
+    string product_color = 6;
+    string product_size = 7;
+}
+
+message CreateCartItemResponse {
+    Cart cart = 1;
+}

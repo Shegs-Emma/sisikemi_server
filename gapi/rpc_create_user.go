@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/hibiken/asynq"
+	"github.com/jackc/pgx/v5/pgtype"
 	db "github.com/techschool/simplebank/db/sqlc"
 	"github.com/techschool/simplebank/pb"
 	"github.com/techschool/simplebank/util"
@@ -41,7 +42,10 @@ func (server *Server) CreateUser (ctx context.Context, req *pb.CreateUserRequest
 			LastName: req.GetLastName(),
 			Email: req.GetEmail(),
 			PhoneNumber: req.GetPhoneNumber(),
-			ProfilePhoto: req.GetProfilePhoto(),
+			ProfilePhoto: pgtype.Text{
+				String: req.GetProfilePhoto(),
+				Valid: true,
+			},
 			IsAdmin: isAdmin,
 		},
 		AfterCreate: func(user db.User) error {

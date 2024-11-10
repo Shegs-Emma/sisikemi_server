@@ -14,16 +14,6 @@ import (
 )
 
 func (server *Server) UploadImage(ctx context.Context, req *pb.UploadImageRequest) (*pb.UploadImageResponse, error) {
-	// authPayload, err := server.authorizeUser(ctx)
-
-	// if err != nil {
-	// 	return nil, unauthenticatedError(err)
-	// }
-
-	// if authPayload == nil {
-	// 	return nil, status.Errorf(codes.PermissionDenied, "you are not authorized to update this user")
-	// }
-	
 	// Create a path to save the uploaded image
 	imagePath := filepath.Join("uploads", req.Filename)
 	

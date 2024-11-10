@@ -38,6 +38,7 @@ func (server *Server) ListCollections (ctx context.Context, req *pb.ListCollecti
 		pbCollectionItems = append(pbCollectionItems, &pb.Collection{
 			Id: item.ID,
 			CollectionName: item.CollectionName,
+			ProductCount: item.ProductCount.Int64,
 			CollectionDescription: item.CollectionDescription,
 			ThumbnailImage: item.ThumbnailImage,
 			HeaderImage: item.HeaderImage,

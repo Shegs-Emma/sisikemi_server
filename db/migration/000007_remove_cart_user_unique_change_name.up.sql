@@ -1,0 +1,1 @@
+ALTER TABLE "cart" ADD COLUMN "user_ref_id" bigint NOT NULL;

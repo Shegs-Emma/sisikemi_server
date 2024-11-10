@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package pb;
+
+import "cart.proto";
+
+option go_package = "github.com/techschool/simplebank/pb";
+
+message UpdateCartItemQtyRequest {
+    int64 item_id = 1;
+    optional int64 product_quantity = 2;
+}
+
+message UpdateCartItemQtyResponse {
+    Cart cart = 1;
+}

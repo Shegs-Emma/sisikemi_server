@@ -1,0 +1,18 @@
+syntax = "proto3";
+package pb;
+import "google/protobuf/timestamp.proto";
+import "user.proto";
+option go_package = "github.com/techschool/simplebank/pb";
+
+message Cart {
+    int64 id = 1;
+    int64 product_id = 2;
+    string product_name = 3;
+    string product_price = 4;
+    int64 product_quantity = 5;
+    string product_image = 6;
+    string product_color = 7;
+    string product_size = 8;
+    User user_ref_id = 9;
+    google.protobuf.Timestamp created_at = 10;
+}

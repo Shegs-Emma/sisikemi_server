@@ -13,16 +13,6 @@ import (
 )
 
 func (server *Server) ListProducts (ctx context.Context, req *pb.ListProductRequest) (*pb.ListProductResponse, error) {
-	authPayload, err := server.authorizeUser(ctx)
-
-	if err != nil {
-		return nil, unauthenticatedError(err)
-	}
-
-	if authPayload == nil {
-		return nil, status.Errorf(codes.PermissionDenied, "you are not authorized to update this user")
-	}
-
 	arg := db.ListProductsParams{
 		Limit: req.GetPageSize(),
 		Offset:  (req.GetPageId() - 1) * req.GetPageSize(),
@@ -44,7 +34,7 @@ func (server *Server) ListProducts (ctx context.Context, req *pb.ListProductRequ
 			ProductCode: item.ProductCode,
 			Price: item.Price,
 			SalePrice: item.SalePrice,
-			Collection: item.Collection,
+			Collection: fetchReferencedCollection(server, ctx, item.Collection),
 			Quantity: item.Quantity,
 			Color: item.Color,
 			Size: item.Size,
@@ -73,6 +63,16 @@ func fetchReferencedProductMedium(server *Server, ctx context.Context,  media st
 	}
 
 	return convertProductMedium(server, ctx, productMedia)
+}
+
+func fetchReferencedCollection(server *Server, ctx context.Context,  collection int64) *pb.Collection {
+	productCollection, err := server.store.GetCollection(ctx, collection)
+
+	if err != nil {
+		return nil
+	}
+
+	return convertCollection(productCollection)
 }
 
 func textToString(text pgtype.Text) string {

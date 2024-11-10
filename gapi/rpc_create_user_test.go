@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/golang/mock/gomock"
+	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/stretchr/testify/require"
 	mockdb "github.com/techschool/simplebank/db/mock"
 	db "github.com/techschool/simplebank/db/sqlc"
@@ -76,7 +77,10 @@ func randomUser(t *testing.T) (user db.User, password string) {
 		FirstName:       util.RandomUser(),
 		LastName: util.RandomUser(),
 		PhoneNumber: util.RandomString(6),
-		ProfilePhoto: media.MediaRef,
+		ProfilePhoto: pgtype.Text{
+			String: media.MediaRef,
+			Valid: true,
+		},
 		Email:          util.RandomEmail(),
 		IsAdmin: true,
 	}
@@ -100,7 +104,7 @@ func TestCreateUserAPI(t *testing.T) {
 				FirstName: user.FirstName,
 				LastName: user.LastName,
 				PhoneNumber: user.PhoneNumber,
-				ProfilePhoto: user.ProfilePhoto,
+				ProfilePhoto: user.ProfilePhoto.String,
 				Email:     user.Email,
 			},
 			buildStubs: func(store *mockdb.MockStore, taskDistributor *mockwk.MockTaskDistributor) {
@@ -137,7 +141,7 @@ func TestCreateUserAPI(t *testing.T) {
 				require.Equal(t, user.FirstName, createdUser.FirstName)
 				require.Equal(t, user.LastName, createdUser.LastName)
 				require.Equal(t, user.PhoneNumber, createdUser.PhoneNumber)
-				require.Equal(t, user.ProfilePhoto, createdUser.ProfilePhoto)
+				require.Equal(t, user.ProfilePhoto.String, createdUser.ProfilePhoto)
 				require.Equal(t, user.Email, createdUser.Email)
 			},
 		},
@@ -149,7 +153,7 @@ func TestCreateUserAPI(t *testing.T) {
 				FirstName: user.FirstName,
 				LastName: user.LastName,
 				PhoneNumber: user.PhoneNumber,
-				ProfilePhoto: user.ProfilePhoto,
+				ProfilePhoto: user.ProfilePhoto.String,
 				Email:     user.Email,
 			},
 			buildStubs: func(store *mockdb.MockStore, taskDistributor *mockwk.MockTaskDistributor) {

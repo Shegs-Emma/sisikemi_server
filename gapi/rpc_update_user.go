@@ -45,10 +45,6 @@ func (server *Server) UpdateUser(ctx context.Context, req *pb.UpdateUserRequest)
 			String: req.GetPhoneNumber(),
 			Valid: req.PhoneNumber != nil,
 		},
-		Email: pgtype.Text{
-			String: req.GetEmail(),
-			Valid: req.Email != nil,
-		},
 		ProfilePhoto: pgtype.Text{
 			String: req.GetProfilePhoto(),
 			Valid: req.ProfilePhoto != nil,

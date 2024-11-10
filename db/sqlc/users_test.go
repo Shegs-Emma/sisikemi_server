@@ -18,7 +18,10 @@ func createRandomUser(t *testing.T, media Medium) User {
 		LastName: util.RandomUser(),
 		Email: util.RandomEmail(),
 		PhoneNumber: util.RandomString(11),
-		ProfilePhoto: media.MediaRef,
+		ProfilePhoto: pgtype.Text{
+			String: media.MediaRef,
+			Valid: true,
+		},
 		IsAdmin: false,
 	}
 
@@ -49,7 +52,7 @@ func TestGetUser(t *testing.T) {
 	media := createRandomMedia(t)
 
 	user1 := createRandomUser(t, media)
-	user2, err := testStore.GetUser(context.Background(), user1.Username)
+	user2, err := testStore.GetUserByUsername(context.Background(), user1.Username)
 
 	require.NoError(t, err)
 	require.NotEmpty(t, user2)
@@ -105,29 +108,6 @@ func TestUpdateUserOnlyLastName(t *testing.T) {
 	require.NotEqual(t, oldUser.LastName, updatedUser.LastName)
 	require.Equal(t, oldUser.Username, updatedUser.Username)
 	require.Equal(t, oldUser.Email, updatedUser.Email)
-	require.Equal(t, oldUser.FirstName, updatedUser.FirstName)
-	require.Equal(t, oldUser.HashedPassword, updatedUser.HashedPassword)
-	require.Equal(t, oldUser.PhoneNumber, updatedUser.PhoneNumber)
-	require.Equal(t, oldUser.ProfilePhoto, updatedUser.ProfilePhoto)
-}
-
-func TestUpdateUserOnlyEmail(t *testing.T) {
-	media := createRandomMedia(t)
-	oldUser := createRandomUser(t, media)
-
-	newEmail := util.RandomEmail()
-	updatedUser, err := testStore.UpdateUser(context.Background(), UpdateUserParams{
-		Username: oldUser.Username,
-		Email: pgtype.Text{
-			String: newEmail,
-			Valid: true,
-		},
-	})
-
-	require.NoError(t, err)
-	require.NotEqual(t, oldUser.Email, updatedUser.Email)
-	require.Equal(t, oldUser.Username, updatedUser.Username)
-	require.Equal(t, oldUser.LastName, updatedUser.LastName)
 	require.Equal(t, oldUser.FirstName, updatedUser.FirstName)
 	require.Equal(t, oldUser.HashedPassword, updatedUser.HashedPassword)
 	require.Equal(t, oldUser.PhoneNumber, updatedUser.PhoneNumber)
@@ -213,7 +193,6 @@ func TestUpdateUserAllFields(t *testing.T) {
 
 	newFirstName := util.RandomUser()
 	newLastName := util.RandomUser()
-	newEmail := util.RandomEmail()
 	newPhoneNumber := util.RandomString(11)
 	newMedia := createRandomMedia(t)
 	newPassword := util.RandomString(8)
@@ -239,10 +218,6 @@ func TestUpdateUserAllFields(t *testing.T) {
 			String: newPhoneNumber,
 			Valid: true,
 		},
-		Email: pgtype.Text{
-			String: newEmail,
-			Valid: true,
-		},
 		ProfilePhoto: pgtype.Text{
 			String: newMedia.MediaRef,
 			Valid: true,
@@ -259,12 +234,9 @@ func TestUpdateUserAllFields(t *testing.T) {
 	require.NotEqual(t, oldUser.LastName, updatedUser.LastName)
 	require.Equal(t, updatedUser.LastName, newLastName)
 
-	require.NotEqual(t, oldUser.Email, updatedUser.Email)
-	require.Equal(t, updatedUser.Email, newEmail)
-
 	require.NotEqual(t, oldUser.PhoneNumber, updatedUser.PhoneNumber)
 	require.Equal(t, updatedUser.PhoneNumber, newPhoneNumber)
 
 	require.NotEqual(t, oldUser.ProfilePhoto, updatedUser.ProfilePhoto)
-	require.Equal(t, updatedUser.ProfilePhoto, newMedia.MediaRef)
+	require.Equal(t, updatedUser.ProfilePhoto.String, newMedia.MediaRef)
 }

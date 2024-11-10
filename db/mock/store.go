@@ -36,6 +36,21 @@ func (m *MockStore) EXPECT() *MockStoreMockRecorder {
 	return m.recorder
 }
 
+// CreateCartItem mocks base method.
+func (m *MockStore) CreateCartItem(arg0 context.Context, arg1 db.CreateCartItemParams) (db.Cart, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateCartItem", arg0, arg1)
+	ret0, _ := ret[0].(db.Cart)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateCartItem indicates an expected call of CreateCartItem.
+func (mr *MockStoreMockRecorder) CreateCartItem(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateCartItem", reflect.TypeOf((*MockStore)(nil).CreateCartItem), arg0, arg1)
+}
+
 // CreateCollection mocks base method.
 func (m *MockStore) CreateCollection(arg0 context.Context, arg1 db.CreateCollectionParams) (db.Collection, error) {
 	m.ctrl.T.Helper()
@@ -169,6 +184,65 @@ func (m *MockStore) CreateVerifyEmail(arg0 context.Context, arg1 db.CreateVerify
 func (mr *MockStoreMockRecorder) CreateVerifyEmail(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateVerifyEmail", reflect.TypeOf((*MockStore)(nil).CreateVerifyEmail), arg0, arg1)
+}
+
+// DeleteCartItem mocks base method.
+func (m *MockStore) DeleteCartItem(arg0 context.Context, arg1 int32) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteCartItem", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteCartItem indicates an expected call of DeleteCartItem.
+func (mr *MockStoreMockRecorder) DeleteCartItem(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteCartItem", reflect.TypeOf((*MockStore)(nil).DeleteCartItem), arg0, arg1)
+}
+
+// GetCartItem mocks base method.
+func (m *MockStore) GetCartItem(arg0 context.Context, arg1 int64) (db.Cart, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetCartItem", arg0, arg1)
+	ret0, _ := ret[0].(db.Cart)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetCartItem indicates an expected call of GetCartItem.
+func (mr *MockStoreMockRecorder) GetCartItem(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCartItem", reflect.TypeOf((*MockStore)(nil).GetCartItem), arg0, arg1)
+}
+
+// GetCartItemByProductId mocks base method.
+func (m *MockStore) GetCartItemByProductId(arg0 context.Context, arg1 int32) (db.Cart, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetCartItemByProductId", arg0, arg1)
+	ret0, _ := ret[0].(db.Cart)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetCartItemByProductId indicates an expected call of GetCartItemByProductId.
+func (mr *MockStoreMockRecorder) GetCartItemByProductId(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCartItemByProductId", reflect.TypeOf((*MockStore)(nil).GetCartItemByProductId), arg0, arg1)
+}
+
+// GetCartItemByUser mocks base method.
+func (m *MockStore) GetCartItemByUser(arg0 context.Context, arg1 int64) (db.Cart, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetCartItemByUser", arg0, arg1)
+	ret0, _ := ret[0].(db.Cart)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetCartItemByUser indicates an expected call of GetCartItemByUser.
+func (mr *MockStoreMockRecorder) GetCartItemByUser(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCartItemByUser", reflect.TypeOf((*MockStore)(nil).GetCartItemByUser), arg0, arg1)
 }
 
 // GetCollection mocks base method.
@@ -306,6 +380,51 @@ func (mr *MockStoreMockRecorder) GetUser(arg0, arg1 interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUser", reflect.TypeOf((*MockStore)(nil).GetUser), arg0, arg1)
 }
 
+// GetUserById mocks base method.
+func (m *MockStore) GetUserById(arg0 context.Context, arg1 int64) (db.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetUserById", arg0, arg1)
+	ret0, _ := ret[0].(db.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetUserById indicates an expected call of GetUserById.
+func (mr *MockStoreMockRecorder) GetUserById(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserById", reflect.TypeOf((*MockStore)(nil).GetUserById), arg0, arg1)
+}
+
+// GetUserByUsername mocks base method.
+func (m *MockStore) GetUserByUsername(arg0 context.Context, arg1 string) (db.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetUserByUsername", arg0, arg1)
+	ret0, _ := ret[0].(db.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetUserByUsername indicates an expected call of GetUserByUsername.
+func (mr *MockStoreMockRecorder) GetUserByUsername(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByUsername", reflect.TypeOf((*MockStore)(nil).GetUserByUsername), arg0, arg1)
+}
+
+// ListCartItems mocks base method.
+func (m *MockStore) ListCartItems(arg0 context.Context, arg1 db.ListCartItemsParams) ([]db.Cart, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListCartItems", arg0, arg1)
+	ret0, _ := ret[0].([]db.Cart)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListCartItems indicates an expected call of ListCartItems.
+func (mr *MockStoreMockRecorder) ListCartItems(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListCartItems", reflect.TypeOf((*MockStore)(nil).ListCartItems), arg0, arg1)
+}
+
 // ListCollection mocks base method.
 func (m *MockStore) ListCollection(arg0 context.Context, arg1 db.ListCollectionParams) ([]db.Collection, error) {
 	m.ctrl.T.Helper()
@@ -364,6 +483,36 @@ func (m *MockStore) ListProducts(arg0 context.Context, arg1 db.ListProductsParam
 func (mr *MockStoreMockRecorder) ListProducts(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListProducts", reflect.TypeOf((*MockStore)(nil).ListProducts), arg0, arg1)
+}
+
+// ListUserCartItems mocks base method.
+func (m *MockStore) ListUserCartItems(arg0 context.Context, arg1 db.ListUserCartItemsParams) ([]db.Cart, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListUserCartItems", arg0, arg1)
+	ret0, _ := ret[0].([]db.Cart)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListUserCartItems indicates an expected call of ListUserCartItems.
+func (mr *MockStoreMockRecorder) ListUserCartItems(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListUserCartItems", reflect.TypeOf((*MockStore)(nil).ListUserCartItems), arg0, arg1)
+}
+
+// UpdateCartItemQty mocks base method.
+func (m *MockStore) UpdateCartItemQty(arg0 context.Context, arg1 db.UpdateCartItemQtyParams) (db.Cart, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateCartItemQty", arg0, arg1)
+	ret0, _ := ret[0].(db.Cart)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateCartItemQty indicates an expected call of UpdateCartItemQty.
+func (mr *MockStoreMockRecorder) UpdateCartItemQty(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateCartItemQty", reflect.TypeOf((*MockStore)(nil).UpdateCartItemQty), arg0, arg1)
 }
 
 // UpdateCollection mocks base method.

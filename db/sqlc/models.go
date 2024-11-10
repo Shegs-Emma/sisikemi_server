@@ -60,9 +60,9 @@ func (ns NullOrderStatus) Value() (driver.Value, error) {
 type ProductStatus string
 
 const (
-	ProductStatusAvailable    ProductStatus = "available"
-	ProductStatusOutOfStock   ProductStatus = "out_of_stock"
-	ProductStatusDiscontinued ProductStatus = "discontinued"
+	ProductStatusActive     ProductStatus = "active"
+	ProductStatusOutOfStock ProductStatus = "out_of_stock"
+	ProductStatusArchived   ProductStatus = "archived"
 )
 
 func (e *ProductStatus) Scan(src interface{}) error {
@@ -100,14 +100,28 @@ func (ns NullProductStatus) Value() (driver.Value, error) {
 	return string(ns.ProductStatus), nil
 }
 
+type Cart struct {
+	ID              int64     `json:"id"`
+	ProductID       int32     `json:"product_id"`
+	ProductName     string    `json:"product_name"`
+	ProductPrice    string    `json:"product_price"`
+	ProductQuantity int64     `json:"product_quantity"`
+	ProductImage    string    `json:"product_image"`
+	ProductColor    string    `json:"product_color"`
+	ProductSize     string    `json:"product_size"`
+	CreatedAt       time.Time `json:"created_at"`
+	UserRefID       int64     `json:"user_ref_id"`
+}
+
 type Collection struct {
-	ID                    int64     `json:"id"`
-	CollectionName        string    `json:"collection_name"`
-	CollectionDescription string    `json:"collection_description"`
-	ThumbnailImage        string    `json:"thumbnail_image"`
-	HeaderImage           string    `json:"header_image"`
-	LastUpdatedAt         time.Time `json:"last_updated_at"`
-	CreatedAt             time.Time `json:"created_at"`
+	ID                    int64       `json:"id"`
+	CollectionName        string      `json:"collection_name"`
+	CollectionDescription string      `json:"collection_description"`
+	ProductCount          pgtype.Int8 `json:"product_count"`
+	ThumbnailImage        string      `json:"thumbnail_image"`
+	HeaderImage           string      `json:"header_image"`
+	LastUpdatedAt         time.Time   `json:"last_updated_at"`
+	CreatedAt             time.Time   `json:"created_at"`
 }
 
 type Medium struct {
@@ -172,17 +186,18 @@ type Session struct {
 }
 
 type User struct {
-	Username          string    `json:"username"`
-	HashedPassword    string    `json:"hashed_password"`
-	FirstName         string    `json:"first_name"`
-	LastName          string    `json:"last_name"`
-	PhoneNumber       string    `json:"phone_number"`
-	ProfilePhoto      string    `json:"profile_photo"`
-	Email             string    `json:"email"`
-	IsAdmin           bool      `json:"is_admin"`
-	PasswordChangedAt time.Time `json:"password_changed_at"`
-	CreatedAt         time.Time `json:"created_at"`
-	IsEmailVerified   bool      `json:"is_email_verified"`
+	Username          string      `json:"username"`
+	HashedPassword    string      `json:"hashed_password"`
+	FirstName         string      `json:"first_name"`
+	LastName          string      `json:"last_name"`
+	PhoneNumber       string      `json:"phone_number"`
+	ProfilePhoto      pgtype.Text `json:"profile_photo"`
+	Email             string      `json:"email"`
+	IsAdmin           bool        `json:"is_admin"`
+	PasswordChangedAt time.Time   `json:"password_changed_at"`
+	CreatedAt         time.Time   `json:"created_at"`
+	IsEmailVerified   bool        `json:"is_email_verified"`
+	ID                int64       `json:"id"`
 }
 
 type VerifyEmail struct {

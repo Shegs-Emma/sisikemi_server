@@ -8,13 +8,14 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
+
 func convertUser(user db.User) *pb.User {
 	return &pb.User{
 		Username: user.Username,
 		FirstName: user.FirstName,
 		LastName: user.LastName,
 		PhoneNumber: user.PhoneNumber,
-		ProfilePhoto: user.ProfilePhoto,
+		ProfilePhoto: user.ProfilePhoto.String,
 		Email: user.Email,
 		PasswordChangedAt: timestamppb.New(user.PasswordChangedAt),
 		CreatedAt: timestamppb.New(user.CreatedAt),
@@ -38,19 +39,21 @@ func convertCollection(collection db.Collection) *pb.Collection {
 		CollectionDescription: collection.CollectionDescription,
 		ThumbnailImage: collection.ThumbnailImage,
 		HeaderImage: collection.HeaderImage,
+		ProductCount: collection.ProductCount.Int64,
 		CreatedAt: timestamppb.New(collection.CreatedAt),
 	}
 }
 
 func convertProduct(server *Server, ctx context.Context, product db.Product) *pb.Product {
 	return &pb.Product{
+		Id: product.ID,
 		ProductRefNo: product.ProductRefNo,
 		ProductName: product.ProductName,
 		ProductDescription: product.ProductDescription,
 		ProductCode: product.ProductCode,
 		Price: product.Price,
 		SalePrice: product.SalePrice,
-		Collection: product.Collection,
+		Collection: fetchReferencedCollection(server, ctx, product.Collection),
 		Quantity: product.Quantity,
 		Color: product.Color,
 		Size: product.Size,
@@ -74,6 +77,21 @@ func convertProductMedium(server *Server, ctx context.Context, media db.ProductM
     }
 }
 
+func convertCart(server *Server, ctx context.Context, cart db.Cart) *pb.Cart {
+	return &pb.Cart{
+		Id: cart.ID,
+		ProductId: int64(cart.ProductID),
+		ProductName: cart.ProductName,
+		ProductPrice: cart.ProductPrice,
+		ProductQuantity: cart.ProductQuantity,
+		ProductImage: cart.ProductImage,
+		ProductColor: cart.ProductColor,
+		ProductSize: cart.ProductSize,
+		UserRefId: fetchReferencedUser(server, ctx, cart.UserRefID),
+		CreatedAt: timestamppb.New(cart.CreatedAt),
+	}
+}
+
 func fetchReferencedMedia(server *Server, ctx context.Context,  media string) *pb.Media {
 	referencedMedia, err := server.store.GetMediaByRef(ctx, media)
 
@@ -82,4 +100,14 @@ func fetchReferencedMedia(server *Server, ctx context.Context,  media string) *p
 	}
 
 	return convertMedia(referencedMedia)
+}
+
+func fetchReferencedUser(server *Server, ctx context.Context,  user int64) *pb.User {
+	referencedUser, err := server.store.GetUserById(ctx, user)
+
+	if err != nil {
+		return nil
+	}
+
+	return convertUser(referencedUser)
 }
