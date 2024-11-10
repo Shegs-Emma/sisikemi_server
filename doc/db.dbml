@@ -5,16 +5,12 @@ Table users as U {
   first_name varchar [not null]
   last_name varchar [not null]
   phone_number varchar [not null]
-  profile_photo bigint [ref: > M.id, not null]
+  profile_photo bigint
   email varchar [unique, not null]
   is_email_verified bool [not null, default: false]
   isAdmin boolean [default: false]
   password_changed_at timestamptz [not null, default: '0001-01-01 00:00:00Z']
   created_at timestamptz [not null, default: `now()`]
-
-  Indexes {
-    profile_photo
-  }
 }
 
 Table verify_emails {
@@ -39,24 +35,39 @@ Table products as P {
   id bigserial [pk]
   product_ref_no varchar [not null, unique]
   product_name varchar [unique, not null]
+  product_description varchar [not null]
+  product_code varchar [not null]
   price numeric [not null]
-  product_images varchar [ref: > PM.product_media_ref, not null]
+  sale_price varchar [not null]
+  product_image_main varchar [ref: > PM.product_media_ref, not null]
+  product_image_other_1 varchar [ref: > PM.product_media_ref, not null]
+  product_image_other_2 varchar [ref: > PM.product_media_ref, not null]
+  product_image_other_3 varchar [ref: > PM.product_media_ref, not null]
   collection bigint [ref: > C.id, not null]
   quantity int [not null]
+  color varchar [not null]
+  size varchar [not null]
   status enum('available', 'out_of_stock', 'discontinued') [not null]
   last_updated_at timestamptz [not null, default: '0001-01-01 00:00:00Z']
   created_at timestamptz [not null, default: `now()`]
   
   Indexes {
     collection
-    product_images
-    (collection, product_images)
+    product_image_main
+    product_image_other_1
+    product_image_other_2
+    product_image_other_3
+    (collection, product_image_main, product_image_other_1, product_image_other_2, product_image_other_3)
   }
 }
 
 Table collections as C {
   id bigserial [pk]
   collection_name varchar [unique, not null]
+  collection_description varchar [not null]
+  product_count int
+  thumbnail_image varchar [not null]
+  header_image varchar [not null]
   last_updated_at timestamptz [not null, default: '0001-01-01 00:00:00Z']
   created_at timestamptz [not null, default: `now()`]
 }
@@ -79,10 +90,11 @@ Table orders as O {
   }
 }
 
-TABLE product_media as PM {
+Table product_media as PM {
   id bigserial [pk, not null]
   product_media_ref varchar [unique, not null]
   product_id varchar [not null, ref: > P.product_ref_no]
+  is_main_image boolean [not null, default: false]
   media_id varchar [not null, ref: > M.media_ref]
 
   Indexes {
@@ -90,4 +102,17 @@ TABLE product_media as PM {
     media_id
     (product_id, media_id)
   }
+}
+
+Table cart as CT {
+  id bigserial [pk]
+  user_ref_id bigint [not null]
+  product_id int [not null]
+  product_name varchar [not null]
+  product_price varchar [not null]
+  product_quantity bigint [not null]
+  product_image varchar [not null]
+  product_color varchar [not null]
+  product_size varchar [not null]
+  created_at timestamptz [not null, default: `now()`]
 }

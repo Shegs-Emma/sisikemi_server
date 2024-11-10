@@ -45,16 +45,13 @@ func (server *Server) authorizeUser(ctx context.Context) (*token.Payload, error)
 		return nil, fmt.Errorf("invalid access token")
 	}
 
-	if !hasPermission(payload.IsAdmin) {
-		return nil, fmt.Errorf("permission denied")
-	}
+	// if !hasPermission(payload.IsAdmin) {
+	// 	return nil, fmt.Errorf("permission denied")
+	// }
 
 	return payload, nil
 }
 
-func hasPermission(isAdmin bool) bool {
-	if isAdmin {
-		return true
-	}
-	return false
-}
+// func hasPermission(isAdmin bool) bool {
+// 	return isAdmin
+// }

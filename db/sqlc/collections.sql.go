@@ -15,25 +15,28 @@ const createCollection = `-- name: CreateCollection :one
 INSERT INTO collections (
     collection_name,
     collection_description,
+    product_count,
     thumbnail_image,
     header_image
 ) VALUES (
-    $1, $2, $3, $4
+    $1, $2, $3, $4, $5
 )
-RETURNING id, collection_name, collection_description, thumbnail_image, header_image, last_updated_at, created_at
+RETURNING id, collection_name, collection_description, product_count, thumbnail_image, header_image, last_updated_at, created_at
 `
 
 type CreateCollectionParams struct {
-	CollectionName        string `json:"collection_name"`
-	CollectionDescription string `json:"collection_description"`
-	ThumbnailImage        string `json:"thumbnail_image"`
-	HeaderImage           string `json:"header_image"`
+	CollectionName        string      `json:"collection_name"`
+	CollectionDescription string      `json:"collection_description"`
+	ProductCount          pgtype.Int8 `json:"product_count"`
+	ThumbnailImage        string      `json:"thumbnail_image"`
+	HeaderImage           string      `json:"header_image"`
 }
 
 func (q *Queries) CreateCollection(ctx context.Context, arg CreateCollectionParams) (Collection, error) {
 	row := q.db.QueryRow(ctx, createCollection,
 		arg.CollectionName,
 		arg.CollectionDescription,
+		arg.ProductCount,
 		arg.ThumbnailImage,
 		arg.HeaderImage,
 	)
@@ -42,6 +45,7 @@ func (q *Queries) CreateCollection(ctx context.Context, arg CreateCollectionPara
 		&i.ID,
 		&i.CollectionName,
 		&i.CollectionDescription,
+		&i.ProductCount,
 		&i.ThumbnailImage,
 		&i.HeaderImage,
 		&i.LastUpdatedAt,
@@ -51,7 +55,7 @@ func (q *Queries) CreateCollection(ctx context.Context, arg CreateCollectionPara
 }
 
 const getCollection = `-- name: GetCollection :one
-SELECT id, collection_name, collection_description, thumbnail_image, header_image, last_updated_at, created_at FROM collections
+SELECT id, collection_name, collection_description, product_count, thumbnail_image, header_image, last_updated_at, created_at FROM collections
 WHERE id = $1 LIMIT 1 
 FOR NO KEY UPDATE
 `
@@ -63,6 +67,7 @@ func (q *Queries) GetCollection(ctx context.Context, id int64) (Collection, erro
 		&i.ID,
 		&i.CollectionName,
 		&i.CollectionDescription,
+		&i.ProductCount,
 		&i.ThumbnailImage,
 		&i.HeaderImage,
 		&i.LastUpdatedAt,
@@ -72,7 +77,7 @@ func (q *Queries) GetCollection(ctx context.Context, id int64) (Collection, erro
 }
 
 const listCollection = `-- name: ListCollection :many
-SELECT id, collection_name, collection_description, thumbnail_image, header_image, last_updated_at, created_at FROM collections
+SELECT id, collection_name, collection_description, product_count, thumbnail_image, header_image, last_updated_at, created_at FROM collections
 ORDER BY id
 LIMIT $1
 OFFSET $2
@@ -96,6 +101,7 @@ func (q *Queries) ListCollection(ctx context.Context, arg ListCollectionParams) 
 			&i.ID,
 			&i.CollectionName,
 			&i.CollectionDescription,
+			&i.ProductCount,
 			&i.ThumbnailImage,
 			&i.HeaderImage,
 			&i.LastUpdatedAt,
@@ -116,16 +122,18 @@ UPDATE collections
 SET
   collection_name = COALESCE($1, collection_name),
   collection_description = COALESCE($2, collection_description),
-  thumbnail_image = COALESCE($3, thumbnail_image),
-  header_image = COALESCE($4, header_image)
+  product_count = COALESCE($3, product_count),
+  thumbnail_image = COALESCE($4, thumbnail_image),
+  header_image = COALESCE($5, header_image)
 WHERE
-  id = $5
-RETURNING id, collection_name, collection_description, thumbnail_image, header_image, last_updated_at, created_at
+  id = $6
+RETURNING id, collection_name, collection_description, product_count, thumbnail_image, header_image, last_updated_at, created_at
 `
 
 type UpdateCollectionParams struct {
 	CollectionName        pgtype.Text `json:"collection_name"`
 	CollectionDescription pgtype.Text `json:"collection_description"`
+	ProductCount          pgtype.Int8 `json:"product_count"`
 	ThumbnailImage        pgtype.Text `json:"thumbnail_image"`
 	HeaderImage           pgtype.Text `json:"header_image"`
 	ID                    int64       `json:"id"`
@@ -135,6 +143,7 @@ func (q *Queries) UpdateCollection(ctx context.Context, arg UpdateCollectionPara
 	row := q.db.QueryRow(ctx, updateCollection,
 		arg.CollectionName,
 		arg.CollectionDescription,
+		arg.ProductCount,
 		arg.ThumbnailImage,
 		arg.HeaderImage,
 		arg.ID,
@@ -144,6 +153,7 @@ func (q *Queries) UpdateCollection(ctx context.Context, arg UpdateCollectionPara
 		&i.ID,
 		&i.CollectionName,
 		&i.CollectionDescription,
+		&i.ProductCount,
 		&i.ThumbnailImage,
 		&i.HeaderImage,
 		&i.LastUpdatedAt,

@@ -1,0 +1,13 @@
+syntax = "proto3";
+package pb;
+import "product.proto";
+
+option go_package = "github.com/techschool/simplebank/pb";
+
+message GetProductRequest {
+    int64 id = 1;
+}
+
+message GetProductResponse {
+    Product product = 1;
+}

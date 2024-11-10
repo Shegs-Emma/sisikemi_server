@@ -24,18 +24,18 @@ INSERT INTO users (
 ) VALUES (
   $1, $2, $3, $4, $5, $6, $7, $8
 )
-RETURNING username, hashed_password, first_name, last_name, phone_number, profile_photo, email, is_admin, password_changed_at, created_at, is_email_verified
+RETURNING username, hashed_password, first_name, last_name, phone_number, profile_photo, email, is_admin, password_changed_at, created_at, is_email_verified, id
 `
 
 type CreateUserParams struct {
-	Username       string `json:"username"`
-	HashedPassword string `json:"hashed_password"`
-	FirstName      string `json:"first_name"`
-	LastName       string `json:"last_name"`
-	PhoneNumber    string `json:"phone_number"`
-	ProfilePhoto   string `json:"profile_photo"`
-	Email          string `json:"email"`
-	IsAdmin        bool   `json:"is_admin"`
+	Username       string      `json:"username"`
+	HashedPassword string      `json:"hashed_password"`
+	FirstName      string      `json:"first_name"`
+	LastName       string      `json:"last_name"`
+	PhoneNumber    string      `json:"phone_number"`
+	ProfilePhoto   pgtype.Text `json:"profile_photo"`
+	Email          string      `json:"email"`
+	IsAdmin        bool        `json:"is_admin"`
 }
 
 func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, error) {
@@ -62,17 +62,18 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 		&i.PasswordChangedAt,
 		&i.CreatedAt,
 		&i.IsEmailVerified,
+		&i.ID,
 	)
 	return i, err
 }
 
 const getUser = `-- name: GetUser :one
-SELECT username, hashed_password, first_name, last_name, phone_number, profile_photo, email, is_admin, password_changed_at, created_at, is_email_verified FROM users
-WHERE username = $1 LIMIT 1
+SELECT username, hashed_password, first_name, last_name, phone_number, profile_photo, email, is_admin, password_changed_at, created_at, is_email_verified, id FROM users
+WHERE email = $1 LIMIT 1
 `
 
-func (q *Queries) GetUser(ctx context.Context, username string) (User, error) {
-	row := q.db.QueryRow(ctx, getUser, username)
+func (q *Queries) GetUser(ctx context.Context, email string) (User, error) {
+	row := q.db.QueryRow(ctx, getUser, email)
 	var i User
 	err := row.Scan(
 		&i.Username,
@@ -86,6 +87,57 @@ func (q *Queries) GetUser(ctx context.Context, username string) (User, error) {
 		&i.PasswordChangedAt,
 		&i.CreatedAt,
 		&i.IsEmailVerified,
+		&i.ID,
+	)
+	return i, err
+}
+
+const getUserById = `-- name: GetUserById :one
+SELECT username, hashed_password, first_name, last_name, phone_number, profile_photo, email, is_admin, password_changed_at, created_at, is_email_verified, id FROM users
+WHERE id = $1 LIMIT 1
+`
+
+func (q *Queries) GetUserById(ctx context.Context, id int64) (User, error) {
+	row := q.db.QueryRow(ctx, getUserById, id)
+	var i User
+	err := row.Scan(
+		&i.Username,
+		&i.HashedPassword,
+		&i.FirstName,
+		&i.LastName,
+		&i.PhoneNumber,
+		&i.ProfilePhoto,
+		&i.Email,
+		&i.IsAdmin,
+		&i.PasswordChangedAt,
+		&i.CreatedAt,
+		&i.IsEmailVerified,
+		&i.ID,
+	)
+	return i, err
+}
+
+const getUserByUsername = `-- name: GetUserByUsername :one
+SELECT username, hashed_password, first_name, last_name, phone_number, profile_photo, email, is_admin, password_changed_at, created_at, is_email_verified, id FROM users
+WHERE username = $1 LIMIT 1
+`
+
+func (q *Queries) GetUserByUsername(ctx context.Context, username string) (User, error) {
+	row := q.db.QueryRow(ctx, getUserByUsername, username)
+	var i User
+	err := row.Scan(
+		&i.Username,
+		&i.HashedPassword,
+		&i.FirstName,
+		&i.LastName,
+		&i.PhoneNumber,
+		&i.ProfilePhoto,
+		&i.Email,
+		&i.IsAdmin,
+		&i.PasswordChangedAt,
+		&i.CreatedAt,
+		&i.IsEmailVerified,
+		&i.ID,
 	)
 	return i, err
 }
@@ -97,13 +149,12 @@ SET
   password_changed_at = COALESCE($2, password_changed_at),
   first_name = COALESCE($3, first_name),
   last_name = COALESCE($4, last_name),
-  email = COALESCE($5, email),
-  is_email_verified = COALESCE($6, is_email_verified),
-  phone_number = COALESCE($7, phone_number),
-  profile_photo = COALESCE($8, profile_photo)
+  is_email_verified = COALESCE($5, is_email_verified),
+  phone_number = COALESCE($6, phone_number),
+  profile_photo = COALESCE($7, profile_photo)
 WHERE
-  username = $9
-RETURNING username, hashed_password, first_name, last_name, phone_number, profile_photo, email, is_admin, password_changed_at, created_at, is_email_verified
+  username = $8
+RETURNING username, hashed_password, first_name, last_name, phone_number, profile_photo, email, is_admin, password_changed_at, created_at, is_email_verified, id
 `
 
 type UpdateUserParams struct {
@@ -111,7 +162,6 @@ type UpdateUserParams struct {
 	PasswordChangedAt pgtype.Timestamptz `json:"password_changed_at"`
 	FirstName         pgtype.Text        `json:"first_name"`
 	LastName          pgtype.Text        `json:"last_name"`
-	Email             pgtype.Text        `json:"email"`
 	IsEmailVerified   pgtype.Bool        `json:"is_email_verified"`
 	PhoneNumber       pgtype.Text        `json:"phone_number"`
 	ProfilePhoto      pgtype.Text        `json:"profile_photo"`
@@ -124,7 +174,6 @@ func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) (User, e
 		arg.PasswordChangedAt,
 		arg.FirstName,
 		arg.LastName,
-		arg.Email,
 		arg.IsEmailVerified,
 		arg.PhoneNumber,
 		arg.ProfilePhoto,
@@ -143,6 +192,7 @@ func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) (User, e
 		&i.PasswordChangedAt,
 		&i.CreatedAt,
 		&i.IsEmailVerified,
+		&i.ID,
 	)
 	return i, err
 }
