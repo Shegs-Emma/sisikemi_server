@@ -21,7 +21,7 @@ func (server *Server) DeleteCartItem (ctx context.Context, req *pb.DeleteCartIte
 	}
 
 	// Fetch the current user info
-	fetchedUser, err := server.store.GetUser(ctx, authPayload.Username)
+	fetchedUser, err := server.store.GetUserByUsername(ctx, authPayload.Username)
 
 	if err != nil {
 		return nil, status.Errorf(codes.PermissionDenied, "user could not be fetched")

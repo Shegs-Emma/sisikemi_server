@@ -23,7 +23,7 @@ func (server *Server) UpdateCartItemQty (ctx context.Context, req *pb.UpdateCart
 	}
 
 	// Fetch the current user id
-	fetchedUser, err := server.store.GetUser(ctx, authPayload.Username);
+	fetchedUser, err := server.store.GetUserByUsername(ctx, authPayload.Username);
 
 	if err != nil {
 		return nil, status.Errorf(codes.PermissionDenied, "user could not be fetched")

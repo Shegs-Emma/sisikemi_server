@@ -31,7 +31,7 @@ func (server *Server) CreateCartItem (ctx context.Context, req *pb.CreateCartIte
 	}
 
 	// Fetch the current user info
-	fetchedUser, err := server.store.GetUser(ctx, authPayload.Username);
+	fetchedUser, err := server.store.GetUserByUsername(ctx, authPayload.Username);
 
 	if err != nil {
 		return nil, status.Errorf(codes.PermissionDenied, "user does not exist.")
