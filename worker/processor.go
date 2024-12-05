@@ -24,9 +24,10 @@ type RedisTaskProcessor struct {
 	server *asynq.Server
 	store db.Store
 	mailer mail.EmailSender
+	sendgridMailer mail.EmailSendGridSender
 }
 
-func NewRedisTaskProcessor(redisOpt asynq.RedisClientOpt, store db.Store, mailer mail.EmailSender) TaskProcessor {
+func NewRedisTaskProcessor(redisOpt asynq.RedisClientOpt, store db.Store, mailer mail.EmailSender, sendgridMailer mail.EmailSendGridSender) TaskProcessor {
 	server := asynq.NewServer(
 		redisOpt, 
 		asynq.Config{
@@ -46,6 +47,7 @@ func NewRedisTaskProcessor(redisOpt asynq.RedisClientOpt, store db.Store, mailer
 		server: server,
 		store: store,
 		mailer: mailer,
+		sendgridMailer: sendgridMailer,
 	}
 }
 

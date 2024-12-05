@@ -99,7 +99,8 @@ func runDBMigration(migrationURL string, dbSource string) {
 
 func runTaskProcessor(ctx context.Context, waitGroup *errgroup.Group, config util.Config, redisOpt asynq.RedisClientOpt, store db.Store) {
 	mailer := mail.NewGmailSender(config.EmailSenderName, config.EmailSenderAddress, config.EmailSenderPassword)
-	taskProcessor := worker.NewRedisTaskProcessor(redisOpt, store, mailer)
+	sendgridMailer := mail.NewSendGridEmailSender(config.SendGridApiKey, config.EmailSenderAddress)
+	taskProcessor := worker.NewRedisTaskProcessor(redisOpt, store, mailer, sendgridMailer)
 
 	log.Info().Msg("start task processor")
 	err := taskProcessor.Start()

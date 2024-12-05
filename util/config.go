@@ -20,6 +20,7 @@ type Config struct {
 	EmailSenderName string `mapstructure:"EMAIL_SENDER_NAME"`
 	EmailSenderAddress string `mapstructure:"EMAIL_SENDER_ADDRESS"`
 	EmailSenderPassword string `mapstructure:"EMAIL_SENDER_PASSWORD"`
+	SendGridApiKey string `mapstructure:"SENDGRID_API_KEY"`
 }
 
 func LoadConfig(path string) (config Config, err error) {
