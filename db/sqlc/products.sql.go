@@ -30,7 +30,7 @@ INSERT INTO products (
     status
 ) VALUES (
     $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15
-) RETURNING id, product_ref_no, product_name, product_description, product_code, price, sale_price, product_image_main, product_image_other_1, product_image_other_2, product_image_other_3, collection, quantity, color, size, status, last_updated_at, created_at
+) RETURNING id, product_ref_no, product_name, product_description, product_code, price, sale_price, product_image_main, product_image_other_1, product_image_other_2, product_image_other_3, collection, quantity, status, last_updated_at, created_at, size, color
 `
 
 type CreateProductParams struct {
@@ -46,8 +46,8 @@ type CreateProductParams struct {
 	ProductImageOther3 pgtype.Text   `json:"product_image_other_3"`
 	Collection         int64         `json:"collection"`
 	Quantity           int32         `json:"quantity"`
-	Color              string        `json:"color"`
-	Size               string        `json:"size"`
+	Color              []string      `json:"color"`
+	Size               []string      `json:"size"`
 	Status             ProductStatus `json:"status"`
 }
 
@@ -84,17 +84,27 @@ func (q *Queries) CreateProduct(ctx context.Context, arg CreateProductParams) (P
 		&i.ProductImageOther3,
 		&i.Collection,
 		&i.Quantity,
-		&i.Color,
-		&i.Size,
 		&i.Status,
 		&i.LastUpdatedAt,
 		&i.CreatedAt,
+		&i.Size,
+		&i.Color,
 	)
 	return i, err
 }
 
+const deleteProduct = `-- name: DeleteProduct :exec
+DELETE FROM products
+WHERE id = $1
+`
+
+func (q *Queries) DeleteProduct(ctx context.Context, id int64) error {
+	_, err := q.db.Exec(ctx, deleteProduct, id)
+	return err
+}
+
 const getProduct = `-- name: GetProduct :one
-SELECT id, product_ref_no, product_name, product_description, product_code, price, sale_price, product_image_main, product_image_other_1, product_image_other_2, product_image_other_3, collection, quantity, color, size, status, last_updated_at, created_at FROM products
+SELECT id, product_ref_no, product_name, product_description, product_code, price, sale_price, product_image_main, product_image_other_1, product_image_other_2, product_image_other_3, collection, quantity, status, last_updated_at, created_at, size, color FROM products
 WHERE id = $1 LIMIT 1
 FOR NO KEY UPDATE
 `
@@ -116,17 +126,17 @@ func (q *Queries) GetProduct(ctx context.Context, id int64) (Product, error) {
 		&i.ProductImageOther3,
 		&i.Collection,
 		&i.Quantity,
-		&i.Color,
-		&i.Size,
 		&i.Status,
 		&i.LastUpdatedAt,
 		&i.CreatedAt,
+		&i.Size,
+		&i.Color,
 	)
 	return i, err
 }
 
 const listProducts = `-- name: ListProducts :many
-SELECT id, product_ref_no, product_name, product_description, product_code, price, sale_price, product_image_main, product_image_other_1, product_image_other_2, product_image_other_3, collection, quantity, color, size, status, last_updated_at, created_at FROM products
+SELECT id, product_ref_no, product_name, product_description, product_code, price, sale_price, product_image_main, product_image_other_1, product_image_other_2, product_image_other_3, collection, quantity, status, last_updated_at, created_at, size, color FROM products
 ORDER BY id
 LIMIT $1
 OFFSET $2
@@ -160,11 +170,11 @@ func (q *Queries) ListProducts(ctx context.Context, arg ListProductsParams) ([]P
 			&i.ProductImageOther3,
 			&i.Collection,
 			&i.Quantity,
-			&i.Color,
-			&i.Size,
 			&i.Status,
 			&i.LastUpdatedAt,
 			&i.CreatedAt,
+			&i.Size,
+			&i.Color,
 		); err != nil {
 			return nil, err
 		}
@@ -196,7 +206,7 @@ SET
   status = COALESCE($15, status)
 WHERE
   id = $16
-RETURNING id, product_ref_no, product_name, product_description, product_code, price, sale_price, product_image_main, product_image_other_1, product_image_other_2, product_image_other_3, collection, quantity, color, size, status, last_updated_at, created_at
+RETURNING id, product_ref_no, product_name, product_description, product_code, price, sale_price, product_image_main, product_image_other_1, product_image_other_2, product_image_other_3, collection, quantity, status, last_updated_at, created_at, size, color
 `
 
 type UpdateProductParams struct {
@@ -212,8 +222,8 @@ type UpdateProductParams struct {
 	ProductImageOther3 pgtype.Text       `json:"product_image_other_3"`
 	Collection         pgtype.Int8       `json:"collection"`
 	Quantity           pgtype.Int4       `json:"quantity"`
-	Color              pgtype.Text       `json:"color"`
-	Size               pgtype.Text       `json:"size"`
+	Color              []string          `json:"color"`
+	Size               []string          `json:"size"`
 	Status             NullProductStatus `json:"status"`
 	ID                 int64             `json:"id"`
 }
@@ -252,11 +262,11 @@ func (q *Queries) UpdateProduct(ctx context.Context, arg UpdateProductParams) (P
 		&i.ProductImageOther3,
 		&i.Collection,
 		&i.Quantity,
-		&i.Color,
-		&i.Size,
 		&i.Status,
 		&i.LastUpdatedAt,
 		&i.CreatedAt,
+		&i.Size,
+		&i.Color,
 	)
 	return i, err
 }

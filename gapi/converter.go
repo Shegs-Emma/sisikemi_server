@@ -55,8 +55,8 @@ func convertProduct(server *Server, ctx context.Context, product db.Product) *pb
 		SalePrice: product.SalePrice,
 		Collection: fetchReferencedCollection(server, ctx, product.Collection),
 		Quantity: product.Quantity,
-		Color: product.Color,
-		Size: product.Size,
+		Color: parseColorArray(product.Color),
+		Size: parseSizeArray(product.Size),
 		Status: string(product.Status),
 		ProductImageMain: fetchReferencedProductMedium(server, ctx, textToString(product.ProductImageMain)),
 		ProductImageOther_1: fetchReferencedProductMedium(server, ctx, textToString(product.ProductImageOther1)),
@@ -110,4 +110,12 @@ func fetchReferencedUser(server *Server, ctx context.Context,  user int64) *pb.U
 	}
 
 	return convertUser(referencedUser)
+}
+
+func parseSizeArray(size []string) []string {
+	return size
+}
+
+func parseColorArray(color []string) []string {
+	return color
 }

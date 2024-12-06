@@ -47,7 +47,7 @@ Table products as P {
   quantity int [not null]
   color varchar [not null]
   size varchar [not null]
-  status enum('available', 'out_of_stock', 'discontinued') [not null]
+  status enum('active', 'out_of_stock', 'archived') [not null]
   last_updated_at timestamptz [not null, default: '0001-01-01 00:00:00Z']
   created_at timestamptz [not null, default: `now()`]
   

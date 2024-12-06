@@ -20,6 +20,8 @@ type Querier interface {
 	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
 	CreateVerifyEmail(ctx context.Context, arg CreateVerifyEmailParams) (VerifyEmail, error)
 	DeleteCartItem(ctx context.Context, productID int32) error
+	DeleteProduct(ctx context.Context, id int64) error
+	DeleteProductMedia(ctx context.Context, productID string) error
 	GetCartItem(ctx context.Context, id int64) (Cart, error)
 	GetCartItemByProductId(ctx context.Context, productID int32) (Cart, error)
 	GetCartItemByUser(ctx context.Context, userRefID int64) (Cart, error)

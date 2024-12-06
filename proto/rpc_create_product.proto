@@ -11,8 +11,8 @@ message CreateProductRequest {
     string sale_price = 5;
     int64 collection = 6;
     int32 quantity = 7;
-    string color = 8;
-    string size = 9;
+    repeated string color = 8;
+    repeated string size = 9;
     string status = 10;
     string main_image = 11;
     string other_image_1 = 12;

@@ -25,20 +25,20 @@ type CreateProductRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ProductName        string `protobuf:"bytes,1,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty"`
-	ProductDescription string `protobuf:"bytes,2,opt,name=product_description,json=productDescription,proto3" json:"product_description,omitempty"`
-	ProductCode        string `protobuf:"bytes,3,opt,name=product_code,json=productCode,proto3" json:"product_code,omitempty"`
-	Price              int64  `protobuf:"varint,4,opt,name=price,proto3" json:"price,omitempty"`
-	SalePrice          string `protobuf:"bytes,5,opt,name=sale_price,json=salePrice,proto3" json:"sale_price,omitempty"`
-	Collection         int64  `protobuf:"varint,6,opt,name=collection,proto3" json:"collection,omitempty"`
-	Quantity           int32  `protobuf:"varint,7,opt,name=quantity,proto3" json:"quantity,omitempty"`
-	Color              string `protobuf:"bytes,8,opt,name=color,proto3" json:"color,omitempty"`
-	Size               string `protobuf:"bytes,9,opt,name=size,proto3" json:"size,omitempty"`
-	Status             string `protobuf:"bytes,10,opt,name=status,proto3" json:"status,omitempty"`
-	MainImage          string `protobuf:"bytes,11,opt,name=main_image,json=mainImage,proto3" json:"main_image,omitempty"`
-	OtherImage_1       string `protobuf:"bytes,12,opt,name=other_image_1,json=otherImage1,proto3" json:"other_image_1,omitempty"`
-	OtherImage_2       string `protobuf:"bytes,13,opt,name=other_image_2,json=otherImage2,proto3" json:"other_image_2,omitempty"`
-	OtherImage_3       string `protobuf:"bytes,14,opt,name=other_image_3,json=otherImage3,proto3" json:"other_image_3,omitempty"`
+	ProductName        string   `protobuf:"bytes,1,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty"`
+	ProductDescription string   `protobuf:"bytes,2,opt,name=product_description,json=productDescription,proto3" json:"product_description,omitempty"`
+	ProductCode        string   `protobuf:"bytes,3,opt,name=product_code,json=productCode,proto3" json:"product_code,omitempty"`
+	Price              int64    `protobuf:"varint,4,opt,name=price,proto3" json:"price,omitempty"`
+	SalePrice          string   `protobuf:"bytes,5,opt,name=sale_price,json=salePrice,proto3" json:"sale_price,omitempty"`
+	Collection         int64    `protobuf:"varint,6,opt,name=collection,proto3" json:"collection,omitempty"`
+	Quantity           int32    `protobuf:"varint,7,opt,name=quantity,proto3" json:"quantity,omitempty"`
+	Color              []string `protobuf:"bytes,8,rep,name=color,proto3" json:"color,omitempty"`
+	Size               []string `protobuf:"bytes,9,rep,name=size,proto3" json:"size,omitempty"`
+	Status             string   `protobuf:"bytes,10,opt,name=status,proto3" json:"status,omitempty"`
+	MainImage          string   `protobuf:"bytes,11,opt,name=main_image,json=mainImage,proto3" json:"main_image,omitempty"`
+	OtherImage_1       string   `protobuf:"bytes,12,opt,name=other_image_1,json=otherImage1,proto3" json:"other_image_1,omitempty"`
+	OtherImage_2       string   `protobuf:"bytes,13,opt,name=other_image_2,json=otherImage2,proto3" json:"other_image_2,omitempty"`
+	OtherImage_3       string   `protobuf:"bytes,14,opt,name=other_image_3,json=otherImage3,proto3" json:"other_image_3,omitempty"`
 }
 
 func (x *CreateProductRequest) Reset() {
@@ -122,18 +122,18 @@ func (x *CreateProductRequest) GetQuantity() int32 {
 	return 0
 }
 
-func (x *CreateProductRequest) GetColor() string {
+func (x *CreateProductRequest) GetColor() []string {
 	if x != nil {
 		return x.Color
 	}
-	return ""
+	return nil
 }
 
-func (x *CreateProductRequest) GetSize() string {
+func (x *CreateProductRequest) GetSize() []string {
 	if x != nil {
 		return x.Size
 	}
-	return ""
+	return nil
 }
 
 func (x *CreateProductRequest) GetStatus() string {
@@ -240,8 +240,8 @@ var file_rpc_create_product_proto_rawDesc = []byte{
 	0x18, 0x06, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0a, 0x63, 0x6f, 0x6c, 0x6c, 0x65, 0x63, 0x74, 0x69,
 	0x6f, 0x6e, 0x12, 0x1a, 0x0a, 0x08, 0x71, 0x75, 0x61, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x18, 0x07,
 	0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x71, 0x75, 0x61, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x12, 0x14,
-	0x0a, 0x05, 0x63, 0x6f, 0x6c, 0x6f, 0x72, 0x18, 0x08, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x63,
-	0x6f, 0x6c, 0x6f, 0x72, 0x12, 0x12, 0x0a, 0x04, 0x73, 0x69, 0x7a, 0x65, 0x18, 0x09, 0x20, 0x01,
+	0x0a, 0x05, 0x63, 0x6f, 0x6c, 0x6f, 0x72, 0x18, 0x08, 0x20, 0x03, 0x28, 0x09, 0x52, 0x05, 0x63,
+	0x6f, 0x6c, 0x6f, 0x72, 0x12, 0x12, 0x0a, 0x04, 0x73, 0x69, 0x7a, 0x65, 0x18, 0x09, 0x20, 0x03,
 	0x28, 0x09, 0x52, 0x04, 0x73, 0x69, 0x7a, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74,
 	0x75, 0x73, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73,
 	0x12, 0x1d, 0x0a, 0x0a, 0x6d, 0x61, 0x69, 0x6e, 0x5f, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x18, 0x0b,

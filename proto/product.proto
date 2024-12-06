@@ -19,8 +19,8 @@ message Product {
     ProductMedium product_image_other_3 = 11;
     Collection collection = 12;
     int32 quantity = 13;
-    string color = 14;
-    string size = 15;
+    repeated string color = 14;
+    repeated string size = 15;
     string status = 16;
     google.protobuf.Timestamp created_at = 17;
 }

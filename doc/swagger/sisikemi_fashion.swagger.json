@@ -224,6 +224,39 @@
         ]
       }
     },
+    "/v1/delete_product/{productId}": {
+      "delete": {
+        "summary": "Delete Product",
+        "description": "Use this api to delete a product",
+        "operationId": "SisikemiFashion_DeleteProduct",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbDeleteProductResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "SisikemiFashion"
+        ]
+      }
+    },
     "/v1/list_collection": {
       "get": {
         "summary": "List collections",
@@ -510,6 +543,40 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/pbUpdateCartItemQtyRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SisikemiFashion"
+        ]
+      }
+    },
+    "/v1/update_product": {
+      "patch": {
+        "summary": "Update product",
+        "description": "Use this api to update product",
+        "operationId": "SisikemiFashion_UpdateProduct",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbUpdateProductResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbUpdateProductRequest"
             }
           }
         ],
@@ -806,10 +873,16 @@
           "format": "int32"
         },
         "color": {
-          "type": "string"
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "size": {
-          "type": "string"
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "status": {
           "type": "string"
@@ -871,6 +944,14 @@
       }
     },
     "pbDeleteCartItemResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "pbDeleteProductResponse": {
       "type": "object",
       "properties": {
         "message": {
@@ -1058,10 +1139,16 @@
           "format": "int32"
         },
         "color": {
-          "type": "string"
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "size": {
-          "type": "string"
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "status": {
           "type": "string"
@@ -1115,6 +1202,74 @@
       "properties": {
         "cart": {
           "$ref": "#/definitions/pbCart"
+        }
+      }
+    },
+    "pbUpdateProductRequest": {
+      "type": "object",
+      "properties": {
+        "productId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "productName": {
+          "type": "string"
+        },
+        "productDescription": {
+          "type": "string"
+        },
+        "productCode": {
+          "type": "string"
+        },
+        "price": {
+          "type": "string",
+          "format": "int64"
+        },
+        "salePrice": {
+          "type": "string"
+        },
+        "collection": {
+          "type": "string",
+          "format": "int64"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "color": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "size": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "status": {
+          "type": "string"
+        },
+        "mainImage": {
+          "type": "string"
+        },
+        "otherImage1": {
+          "type": "string"
+        },
+        "otherImage2": {
+          "type": "string"
+        },
+        "otherImage3": {
+          "type": "string"
+        }
+      }
+    },
+    "pbUpdateProductResponse": {
+      "type": "object",
+      "properties": {
+        "product": {
+          "$ref": "#/definitions/pbProduct"
         }
       }
     },

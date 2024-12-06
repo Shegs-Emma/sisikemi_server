@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "github.com/techschool/simplebank/pb";
+
+message DeleteProductRequest {
+    int32 product_id = 1;
+}
+
+message DeleteProductResponse {
+    string message = 1;
+}

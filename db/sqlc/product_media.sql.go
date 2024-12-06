@@ -46,6 +46,16 @@ func (q *Queries) CreateProductMedia(ctx context.Context, arg CreateProductMedia
 	return i, err
 }
 
+const deleteProductMedia = `-- name: DeleteProductMedia :exec
+DELETE FROM product_media
+WHERE product_id = $1
+`
+
+func (q *Queries) DeleteProductMedia(ctx context.Context, productID string) error {
+	_, err := q.db.Exec(ctx, deleteProductMedia, productID)
+	return err
+}
+
 const getProductMedia = `-- name: GetProductMedia :one
 SELECT id, product_media_ref, product_id, is_main_image, media_id FROM product_media
 WHERE id = $1 LIMIT 1

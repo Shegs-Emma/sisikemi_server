@@ -51,7 +51,7 @@ CREATE TABLE "products" (
   "quantity" int NOT NULL,
   "color" varchar NOT NULL,
   "size" varchar NOT NULL,
-  "status" enum(available,out_of_stock,discontinued) NOT NULL,
+  "status" enum(active,out_of_stock,archived) NOT NULL,
   "last_updated_at" timestamptz NOT NULL DEFAULT '0001-01-01 00:00:00Z',
   "created_at" timestamptz NOT NULL DEFAULT (now())
 );

@@ -200,6 +200,49 @@ func (mr *MockStoreMockRecorder) DeleteCartItem(arg0, arg1 interface{}) *gomock.
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteCartItem", reflect.TypeOf((*MockStore)(nil).DeleteCartItem), arg0, arg1)
 }
 
+// DeleteProduct mocks base method.
+func (m *MockStore) DeleteProduct(arg0 context.Context, arg1 int64) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteProduct", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteProduct indicates an expected call of DeleteProduct.
+func (mr *MockStoreMockRecorder) DeleteProduct(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteProduct", reflect.TypeOf((*MockStore)(nil).DeleteProduct), arg0, arg1)
+}
+
+// DeleteProductMedia mocks base method.
+func (m *MockStore) DeleteProductMedia(arg0 context.Context, arg1 string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteProductMedia", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteProductMedia indicates an expected call of DeleteProductMedia.
+func (mr *MockStoreMockRecorder) DeleteProductMedia(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteProductMedia", reflect.TypeOf((*MockStore)(nil).DeleteProductMedia), arg0, arg1)
+}
+
+// DeleteProductTx mocks base method.
+func (m *MockStore) DeleteProductTx(arg0 context.Context, arg1 db.DeleteProductTxParams) (db.DeleteProductTxResult, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteProductTx", arg0, arg1)
+	ret0, _ := ret[0].(db.DeleteProductTxResult)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DeleteProductTx indicates an expected call of DeleteProductTx.
+func (mr *MockStoreMockRecorder) DeleteProductTx(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteProductTx", reflect.TypeOf((*MockStore)(nil).DeleteProductTx), arg0, arg1)
+}
+
 // GetCartItem mocks base method.
 func (m *MockStore) GetCartItem(arg0 context.Context, arg1 int64) (db.Cart, error) {
 	m.ctrl.T.Helper()

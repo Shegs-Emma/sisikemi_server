@@ -159,11 +159,11 @@ type Product struct {
 	ProductImageOther3 pgtype.Text   `json:"product_image_other_3"`
 	Collection         int64         `json:"collection"`
 	Quantity           int32         `json:"quantity"`
-	Color              string        `json:"color"`
-	Size               string        `json:"size"`
 	Status             ProductStatus `json:"status"`
 	LastUpdatedAt      time.Time     `json:"last_updated_at"`
 	CreatedAt          time.Time     `json:"created_at"`
+	Size               []string      `json:"size"`
+	Color              []string      `json:"color"`
 }
 
 type ProductMedium struct {

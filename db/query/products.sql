@@ -51,3 +51,7 @@ SET
 WHERE
   id = sqlc.arg(id)
 RETURNING *;
+
+-- name: DeleteProduct :exec
+DELETE FROM products
+WHERE id = $1;

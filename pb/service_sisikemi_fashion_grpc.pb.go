@@ -36,6 +36,8 @@ const (
 	SisikemiFashion_DeleteCartItem_FullMethodName    = "/pb.SisikemiFashion/DeleteCartItem"
 	SisikemiFashion_ListUserCartItems_FullMethodName = "/pb.SisikemiFashion/ListUserCartItems"
 	SisikemiFashion_UpdateCartItemQty_FullMethodName = "/pb.SisikemiFashion/UpdateCartItemQty"
+	SisikemiFashion_UpdateProduct_FullMethodName     = "/pb.SisikemiFashion/UpdateProduct"
+	SisikemiFashion_DeleteProduct_FullMethodName     = "/pb.SisikemiFashion/DeleteProduct"
 )
 
 // SisikemiFashionClient is the client API for SisikemiFashion service.
@@ -59,6 +61,8 @@ type SisikemiFashionClient interface {
 	DeleteCartItem(ctx context.Context, in *DeleteCartItemRequest, opts ...grpc.CallOption) (*DeleteCartItemResponse, error)
 	ListUserCartItems(ctx context.Context, in *ListUserCartRequest, opts ...grpc.CallOption) (*ListUserCartResponse, error)
 	UpdateCartItemQty(ctx context.Context, in *UpdateCartItemQtyRequest, opts ...grpc.CallOption) (*UpdateCartItemQtyResponse, error)
+	UpdateProduct(ctx context.Context, in *UpdateProductRequest, opts ...grpc.CallOption) (*UpdateProductResponse, error)
+	DeleteProduct(ctx context.Context, in *DeleteProductRequest, opts ...grpc.CallOption) (*DeleteProductResponse, error)
 }
 
 type sisikemiFashionClient struct {
@@ -239,6 +243,26 @@ func (c *sisikemiFashionClient) UpdateCartItemQty(ctx context.Context, in *Updat
 	return out, nil
 }
 
+func (c *sisikemiFashionClient) UpdateProduct(ctx context.Context, in *UpdateProductRequest, opts ...grpc.CallOption) (*UpdateProductResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateProductResponse)
+	err := c.cc.Invoke(ctx, SisikemiFashion_UpdateProduct_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *sisikemiFashionClient) DeleteProduct(ctx context.Context, in *DeleteProductRequest, opts ...grpc.CallOption) (*DeleteProductResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteProductResponse)
+	err := c.cc.Invoke(ctx, SisikemiFashion_DeleteProduct_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SisikemiFashionServer is the server API for SisikemiFashion service.
 // All implementations must embed UnimplementedSisikemiFashionServer
 // for forward compatibility.
@@ -260,6 +284,8 @@ type SisikemiFashionServer interface {
 	DeleteCartItem(context.Context, *DeleteCartItemRequest) (*DeleteCartItemResponse, error)
 	ListUserCartItems(context.Context, *ListUserCartRequest) (*ListUserCartResponse, error)
 	UpdateCartItemQty(context.Context, *UpdateCartItemQtyRequest) (*UpdateCartItemQtyResponse, error)
+	UpdateProduct(context.Context, *UpdateProductRequest) (*UpdateProductResponse, error)
+	DeleteProduct(context.Context, *DeleteProductRequest) (*DeleteProductResponse, error)
 	mustEmbedUnimplementedSisikemiFashionServer()
 }
 
@@ -320,6 +346,12 @@ func (UnimplementedSisikemiFashionServer) ListUserCartItems(context.Context, *Li
 }
 func (UnimplementedSisikemiFashionServer) UpdateCartItemQty(context.Context, *UpdateCartItemQtyRequest) (*UpdateCartItemQtyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateCartItemQty not implemented")
+}
+func (UnimplementedSisikemiFashionServer) UpdateProduct(context.Context, *UpdateProductRequest) (*UpdateProductResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateProduct not implemented")
+}
+func (UnimplementedSisikemiFashionServer) DeleteProduct(context.Context, *DeleteProductRequest) (*DeleteProductResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteProduct not implemented")
 }
 func (UnimplementedSisikemiFashionServer) mustEmbedUnimplementedSisikemiFashionServer() {}
 func (UnimplementedSisikemiFashionServer) testEmbeddedByValue()                         {}
@@ -648,6 +680,42 @@ func _SisikemiFashion_UpdateCartItemQty_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SisikemiFashion_UpdateProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateProductRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SisikemiFashionServer).UpdateProduct(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SisikemiFashion_UpdateProduct_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SisikemiFashionServer).UpdateProduct(ctx, req.(*UpdateProductRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SisikemiFashion_DeleteProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteProductRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SisikemiFashionServer).DeleteProduct(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SisikemiFashion_DeleteProduct_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SisikemiFashionServer).DeleteProduct(ctx, req.(*DeleteProductRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SisikemiFashion_ServiceDesc is the grpc.ServiceDesc for SisikemiFashion service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -722,6 +790,14 @@ var SisikemiFashion_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateCartItemQty",
 			Handler:    _SisikemiFashion_UpdateCartItemQty_Handler,
+		},
+		{
+			MethodName: "UpdateProduct",
+			Handler:    _SisikemiFashion_UpdateProduct_Handler,
+		},
+		{
+			MethodName: "DeleteProduct",
+			Handler:    _SisikemiFashion_DeleteProduct_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

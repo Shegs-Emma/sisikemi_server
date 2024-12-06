@@ -30,3 +30,7 @@ SELECT * FROM product_media
 WHERE product_id = $1
 ORDER BY id
 LIMIT $2;
+
+-- name: DeleteProductMedia :exec
+DELETE FROM product_media
+WHERE product_id = $1;

@@ -176,8 +176,8 @@ func randomProduct(collection db.Collection, media1 db.ProductMedium, media2 db.
 		SalePrice: util.RandomString(4),
 		Collection: collection.ID,
 		Quantity: int32(util.RandomInt(1, 1000)),
-		Color: "Yellow",
-		Size: "XXL",
+		Color: []string{"Yellow", "Red"},
+		Size: []string{"S", "XXL"},
 		Status: "active",
 		ProductImageMain: pgtype.Text{
             String:  media1.ProductMediaRef, 

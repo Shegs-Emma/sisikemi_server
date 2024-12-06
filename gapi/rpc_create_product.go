@@ -18,7 +18,7 @@ func (server *Server) CreateProduct (ctx context.Context, req *pb.CreateProductR
 	}
 
 	if !authPayload.IsAdmin {
-		return nil, status.Errorf(codes.PermissionDenied, "you are not authorized to update this user")
+		return nil, status.Errorf(codes.PermissionDenied, "you are not authorized to make this action")
 	}
 
 	arg := db.CreateProductTxParams{
@@ -47,7 +47,7 @@ func (server *Server) CreateProduct (ctx context.Context, req *pb.CreateProductR
 		if db.ErrorCode(err) == db.UniqueViolation {
 			return nil, status.Errorf(codes.AlreadyExists, err.Error())
 		}
-		return nil, status.Errorf(codes.Internal, "failed to create user: %s", err)
+		return nil, status.Errorf(codes.Internal, "failed to create product: %s", err)
 	}
 
 	rsp := &pb.CreateProductResponse{

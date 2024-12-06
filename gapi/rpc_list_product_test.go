@@ -46,8 +46,8 @@ func TestListProductAPI(t *testing.T) {
 			},
 			Collection: collection.ID,
 			Quantity: int32(util.RandomInt(1, 20)),
-			Color: "Yellow",
-			Size: "XXL",
+			Color: []string{"Yellow", "Red"},
+			Size: []string{"XXL"},
 			Status: db.ProductStatusActive,
 		},
 		{
@@ -76,8 +76,8 @@ func TestListProductAPI(t *testing.T) {
 			},
 			Collection: collection.ID,
 			Quantity: int32(util.RandomInt(1, 20)),
-			Color: "Yellow",
-			Size: "XXL",
+			Color: []string{"Yellow", "Red"},
+			Size: []string{"XXL"},
 			Status: db.ProductStatusActive,
 		},
 		{
@@ -106,8 +106,8 @@ func TestListProductAPI(t *testing.T) {
 			},
 			Collection: collection.ID,
 			Quantity: int32(util.RandomInt(1, 20)),
-			Color: "Yellow",
-			Size: "XXL",
+			Color: []string{"Yellow", "Red"},
+			Size: []string{"XXL"},
 			Status: db.ProductStatusActive,
 		},
 	}
