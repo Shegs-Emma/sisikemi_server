@@ -79,7 +79,7 @@ func TestListMediaAPI(t *testing.T) {
 
 			tc.buildStubs(store)
 
-			server := newTestServer(t, store, nil)
+			server := newTestServer(t, store, nil, nil)
 
 			res, err := server.ListMedia(context.Background(), tc.req)
 

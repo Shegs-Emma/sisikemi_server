@@ -679,6 +679,32 @@ func local_request_SisikemiFashion_DeleteProduct_0(ctx context.Context, marshale
 
 }
 
+func request_SisikemiFashion_UploadCloudinaryMedia_0(ctx context.Context, marshaler runtime.Marshaler, client SisikemiFashionClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq UploadCloudinaryImageRequest
+	var metadata runtime.ServerMetadata
+
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+
+	msg, err := client.UploadCloudinaryMedia(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+
+}
+
+func local_request_SisikemiFashion_UploadCloudinaryMedia_0(ctx context.Context, marshaler runtime.Marshaler, server SisikemiFashionServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq UploadCloudinaryImageRequest
+	var metadata runtime.ServerMetadata
+
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+
+	msg, err := server.UploadCloudinaryMedia(ctx, &protoReq)
+	return msg, metadata, err
+
+}
+
 // RegisterSisikemiFashionHandlerServer registers the http handlers for service SisikemiFashion to "mux".
 // UnaryRPC     :call SisikemiFashionServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
@@ -1161,6 +1187,31 @@ func RegisterSisikemiFashionHandlerServer(ctx context.Context, mux *runtime.Serv
 
 	})
 
+	mux.Handle("POST", pattern_SisikemiFashion_UploadCloudinaryMedia_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/UploadCloudinaryMedia", runtime.WithHTTPPathPattern("/v1/upload_image/cloudinary"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_SisikemiFashion_UploadCloudinaryMedia_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_SisikemiFashion_UploadCloudinaryMedia_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
 	return nil
 }
 
@@ -1620,6 +1671,28 @@ func RegisterSisikemiFashionHandlerClient(ctx context.Context, mux *runtime.Serv
 
 	})
 
+	mux.Handle("POST", pattern_SisikemiFashion_UploadCloudinaryMedia_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/UploadCloudinaryMedia", runtime.WithHTTPPathPattern("/v1/upload_image/cloudinary"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_SisikemiFashion_UploadCloudinaryMedia_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_SisikemiFashion_UploadCloudinaryMedia_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
 	return nil
 }
 
@@ -1661,6 +1734,8 @@ var (
 	pattern_SisikemiFashion_UpdateProduct_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "update_product"}, ""))
 
 	pattern_SisikemiFashion_DeleteProduct_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "delete_product", "product_id"}, ""))
+
+	pattern_SisikemiFashion_UploadCloudinaryMedia_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "upload_image", "cloudinary"}, ""))
 )
 
 var (
@@ -1701,4 +1776,6 @@ var (
 	forward_SisikemiFashion_UpdateProduct_0 = runtime.ForwardResponseMessage
 
 	forward_SisikemiFashion_DeleteProduct_0 = runtime.ForwardResponseMessage
+
+	forward_SisikemiFashion_UploadCloudinaryMedia_0 = runtime.ForwardResponseMessage
 )

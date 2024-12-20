@@ -91,7 +91,7 @@ func TestGetMediaAPI(t *testing.T) {
 
 			tc.buildStubs(store)
 
-			server := newTestServer(t, store, nil)
+			server := newTestServer(t, store, nil, nil)
 
 			res, err := server.GetMedia(context.Background(), tc.req)
 

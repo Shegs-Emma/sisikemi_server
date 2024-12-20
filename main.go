@@ -12,6 +12,7 @@ import (
 	"path/filepath"
 	"syscall"
 
+	"github.com/cloudinary/cloudinary-go/v2"
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
@@ -72,10 +73,12 @@ func main() {
 
 	waitGroup, ctx := errgroup.WithContext(ctx)
 
-	runTaskProcessor(ctx, waitGroup, config, redisOpt, store)
-	runGatewayServer(ctx, waitGroup, config, store, taskDistributor)
+	cloud := util.SetupCloudinary(config)
 
-	runGrpcServer(ctx, waitGroup, config, store, taskDistributor)
+	runTaskProcessor(ctx, waitGroup, config, redisOpt, store)
+	runGatewayServer(ctx, waitGroup, config, store, taskDistributor, cloud)
+
+	runGrpcServer(ctx, waitGroup, config, store, taskDistributor, cloud)
 
 	err = waitGroup.Wait()
 	if err != nil {
@@ -178,8 +181,8 @@ func uploadImageHandler(w http.ResponseWriter, r *http.Request, pathParams map[s
 	fmt.Fprintf(w, `{"message": "Image uploaded successfully", "url": "http://localhost:8080/uploads/%s"}`, filename)
 }
 
-func runGrpcServer(ctx context.Context, waitGroup *errgroup.Group, config util.Config, store db.Store, taskDistributor worker.TaskDistributor) {
-	server, err := gapi.NewServer(config, store, taskDistributor)
+func runGrpcServer(ctx context.Context, waitGroup *errgroup.Group, config util.Config, store db.Store, taskDistributor worker.TaskDistributor, cloud *cloudinary.Cloudinary) {
+	server, err := gapi.NewServer(config, store, taskDistributor, cloud)
 	if err != nil {
 		log.Fatal().Msg("cannot create server")
 	}
@@ -222,8 +225,8 @@ func runGrpcServer(ctx context.Context, waitGroup *errgroup.Group, config util.C
 	})
 }
 
-func runGatewayServer(ctx context.Context, waitGroup *errgroup.Group, config util.Config, store db.Store, taskDistributor worker.TaskDistributor) {
-	server, err := gapi.NewServer(config, store, taskDistributor)
+func runGatewayServer(ctx context.Context, waitGroup *errgroup.Group, config util.Config, store db.Store, taskDistributor worker.TaskDistributor, cloud *cloudinary.Cloudinary) {
+	server, err := gapi.NewServer(config, store, taskDistributor, cloud)
 
 	if err != nil {
 		log.Fatal().Msg("cannot create server")

@@ -1,0 +1,13 @@
+syntax = "proto3";
+package pb;
+
+option go_package = "github.com/techschool/simplebank/pb";
+
+message UploadCloudinaryImageRequest {
+    bytes image_data = 1;
+    string image_name = 2;
+}
+
+message UploadCloudinaryImageResponse {
+    string url = 1;
+}

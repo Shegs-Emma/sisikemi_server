@@ -7,7 +7,7 @@ import (
 )
 
 type Config struct {
-	DBSource string `mapstructure:"DB_SOURCE"`
+	DBSource string `mapstructure:"DATABASE_URL"`
 	Environment string `mapstructure:"ENVIRONMENT"`
 	AllowedOrigins []string `mapstructure:"ALLOWED_ORIGINS"`
 	HttpServerAddress string `mapstructure:"HTTP_SERVER_ADDRESS"`
@@ -21,6 +21,7 @@ type Config struct {
 	EmailSenderAddress string `mapstructure:"EMAIL_SENDER_ADDRESS"`
 	EmailSenderPassword string `mapstructure:"EMAIL_SENDER_PASSWORD"`
 	SendGridApiKey string `mapstructure:"SENDGRID_API_KEY"`
+	CloudinaryUrl string `mapstructure:"CLOUDINARY_URL"`
 }
 
 func LoadConfig(path string) (config Config, err error) {

@@ -215,7 +215,7 @@ func TestUpdateUserAPI(t *testing.T) {
 
 			tc.buildStubs(store)
 
-			server := newTestServer(t, store, nil)
+			server := newTestServer(t, store, nil, nil)
 
 			ctx := tc.buildContext(t, server.tokenMaker)
 			res, err := server.UpdateUser(ctx, tc.req)

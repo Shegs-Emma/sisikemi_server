@@ -1,0 +1,47 @@
+name: Deploy to Heroku
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  deploy:
+    name: Deploy to Heroku
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js (if needed)
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.20
+
+      - name: Login to Heroku Container Registry
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: |
+          echo $HEROKU_API_KEY | docker login --username=_ --password-stdin registry.heroku.com
+
+      - name: Build Docker image
+        run: |
+          docker build -t registry.heroku.com/sisikemi-fashion/web .
+
+      - name: Push Docker image to Heroku
+        run: |
+          docker push registry.heroku.com/sisikemi-fashion/web
+
+      - name: Release the Heroku App
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: |
+          heroku container:release web --app sisikemi-fashion
+
+      - name: Notify on Success
+        run: echo "Deployment to Heroku successful!"

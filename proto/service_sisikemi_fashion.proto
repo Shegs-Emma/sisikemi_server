@@ -21,6 +21,7 @@ import "rpc_list_user_cart_items.proto";
 import "rpc_update_cart_qty.proto";
 import "rpc_update_product.proto";
 import "rpc_delete_product.proto";
+import "rpc_create_cloudinary_media.proto";
 
 import "protoc-gen-openapiv2/options/annotations.proto";
 
@@ -236,6 +237,17 @@ service SisikemiFashion {
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
             description: "Use this api to delete a product";
             summary: "Delete Product"
+          };
+    }
+
+    rpc UploadCloudinaryMedia(UploadCloudinaryImageRequest) returns (UploadCloudinaryImageResponse) {
+        option (google.api.http) = {
+            post: "/v1/upload_image/cloudinary"
+            body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this api to create new image to cloudinary";
+            summary: "Create new image in cloudinary"
           };
     }
 }

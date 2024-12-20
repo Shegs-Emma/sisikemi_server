@@ -19,25 +19,26 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	SisikemiFashion_CreateUser_FullMethodName        = "/pb.SisikemiFashion/CreateUser"
-	SisikemiFashion_LoginUser_FullMethodName         = "/pb.SisikemiFashion/LoginUser"
-	SisikemiFashion_UpdateUser_FullMethodName        = "/pb.SisikemiFashion/UpdateUser"
-	SisikemiFashion_VerifyEmail_FullMethodName       = "/pb.SisikemiFashion/VerifyEmail"
-	SisikemiFashion_CreateMedia_FullMethodName       = "/pb.SisikemiFashion/CreateMedia"
-	SisikemiFashion_UploadImage_FullMethodName       = "/pb.SisikemiFashion/UploadImage"
-	SisikemiFashion_ListMedia_FullMethodName         = "/pb.SisikemiFashion/ListMedia"
-	SisikemiFashion_GetMedia_FullMethodName          = "/pb.SisikemiFashion/GetMedia"
-	SisikemiFashion_CreateCollection_FullMethodName  = "/pb.SisikemiFashion/CreateCollection"
-	SisikemiFashion_ListCollections_FullMethodName   = "/pb.SisikemiFashion/ListCollections"
-	SisikemiFashion_CreateProduct_FullMethodName     = "/pb.SisikemiFashion/CreateProduct"
-	SisikemiFashion_ListProducts_FullMethodName      = "/pb.SisikemiFashion/ListProducts"
-	SisikemiFashion_GetProduct_FullMethodName        = "/pb.SisikemiFashion/GetProduct"
-	SisikemiFashion_CreateCartItem_FullMethodName    = "/pb.SisikemiFashion/CreateCartItem"
-	SisikemiFashion_DeleteCartItem_FullMethodName    = "/pb.SisikemiFashion/DeleteCartItem"
-	SisikemiFashion_ListUserCartItems_FullMethodName = "/pb.SisikemiFashion/ListUserCartItems"
-	SisikemiFashion_UpdateCartItemQty_FullMethodName = "/pb.SisikemiFashion/UpdateCartItemQty"
-	SisikemiFashion_UpdateProduct_FullMethodName     = "/pb.SisikemiFashion/UpdateProduct"
-	SisikemiFashion_DeleteProduct_FullMethodName     = "/pb.SisikemiFashion/DeleteProduct"
+	SisikemiFashion_CreateUser_FullMethodName            = "/pb.SisikemiFashion/CreateUser"
+	SisikemiFashion_LoginUser_FullMethodName             = "/pb.SisikemiFashion/LoginUser"
+	SisikemiFashion_UpdateUser_FullMethodName            = "/pb.SisikemiFashion/UpdateUser"
+	SisikemiFashion_VerifyEmail_FullMethodName           = "/pb.SisikemiFashion/VerifyEmail"
+	SisikemiFashion_CreateMedia_FullMethodName           = "/pb.SisikemiFashion/CreateMedia"
+	SisikemiFashion_UploadImage_FullMethodName           = "/pb.SisikemiFashion/UploadImage"
+	SisikemiFashion_ListMedia_FullMethodName             = "/pb.SisikemiFashion/ListMedia"
+	SisikemiFashion_GetMedia_FullMethodName              = "/pb.SisikemiFashion/GetMedia"
+	SisikemiFashion_CreateCollection_FullMethodName      = "/pb.SisikemiFashion/CreateCollection"
+	SisikemiFashion_ListCollections_FullMethodName       = "/pb.SisikemiFashion/ListCollections"
+	SisikemiFashion_CreateProduct_FullMethodName         = "/pb.SisikemiFashion/CreateProduct"
+	SisikemiFashion_ListProducts_FullMethodName          = "/pb.SisikemiFashion/ListProducts"
+	SisikemiFashion_GetProduct_FullMethodName            = "/pb.SisikemiFashion/GetProduct"
+	SisikemiFashion_CreateCartItem_FullMethodName        = "/pb.SisikemiFashion/CreateCartItem"
+	SisikemiFashion_DeleteCartItem_FullMethodName        = "/pb.SisikemiFashion/DeleteCartItem"
+	SisikemiFashion_ListUserCartItems_FullMethodName     = "/pb.SisikemiFashion/ListUserCartItems"
+	SisikemiFashion_UpdateCartItemQty_FullMethodName     = "/pb.SisikemiFashion/UpdateCartItemQty"
+	SisikemiFashion_UpdateProduct_FullMethodName         = "/pb.SisikemiFashion/UpdateProduct"
+	SisikemiFashion_DeleteProduct_FullMethodName         = "/pb.SisikemiFashion/DeleteProduct"
+	SisikemiFashion_UploadCloudinaryMedia_FullMethodName = "/pb.SisikemiFashion/UploadCloudinaryMedia"
 )
 
 // SisikemiFashionClient is the client API for SisikemiFashion service.
@@ -63,6 +64,7 @@ type SisikemiFashionClient interface {
 	UpdateCartItemQty(ctx context.Context, in *UpdateCartItemQtyRequest, opts ...grpc.CallOption) (*UpdateCartItemQtyResponse, error)
 	UpdateProduct(ctx context.Context, in *UpdateProductRequest, opts ...grpc.CallOption) (*UpdateProductResponse, error)
 	DeleteProduct(ctx context.Context, in *DeleteProductRequest, opts ...grpc.CallOption) (*DeleteProductResponse, error)
+	UploadCloudinaryMedia(ctx context.Context, in *UploadCloudinaryImageRequest, opts ...grpc.CallOption) (*UploadCloudinaryImageResponse, error)
 }
 
 type sisikemiFashionClient struct {
@@ -263,6 +265,16 @@ func (c *sisikemiFashionClient) DeleteProduct(ctx context.Context, in *DeletePro
 	return out, nil
 }
 
+func (c *sisikemiFashionClient) UploadCloudinaryMedia(ctx context.Context, in *UploadCloudinaryImageRequest, opts ...grpc.CallOption) (*UploadCloudinaryImageResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UploadCloudinaryImageResponse)
+	err := c.cc.Invoke(ctx, SisikemiFashion_UploadCloudinaryMedia_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SisikemiFashionServer is the server API for SisikemiFashion service.
 // All implementations must embed UnimplementedSisikemiFashionServer
 // for forward compatibility.
@@ -286,6 +298,7 @@ type SisikemiFashionServer interface {
 	UpdateCartItemQty(context.Context, *UpdateCartItemQtyRequest) (*UpdateCartItemQtyResponse, error)
 	UpdateProduct(context.Context, *UpdateProductRequest) (*UpdateProductResponse, error)
 	DeleteProduct(context.Context, *DeleteProductRequest) (*DeleteProductResponse, error)
+	UploadCloudinaryMedia(context.Context, *UploadCloudinaryImageRequest) (*UploadCloudinaryImageResponse, error)
 	mustEmbedUnimplementedSisikemiFashionServer()
 }
 
@@ -352,6 +365,9 @@ func (UnimplementedSisikemiFashionServer) UpdateProduct(context.Context, *Update
 }
 func (UnimplementedSisikemiFashionServer) DeleteProduct(context.Context, *DeleteProductRequest) (*DeleteProductResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteProduct not implemented")
+}
+func (UnimplementedSisikemiFashionServer) UploadCloudinaryMedia(context.Context, *UploadCloudinaryImageRequest) (*UploadCloudinaryImageResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UploadCloudinaryMedia not implemented")
 }
 func (UnimplementedSisikemiFashionServer) mustEmbedUnimplementedSisikemiFashionServer() {}
 func (UnimplementedSisikemiFashionServer) testEmbeddedByValue()                         {}
@@ -716,6 +732,24 @@ func _SisikemiFashion_DeleteProduct_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SisikemiFashion_UploadCloudinaryMedia_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UploadCloudinaryImageRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SisikemiFashionServer).UploadCloudinaryMedia(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SisikemiFashion_UploadCloudinaryMedia_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SisikemiFashionServer).UploadCloudinaryMedia(ctx, req.(*UploadCloudinaryImageRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SisikemiFashion_ServiceDesc is the grpc.ServiceDesc for SisikemiFashion service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -798,6 +832,10 @@ var SisikemiFashion_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteProduct",
 			Handler:    _SisikemiFashion_DeleteProduct_Handler,
+		},
+		{
+			MethodName: "UploadCloudinaryMedia",
+			Handler:    _SisikemiFashion_UploadCloudinaryMedia_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

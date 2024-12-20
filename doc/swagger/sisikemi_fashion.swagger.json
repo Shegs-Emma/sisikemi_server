@@ -653,6 +653,40 @@
         ]
       }
     },
+    "/v1/upload_image/cloudinary": {
+      "post": {
+        "summary": "Create new image in cloudinary",
+        "description": "Use this api to create new image to cloudinary",
+        "operationId": "SisikemiFashion_UploadCloudinaryMedia",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbUploadCloudinaryImageResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbUploadCloudinaryImageRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SisikemiFashion"
+        ]
+      }
+    },
     "/v1/verify_email": {
       "get": {
         "summary": "Verify email",
@@ -1304,6 +1338,26 @@
       "properties": {
         "user": {
           "$ref": "#/definitions/pbUser"
+        }
+      }
+    },
+    "pbUploadCloudinaryImageRequest": {
+      "type": "object",
+      "properties": {
+        "imageData": {
+          "type": "string",
+          "format": "byte"
+        },
+        "imageName": {
+          "type": "string"
+        }
+      }
+    },
+    "pbUploadCloudinaryImageResponse": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
         }
       }
     },
