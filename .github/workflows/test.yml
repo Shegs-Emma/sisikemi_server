@@ -33,6 +33,26 @@ jobs:
         with:
           go-version: "1.22"
 
+      - name: Create app.env file
+        run: |
+          echo DB_SOURCE=${{ secrets.DB_SOURCE }} >> app.env
+          echo MIGRATION_URL=${{ secrets.MIGRATION_URL }} >> app.env
+          echo HTTP_SERVER_ADDRESS=${{ secrets.HTTP_SERVER_ADDRESS }} >> app.env
+          echo GRPC_SERVER_ADDRESS=${{ secrets.GRPC_SERVER_ADDRESS }} >> app.env
+          echo TOKEN_SYMMETRIC_KEY=${{ secrets.TOKEN_SYMMETRIC_KEY }} >> app.env
+          echo ACCESS_TOKEN_DURATION=${{ secrets.ACCESS_TOKEN_DURATION }} >> app.env
+          echo REFRESH_TOKEN_DURATION=${{ secrets.REFRESH_TOKEN_DURATION }} >> app.env
+          echo ENVIRONMENT=${{ secrets.ENVIRONMENT }} >> app.env
+          echo ALLOWED_ORIGINS=${{ secrets.ALLOWED_ORIGINS }} >> app.env
+          echo REDIS_ADDRESS=${{ secrets.REDIS_ADDRESS }} >> app.env
+          echo EMAIL_SENDER_NAME=${{ secrets.EMAIL_SENDER_NAME }} >> app.env
+          echo EMAIL_SENDER_PASSWORD=${{ secrets.EMAIL_SENDER_PASSWORD }} >> app.env
+          echo SENDGRID_API_KEY=${{ secrets.SENDGRID_API_KEY }} >> app.env
+          echo CLOUDINARY_URL=${{ secrets.CLOUDINARY_URL }} >> app.env
+          echo DB_HOST=localhost >> app.env
+          echo DB_PORT=5432 >> app.env
+          echo ENV=testing >> app.env
+
       - name: Install golang-migrate
         run: |
           curl -L https://github.com/golang-migrate/migrate/releases/download/v4.17.1/migrate.linux-386.tar.gz | tar xvz
@@ -40,7 +60,11 @@ jobs:
           which migrate
 
       - name: Run migrations
+        env:
+          CONFIG_PATH: app.env
         run: make migrateup
 
       - name: Test
+        env:
+          CONFIG_PATH: app.env
         run: make test
