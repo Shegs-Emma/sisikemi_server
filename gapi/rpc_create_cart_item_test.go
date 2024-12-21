@@ -65,14 +65,14 @@ func TestCreateCartItemAPI(t *testing.T) {
 				store.EXPECT().
 					GetCartItemByProductId(gomock.Any(), gomock.Eq(cartItem.ProductID)).
 					Return(db.Cart{}, sql.ErrNoRows) 
-				
-				store.EXPECT().
-					GetUser(gomock.Any(), gomock.Eq(user.Username)).
-					Return(user, nil) 
 
 				// Return the user object when fetching by ID
 				store.EXPECT().
 					GetUserById(gomock.Any(), gomock.Eq(cartItem.UserRefID)).
+					Return(user, nil)
+
+				store.EXPECT().
+					GetUserByUsername(gomock.Any(), gomock.Eq(user.Username)).
 					Return(user, nil)
 
 				store.EXPECT().
@@ -112,14 +112,18 @@ func TestCreateCartItemAPI(t *testing.T) {
 					GetCartItemByProductId(gomock.Any(), gomock.Eq(cartItem.ProductID)).
 					Return(db.Cart{}, sql.ErrNoRows) 
 				
-				store.EXPECT().
-					GetUser(gomock.Any(), gomock.Eq(user.Username)).
-					Return(user, nil) 
+				// store.EXPECT().
+				// 	GetUser(gomock.Any(), gomock.Eq(user.Username)).
+				// 	Return(user, nil) 
 
 				// Return the user object when fetching by ID
 				store.EXPECT().
 					GetUserById(gomock.Any(), gomock.Eq(int64(user.ID))).
 					Return(db.User{}, sql.ErrNoRows).AnyTimes()
+
+				store.EXPECT().
+					GetUserByUsername(gomock.Any(), gomock.Eq(user.Username)).
+					Return(db.User{}, nil)
 
 				// Simulate an internal error from the CreateMedia operation
 				store.EXPECT().
