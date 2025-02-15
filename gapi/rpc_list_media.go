@@ -20,7 +20,7 @@ func (server *Server) ListMedia (ctx context.Context, req *pb.ListMediaRequest) 
 	result, err := server.store.ListMedia(ctx, arg)
 
 	if err != nil {
-		return nil, status.Errorf(codes.NotFound, err.Error())
+		return nil, status.Errorf(codes.AlreadyExists, "%s", err.Error())
 	}
 
 	var pbMediaItems []*pb.Media
