@@ -12,7 +12,7 @@ func (server *Server) GetMedia (ctx context.Context, req *pb.GetMediaRequest) (*
 	result, err := server.store.GetMedia(ctx, req.GetId())
 
 	if err != nil {
-		return nil, status.Errorf(codes.NotFound, err.Error())
+		return nil, status.Errorf(codes.AlreadyExists, "%s", err.Error())
 	}
 
 	rsp := &pb.GetMediaResponse{

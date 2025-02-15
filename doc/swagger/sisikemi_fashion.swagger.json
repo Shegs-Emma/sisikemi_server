@@ -688,7 +688,7 @@
       }
     },
     "/v1/verify_email": {
-      "get": {
+      "post": {
         "summary": "Verify email",
         "description": "Use this api to verify new user",
         "operationId": "SisikemiFashion_VerifyEmail",
@@ -708,17 +708,12 @@
         },
         "parameters": [
           {
-            "name": "emailId",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "secretCode",
-            "in": "query",
-            "required": false,
-            "type": "string"
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbVerifyEmailRequest"
+            }
           }
         ],
         "tags": [
@@ -1351,13 +1346,17 @@
         "imageName": {
           "type": "string"
         }
-      }
+      },
+      "required": [
+        "imageData",
+        "imageName"
+      ]
     },
     "pbUploadCloudinaryImageResponse": {
       "type": "object",
       "properties": {
-        "url": {
-          "type": "string"
+        "media": {
+          "$ref": "#/definitions/pbMedia"
         }
       }
     },
@@ -1420,6 +1419,18 @@
         "createdAt": {
           "type": "string",
           "format": "date-time"
+        }
+      }
+    },
+    "pbVerifyEmailRequest": {
+      "type": "object",
+      "properties": {
+        "emailId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "secretCode": {
+          "type": "string"
         }
       }
     },

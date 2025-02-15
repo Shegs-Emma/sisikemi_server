@@ -8,8 +8,16 @@ services:
       - POSTGRES_DB=sisikemi_fashion
     volumes:
       - data-volume:/var/lib/postgresql/data
+
   redis:
     image: redis:7-alpine
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
   api:
     build:
       context: .

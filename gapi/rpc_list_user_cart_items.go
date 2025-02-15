@@ -38,7 +38,7 @@ func (server *Server) ListUserCartItems (ctx context.Context, req *pb.ListUserCa
 	result, err := server.store.ListUserCartItems(ctx, arg)
 
 	if err != nil {
-		return nil, status.Errorf(codes.NotFound, err.Error())
+		return nil, status.Errorf(codes.AlreadyExists, "%s", err.Error())
 	}
 
 	var pbUserCartItems []*pb.Cart

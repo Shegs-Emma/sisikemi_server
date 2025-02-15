@@ -53,4 +53,8 @@ proto:
 redis:
 	docker run --name redis -p 6379:6379 -d redis:7-alpine
 
-.PHONY: postgres createdb dropdb migrateup migratedown migratedown1 db_docs db_schema new_migration sqlc test server mock proto redis
+mailhog:
+	docker run -p 1025:1025 -p 8025:8025 mailhog/mailhog
+
+
+.PHONY: postgres createdb dropdb migrateup migratedown migratedown1 db_docs db_schema new_migration sqlc test server mock proto redis mailhog

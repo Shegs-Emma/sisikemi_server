@@ -7,6 +7,7 @@ import (
 	"github.com/rs/zerolog/log"
 	db "github.com/techschool/simplebank/db/sqlc"
 	"github.com/techschool/simplebank/mail"
+	"github.com/techschool/simplebank/util"
 )
 
 const (
@@ -23,11 +24,11 @@ type TaskProcessor interface {
 type RedisTaskProcessor struct {
 	server *asynq.Server
 	store db.Store
-	mailer mail.EmailSender
-	sendgridMailer mail.EmailSendGridSender
+	sendSmtpMailer mail.EmailSendSMTPEmailSender
+	config util.Config
 }
 
-func NewRedisTaskProcessor(redisOpt asynq.RedisClientOpt, store db.Store, mailer mail.EmailSender, sendgridMailer mail.EmailSendGridSender) TaskProcessor {
+func NewRedisTaskProcessor(redisOpt asynq.RedisClientOpt, store db.Store, sendSmtpMailer mail.EmailSendSMTPEmailSender, config util.Config) TaskProcessor {
 	server := asynq.NewServer(
 		redisOpt, 
 		asynq.Config{
@@ -46,8 +47,8 @@ func NewRedisTaskProcessor(redisOpt asynq.RedisClientOpt, store db.Store, mailer
 	return &RedisTaskProcessor{
 		server: server,
 		store: store,
-		mailer: mailer,
-		sendgridMailer: sendgridMailer,
+		sendSmtpMailer: sendSmtpMailer,
+		config: config,
 	}
 }
 

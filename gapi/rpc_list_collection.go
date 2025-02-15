@@ -30,7 +30,7 @@ func (server *Server) ListCollections (ctx context.Context, req *pb.ListCollecti
 	result, err := server.store.ListCollection(ctx, arg)
 
 	if err != nil {
-		return nil, status.Errorf(codes.NotFound, err.Error())
+		return nil, status.Errorf(codes.AlreadyExists, "%s", err.Error())
 	}
 
 	var pbCollectionItems []*pb.Collection

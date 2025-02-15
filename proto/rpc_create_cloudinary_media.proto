@@ -2,12 +2,14 @@ syntax = "proto3";
 package pb;
 
 option go_package = "github.com/techschool/simplebank/pb";
+import "media.proto";
+import "google/api/field_behavior.proto";
 
 message UploadCloudinaryImageRequest {
-    bytes image_data = 1;
-    string image_name = 2;
+    bytes image_data = 1 [(google.api.field_behavior) = REQUIRED];
+    string image_name = 2 [(google.api.field_behavior) = REQUIRED];
 }
 
 message UploadCloudinaryImageResponse {
-    string url = 1;
+    Media media = 1;
 }
