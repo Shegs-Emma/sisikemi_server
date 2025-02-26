@@ -1,4 +1,4 @@
-DROP TABLE orders, collections, media, product_media, products, users;
+DROP TABLE orders, order_items, collections, media, product_media, products, users;
 
 -- Drop the product_status enum type
 DROP TYPE product_status;

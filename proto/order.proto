@@ -1,0 +1,20 @@
+syntax = "proto3";
+package pb;
+import "google/protobuf/timestamp.proto";
+import "user.proto";
+import "orderItem.proto";
+import "shippingAddress.proto";
+option go_package = "github.com/techschool/simplebank/pb";
+
+message Order {
+    int64 id = 1;
+    string ref_no = 2;
+    User username = 3;
+    double amount = 4;
+    string payment_method = 5;
+    ShippingAddress shipping_address_id = 6;
+    string shipping_method = 7;
+    string order_status = 8;
+    repeated OrderItem items = 9;
+    google.protobuf.Timestamp created_at = 10;
+}

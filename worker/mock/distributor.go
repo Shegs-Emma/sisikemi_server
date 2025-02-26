@@ -36,6 +36,25 @@ func (m *MockTaskDistributor) EXPECT() *MockTaskDistributorMockRecorder {
 	return m.recorder
 }
 
+// DistributeTaskSendVerificationCodeEmail mocks base method.
+func (m *MockTaskDistributor) DistributeTaskSendVerificationCodeEmail(arg0 context.Context, arg1 *worker.PayloadSendVerificationCodeEmail, arg2 ...asynq.Option) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{arg0, arg1}
+	for _, a := range arg2 {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DistributeTaskSendVerificationCodeEmail", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DistributeTaskSendVerificationCodeEmail indicates an expected call of DistributeTaskSendVerificationCodeEmail.
+func (mr *MockTaskDistributorMockRecorder) DistributeTaskSendVerificationCodeEmail(arg0, arg1 interface{}, arg2 ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{arg0, arg1}, arg2...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DistributeTaskSendVerificationCodeEmail", reflect.TypeOf((*MockTaskDistributor)(nil).DistributeTaskSendVerificationCodeEmail), varargs...)
+}
+
 // DistributeTaskSendVerifyEmail mocks base method.
 func (m *MockTaskDistributor) DistributeTaskSendVerifyEmail(arg0 context.Context, arg1 *worker.PayloadSendVerifyEmail, arg2 ...asynq.Option) error {
 	m.ctrl.T.Helper()

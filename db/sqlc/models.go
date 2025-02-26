@@ -104,7 +104,7 @@ type Cart struct {
 	ID              int64     `json:"id"`
 	ProductID       int32     `json:"product_id"`
 	ProductName     string    `json:"product_name"`
-	ProductPrice    string    `json:"product_price"`
+	ProductPrice    int64     `json:"product_price"`
 	ProductQuantity int64     `json:"product_quantity"`
 	ProductImage    string    `json:"product_image"`
 	ProductColor    string    `json:"product_color"`
@@ -133,16 +133,27 @@ type Medium struct {
 }
 
 type Order struct {
-	ID       int64       `json:"id"`
-	RefNo    pgtype.Text `json:"ref_no"`
-	Username string      `json:"username"`
+	ID       int64  `json:"id"`
+	RefNo    string `json:"ref_no"`
+	Username string `json:"username"`
 	// it must be positive
-	Amount        int64       `json:"amount"`
-	PaymentMethod string      `json:"payment_method"`
-	Product       string      `json:"product"`
-	OrderStatus   OrderStatus `json:"order_status"`
-	LastUpdatedAt time.Time   `json:"last_updated_at"`
-	CreatedAt     time.Time   `json:"created_at"`
+	Amount            int64       `json:"amount"`
+	PaymentMethod     string      `json:"payment_method"`
+	OrderStatus       OrderStatus `json:"order_status"`
+	LastUpdatedAt     time.Time   `json:"last_updated_at"`
+	CreatedAt         time.Time   `json:"created_at"`
+	ShippingMethod    string      `json:"shipping_method"`
+	ShippingAddressID int64       `json:"shipping_address_id"`
+}
+
+type OrderItem struct {
+	ID            int64     `json:"id"`
+	OrderID       string    `json:"order_id"`
+	ProductID     string    `json:"product_id"`
+	Quantity      int32     `json:"quantity"`
+	Price         int64     `json:"price"`
+	CreatedAt     time.Time `json:"created_at"`
+	LastUpdatedAt time.Time `json:"last_updated_at"`
 }
 
 type Product struct {
@@ -185,6 +196,18 @@ type Session struct {
 	CreatedAt    time.Time `json:"created_at"`
 }
 
+type ShippingAddress struct {
+	ID         int64       `json:"id"`
+	Username   string      `json:"username"`
+	Country    string      `json:"country"`
+	Address    string      `json:"address"`
+	Town       string      `json:"town"`
+	PostalCode pgtype.Text `json:"postal_code"`
+	Landmark   pgtype.Text `json:"landmark"`
+	CreatedAt  time.Time   `json:"created_at"`
+	ExpiredAt  time.Time   `json:"expired_at"`
+}
+
 type User struct {
 	Username          string      `json:"username"`
 	HashedPassword    string      `json:"hashed_password"`
@@ -198,6 +221,7 @@ type User struct {
 	CreatedAt         time.Time   `json:"created_at"`
 	IsEmailVerified   bool        `json:"is_email_verified"`
 	ID                int64       `json:"id"`
+	VerificationCode  pgtype.Text `json:"verification_code"`
 }
 
 type VerifyEmail struct {

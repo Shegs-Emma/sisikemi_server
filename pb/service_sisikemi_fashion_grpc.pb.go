@@ -26,6 +26,9 @@ type SisikemiFashionClient interface {
 	LoginUser(ctx context.Context, in *LoginUserRequest, opts ...grpc.CallOption) (*LoginUserResponse, error)
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UpdateUserResponse, error)
 	VerifyEmail(ctx context.Context, in *VerifyEmailRequest, opts ...grpc.CallOption) (*VerifyEmailResponse, error)
+	ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...grpc.CallOption) (*ForgotPasswordResponse, error)
+	VerifyCode(ctx context.Context, in *VerifyCodeRequest, opts ...grpc.CallOption) (*VerifyCodeResponse, error)
+	ResetPassword(ctx context.Context, in *ResetPasswordRequest, opts ...grpc.CallOption) (*ResetPasswordResponse, error)
 	CreateMedia(ctx context.Context, in *CreateMediaRequest, opts ...grpc.CallOption) (*CreateMediaResponse, error)
 	UploadImage(ctx context.Context, in *UploadImageRequest, opts ...grpc.CallOption) (*UploadImageResponse, error)
 	ListMedia(ctx context.Context, in *ListMediaRequest, opts ...grpc.CallOption) (*ListMediaResponse, error)
@@ -34,6 +37,7 @@ type SisikemiFashionClient interface {
 	ListCollections(ctx context.Context, in *ListCollectionRequest, opts ...grpc.CallOption) (*ListCollectionResponse, error)
 	CreateProduct(ctx context.Context, in *CreateProductRequest, opts ...grpc.CallOption) (*CreateProductResponse, error)
 	ListProducts(ctx context.Context, in *ListProductRequest, opts ...grpc.CallOption) (*ListProductResponse, error)
+	ListOrders(ctx context.Context, in *ListOrderRequest, opts ...grpc.CallOption) (*ListOrderResponse, error)
 	GetProduct(ctx context.Context, in *GetProductRequest, opts ...grpc.CallOption) (*GetProductResponse, error)
 	CreateCartItem(ctx context.Context, in *CreateCartItemRequest, opts ...grpc.CallOption) (*CreateCartItemResponse, error)
 	DeleteCartItem(ctx context.Context, in *DeleteCartItemRequest, opts ...grpc.CallOption) (*DeleteCartItemResponse, error)
@@ -42,6 +46,7 @@ type SisikemiFashionClient interface {
 	UpdateProduct(ctx context.Context, in *UpdateProductRequest, opts ...grpc.CallOption) (*UpdateProductResponse, error)
 	DeleteProduct(ctx context.Context, in *DeleteProductRequest, opts ...grpc.CallOption) (*DeleteProductResponse, error)
 	UploadCloudinaryMedia(ctx context.Context, in *UploadCloudinaryImageRequest, opts ...grpc.CallOption) (*UploadCloudinaryImageResponse, error)
+	CreateOrder(ctx context.Context, in *CreateOrderRequest, opts ...grpc.CallOption) (*CreateOrderResponse, error)
 }
 
 type sisikemiFashionClient struct {
@@ -82,6 +87,33 @@ func (c *sisikemiFashionClient) UpdateUser(ctx context.Context, in *UpdateUserRe
 func (c *sisikemiFashionClient) VerifyEmail(ctx context.Context, in *VerifyEmailRequest, opts ...grpc.CallOption) (*VerifyEmailResponse, error) {
 	out := new(VerifyEmailResponse)
 	err := c.cc.Invoke(ctx, "/pb.SisikemiFashion/VerifyEmail", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *sisikemiFashionClient) ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...grpc.CallOption) (*ForgotPasswordResponse, error) {
+	out := new(ForgotPasswordResponse)
+	err := c.cc.Invoke(ctx, "/pb.SisikemiFashion/ForgotPassword", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *sisikemiFashionClient) VerifyCode(ctx context.Context, in *VerifyCodeRequest, opts ...grpc.CallOption) (*VerifyCodeResponse, error) {
+	out := new(VerifyCodeResponse)
+	err := c.cc.Invoke(ctx, "/pb.SisikemiFashion/VerifyCode", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *sisikemiFashionClient) ResetPassword(ctx context.Context, in *ResetPasswordRequest, opts ...grpc.CallOption) (*ResetPasswordResponse, error) {
+	out := new(ResetPasswordResponse)
+	err := c.cc.Invoke(ctx, "/pb.SisikemiFashion/ResetPassword", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -160,6 +192,15 @@ func (c *sisikemiFashionClient) ListProducts(ctx context.Context, in *ListProduc
 	return out, nil
 }
 
+func (c *sisikemiFashionClient) ListOrders(ctx context.Context, in *ListOrderRequest, opts ...grpc.CallOption) (*ListOrderResponse, error) {
+	out := new(ListOrderResponse)
+	err := c.cc.Invoke(ctx, "/pb.SisikemiFashion/ListOrders", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *sisikemiFashionClient) GetProduct(ctx context.Context, in *GetProductRequest, opts ...grpc.CallOption) (*GetProductResponse, error) {
 	out := new(GetProductResponse)
 	err := c.cc.Invoke(ctx, "/pb.SisikemiFashion/GetProduct", in, out, opts...)
@@ -232,6 +273,15 @@ func (c *sisikemiFashionClient) UploadCloudinaryMedia(ctx context.Context, in *U
 	return out, nil
 }
 
+func (c *sisikemiFashionClient) CreateOrder(ctx context.Context, in *CreateOrderRequest, opts ...grpc.CallOption) (*CreateOrderResponse, error) {
+	out := new(CreateOrderResponse)
+	err := c.cc.Invoke(ctx, "/pb.SisikemiFashion/CreateOrder", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SisikemiFashionServer is the server API for SisikemiFashion service.
 // All implementations must embed UnimplementedSisikemiFashionServer
 // for forward compatibility
@@ -240,6 +290,9 @@ type SisikemiFashionServer interface {
 	LoginUser(context.Context, *LoginUserRequest) (*LoginUserResponse, error)
 	UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error)
 	VerifyEmail(context.Context, *VerifyEmailRequest) (*VerifyEmailResponse, error)
+	ForgotPassword(context.Context, *ForgotPasswordRequest) (*ForgotPasswordResponse, error)
+	VerifyCode(context.Context, *VerifyCodeRequest) (*VerifyCodeResponse, error)
+	ResetPassword(context.Context, *ResetPasswordRequest) (*ResetPasswordResponse, error)
 	CreateMedia(context.Context, *CreateMediaRequest) (*CreateMediaResponse, error)
 	UploadImage(context.Context, *UploadImageRequest) (*UploadImageResponse, error)
 	ListMedia(context.Context, *ListMediaRequest) (*ListMediaResponse, error)
@@ -248,6 +301,7 @@ type SisikemiFashionServer interface {
 	ListCollections(context.Context, *ListCollectionRequest) (*ListCollectionResponse, error)
 	CreateProduct(context.Context, *CreateProductRequest) (*CreateProductResponse, error)
 	ListProducts(context.Context, *ListProductRequest) (*ListProductResponse, error)
+	ListOrders(context.Context, *ListOrderRequest) (*ListOrderResponse, error)
 	GetProduct(context.Context, *GetProductRequest) (*GetProductResponse, error)
 	CreateCartItem(context.Context, *CreateCartItemRequest) (*CreateCartItemResponse, error)
 	DeleteCartItem(context.Context, *DeleteCartItemRequest) (*DeleteCartItemResponse, error)
@@ -256,6 +310,7 @@ type SisikemiFashionServer interface {
 	UpdateProduct(context.Context, *UpdateProductRequest) (*UpdateProductResponse, error)
 	DeleteProduct(context.Context, *DeleteProductRequest) (*DeleteProductResponse, error)
 	UploadCloudinaryMedia(context.Context, *UploadCloudinaryImageRequest) (*UploadCloudinaryImageResponse, error)
+	CreateOrder(context.Context, *CreateOrderRequest) (*CreateOrderResponse, error)
 	mustEmbedUnimplementedSisikemiFashionServer()
 }
 
@@ -274,6 +329,15 @@ func (UnimplementedSisikemiFashionServer) UpdateUser(context.Context, *UpdateUse
 }
 func (UnimplementedSisikemiFashionServer) VerifyEmail(context.Context, *VerifyEmailRequest) (*VerifyEmailResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VerifyEmail not implemented")
+}
+func (UnimplementedSisikemiFashionServer) ForgotPassword(context.Context, *ForgotPasswordRequest) (*ForgotPasswordResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ForgotPassword not implemented")
+}
+func (UnimplementedSisikemiFashionServer) VerifyCode(context.Context, *VerifyCodeRequest) (*VerifyCodeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VerifyCode not implemented")
+}
+func (UnimplementedSisikemiFashionServer) ResetPassword(context.Context, *ResetPasswordRequest) (*ResetPasswordResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ResetPassword not implemented")
 }
 func (UnimplementedSisikemiFashionServer) CreateMedia(context.Context, *CreateMediaRequest) (*CreateMediaResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateMedia not implemented")
@@ -299,6 +363,9 @@ func (UnimplementedSisikemiFashionServer) CreateProduct(context.Context, *Create
 func (UnimplementedSisikemiFashionServer) ListProducts(context.Context, *ListProductRequest) (*ListProductResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListProducts not implemented")
 }
+func (UnimplementedSisikemiFashionServer) ListOrders(context.Context, *ListOrderRequest) (*ListOrderResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListOrders not implemented")
+}
 func (UnimplementedSisikemiFashionServer) GetProduct(context.Context, *GetProductRequest) (*GetProductResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetProduct not implemented")
 }
@@ -322,6 +389,9 @@ func (UnimplementedSisikemiFashionServer) DeleteProduct(context.Context, *Delete
 }
 func (UnimplementedSisikemiFashionServer) UploadCloudinaryMedia(context.Context, *UploadCloudinaryImageRequest) (*UploadCloudinaryImageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UploadCloudinaryMedia not implemented")
+}
+func (UnimplementedSisikemiFashionServer) CreateOrder(context.Context, *CreateOrderRequest) (*CreateOrderResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateOrder not implemented")
 }
 func (UnimplementedSisikemiFashionServer) mustEmbedUnimplementedSisikemiFashionServer() {}
 
@@ -404,6 +474,60 @@ func _SisikemiFashion_VerifyEmail_Handler(srv interface{}, ctx context.Context, 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(SisikemiFashionServer).VerifyEmail(ctx, req.(*VerifyEmailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SisikemiFashion_ForgotPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ForgotPasswordRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SisikemiFashionServer).ForgotPassword(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.SisikemiFashion/ForgotPassword",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SisikemiFashionServer).ForgotPassword(ctx, req.(*ForgotPasswordRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SisikemiFashion_VerifyCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VerifyCodeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SisikemiFashionServer).VerifyCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.SisikemiFashion/VerifyCode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SisikemiFashionServer).VerifyCode(ctx, req.(*VerifyCodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SisikemiFashion_ResetPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ResetPasswordRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SisikemiFashionServer).ResetPassword(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.SisikemiFashion/ResetPassword",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SisikemiFashionServer).ResetPassword(ctx, req.(*ResetPasswordRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -552,6 +676,24 @@ func _SisikemiFashion_ListProducts_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SisikemiFashion_ListOrders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SisikemiFashionServer).ListOrders(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.SisikemiFashion/ListOrders",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SisikemiFashionServer).ListOrders(ctx, req.(*ListOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _SisikemiFashion_GetProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetProductRequest)
 	if err := dec(in); err != nil {
@@ -696,6 +838,24 @@ func _SisikemiFashion_UploadCloudinaryMedia_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SisikemiFashion_CreateOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SisikemiFashionServer).CreateOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.SisikemiFashion/CreateOrder",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SisikemiFashionServer).CreateOrder(ctx, req.(*CreateOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SisikemiFashion_ServiceDesc is the grpc.ServiceDesc for SisikemiFashion service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -718,6 +878,18 @@ var SisikemiFashion_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "VerifyEmail",
 			Handler:    _SisikemiFashion_VerifyEmail_Handler,
+		},
+		{
+			MethodName: "ForgotPassword",
+			Handler:    _SisikemiFashion_ForgotPassword_Handler,
+		},
+		{
+			MethodName: "VerifyCode",
+			Handler:    _SisikemiFashion_VerifyCode_Handler,
+		},
+		{
+			MethodName: "ResetPassword",
+			Handler:    _SisikemiFashion_ResetPassword_Handler,
 		},
 		{
 			MethodName: "CreateMedia",
@@ -752,6 +924,10 @@ var SisikemiFashion_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _SisikemiFashion_ListProducts_Handler,
 		},
 		{
+			MethodName: "ListOrders",
+			Handler:    _SisikemiFashion_ListOrders_Handler,
+		},
+		{
 			MethodName: "GetProduct",
 			Handler:    _SisikemiFashion_GetProduct_Handler,
 		},
@@ -782,6 +958,10 @@ var SisikemiFashion_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UploadCloudinaryMedia",
 			Handler:    _SisikemiFashion_UploadCloudinaryMedia_Handler,
+		},
+		{
+			MethodName: "CreateOrder",
+			Handler:    _SisikemiFashion_CreateOrder_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

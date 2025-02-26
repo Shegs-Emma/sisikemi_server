@@ -11,6 +11,7 @@ import (
 
 func convertUser(user db.User) *pb.User {
 	return &pb.User{
+		Id: user.ID,
 		Username: user.Username,
 		FirstName: user.FirstName,
 		LastName: user.LastName,
@@ -20,6 +21,18 @@ func convertUser(user db.User) *pb.User {
 		PasswordChangedAt: timestamppb.New(user.PasswordChangedAt),
 		CreatedAt: timestamppb.New(user.CreatedAt),
 		IsAdmin: user.IsAdmin,
+	}
+}
+
+func convertShippingAddress(server *Server, ctx context.Context, addr db.ShippingAddress) *pb.ShippingAddress {
+	return &pb.ShippingAddress{
+		Username: fetchReferencedUserByUsername(server, ctx, addr.Username),
+		Country: addr.Country,
+		Address: addr.Address,
+		Town: addr.Town,
+		PostalCode: addr.PostalCode.String,
+		Landmark: addr.Landmark.String,
+		CreatedAt: timestamppb.New(addr.CreatedAt),
 	}
 }
 
@@ -92,6 +105,21 @@ func convertCart(server *Server, ctx context.Context, cart db.Cart) *pb.Cart {
 	}
 }
 
+func convertOrder(server *Server, ctx context.Context, order db.Order) *pb.Order {
+	return &pb.Order{
+		Id: order.ID,
+		RefNo: order.RefNo,
+		Username: fetchReferencedUserByUsername(server, ctx, order.Username),
+		Amount: float64(order.Amount),
+		PaymentMethod: order.PaymentMethod,
+		ShippingAddressId: fetchReferencedShippingAddress(server, ctx, order.ShippingAddressID),
+		ShippingMethod: order.ShippingMethod,
+		OrderStatus: string(order.OrderStatus),
+		Items: fetchReferencedOrderItems(server, ctx, order.RefNo),
+		CreatedAt: timestamppb.New(order.CreatedAt),
+	}
+}
+
 func fetchReferencedMedia(server *Server, ctx context.Context,  media string) *pb.Media {
 	referencedMedia, err := server.store.GetMediaByRef(ctx, media)
 
@@ -110,6 +138,51 @@ func fetchReferencedUser(server *Server, ctx context.Context,  user int64) *pb.U
 	}
 
 	return convertUser(referencedUser)
+}
+
+func fetchReferencedShippingAddress(server *Server, ctx context.Context,  addr int64) *pb.ShippingAddress {
+	referencedShippingAddress, err := server.store.GetShippingAddress(ctx, addr)
+
+	if err != nil {
+		return nil
+	}
+
+	return convertShippingAddress(server, ctx, referencedShippingAddress)
+}
+
+func fetchReferencedUserByUsername(server *Server, ctx context.Context,  user string) *pb.User {
+	referencedUser, err := server.store.GetUserByUsername(ctx, user)
+
+	if err != nil {
+		return nil
+	}
+
+	return convertUser(referencedUser)
+}
+
+func fetchReferencedOrderItems(server *Server, ctx context.Context,  orderRef string) []*pb.OrderItem {
+	orderItems, err := server.store.GetOrderItemsForOrder(ctx, db.GetOrderItemsForOrderParams{
+		OrderID: orderRef,
+		Limit: 10,
+	})
+
+	if err != nil {
+		return nil
+	}
+
+	var pbUserOrderItems []*pb.OrderItem
+	for _, item := range orderItems {
+		pbUserOrderItems = append(pbUserOrderItems, &pb.OrderItem{
+			Id: item.ID,
+			OrderId: item.OrderID,
+			ProductId: item.ProductID,
+			Quantity: int64(item.Quantity),
+			Price: float64(item.Price),
+			CreatedAt: timestamppb.New(item.CreatedAt),
+		})
+	}
+
+	return pbUserOrderItems;
 }
 
 func parseSizeArray(size []string) []string {

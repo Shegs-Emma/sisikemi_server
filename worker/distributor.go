@@ -12,6 +12,12 @@ type TaskDistributor interface {
 		payload *PayloadSendVerifyEmail,
 		opts ...asynq.Option,
 	) error
+
+	DistributeTaskSendVerificationCodeEmail(
+		ctx context.Context,
+		payload *PayloadSendVerificationCodeEmail,
+		opts ...asynq.Option,
+	) error
 }
 
 type RedisTaskDistributor struct {

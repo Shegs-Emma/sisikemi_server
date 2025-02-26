@@ -9,6 +9,8 @@ option go_package = "github.com/techschool/simplebank/pb";
 message UpdateCartItemQtyRequest {
     int64 item_id = 1;
     optional int64 product_quantity = 2;
+    optional int64 product_id = 3;
+    string action = 4;
 }
 
 message UpdateCartItemQtyResponse {

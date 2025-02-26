@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "github.com/techschool/simplebank/pb";
+
+message VerifyCodeRequest {
+    string code = 1;
+    string email = 2;
+}
+
+message VerifyCodeResponse {
+    bool is_verified = 1;
+}

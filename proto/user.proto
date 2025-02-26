@@ -13,4 +13,5 @@ message User {
     bool is_admin = 7;
     google.protobuf.Timestamp password_changed_at = 8;
     google.protobuf.Timestamp created_at = 9;
+    int64 id = 10;
 }
