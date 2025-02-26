@@ -16,7 +16,7 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (server *Server) CreateUser (ctx context.Context, req *pb.CreateUserRequest) (*pb.CreateUserResponse, error) {
+func (server *Server) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb.CreateUserResponse, error) {
 	violations := validateCreateUserRequest(req)
 
 	if violations != nil {

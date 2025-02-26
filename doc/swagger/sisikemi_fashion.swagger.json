@@ -123,6 +123,40 @@
         ]
       }
     },
+    "/v1/create_order": {
+      "post": {
+        "summary": "Create new order",
+        "description": "Use this api to create new order",
+        "operationId": "SisikemiFashion_CreateOrder",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbCreateOrderResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbCreateOrderRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SisikemiFashion"
+        ]
+      }
+    },
     "/v1/create_product": {
       "post": {
         "summary": "Create Product",
@@ -257,6 +291,40 @@
         ]
       }
     },
+    "/v1/forgot_password": {
+      "post": {
+        "summary": "Forgot Password",
+        "description": "Use this api to request for verification code",
+        "operationId": "SisikemiFashion_ForgotPassword",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbForgotPasswordResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbForgotPasswordRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SisikemiFashion"
+        ]
+      }
+    },
     "/v1/list_collection": {
       "get": {
         "summary": "List collections",
@@ -267,6 +335,46 @@
             "description": "A successful response.",
             "schema": {
               "$ref": "#/definitions/pbListCollectionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pageId",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "SisikemiFashion"
+        ]
+      }
+    },
+    "/v1/list_orders": {
+      "get": {
+        "summary": "List Orders",
+        "description": "Use this api to list orders",
+        "operationId": "SisikemiFashion_ListOrders",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbListOrderResponse"
             }
           },
           "default": {
@@ -517,6 +625,40 @@
         ]
       }
     },
+    "/v1/reset_password": {
+      "post": {
+        "summary": "Reset Password",
+        "description": "Use this api to reset your password",
+        "operationId": "SisikemiFashion_ResetPassword",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbResetPasswordResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbResetPasswordRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SisikemiFashion"
+        ]
+      }
+    },
     "/v1/update_cart_item_qty": {
       "patch": {
         "summary": "Update cart item qty",
@@ -687,6 +829,40 @@
         ]
       }
     },
+    "/v1/verify_code": {
+      "post": {
+        "summary": "Verify Verification Code",
+        "description": "Use this api to verify verification code",
+        "operationId": "SisikemiFashion_VerifyCode",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbVerifyCodeResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbVerifyCodeRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SisikemiFashion"
+        ]
+      }
+    },
     "/v1/verify_email": {
       "post": {
         "summary": "Verify email",
@@ -738,7 +914,8 @@
           "type": "string"
         },
         "productPrice": {
-          "type": "string"
+          "type": "string",
+          "format": "int64"
         },
         "productQuantity": {
           "type": "string",
@@ -802,7 +979,8 @@
           "type": "string"
         },
         "productPrice": {
-          "type": "string"
+          "type": "string",
+          "format": "int64"
         },
         "productQuantity": {
           "type": "string",
@@ -871,6 +1049,62 @@
       "properties": {
         "media": {
           "$ref": "#/definitions/pbMedia"
+        }
+      }
+    },
+    "pbCreateOrderRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "string",
+          "format": "int64"
+        },
+        "paymentMethod": {
+          "type": "string"
+        },
+        "shippingMethod": {
+          "type": "string"
+        },
+        "userRefId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "orderStatus": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "town": {
+          "type": "string"
+        },
+        "postalCode": {
+          "type": "string"
+        },
+        "landmark": {
+          "type": "string"
+        },
+        "pageId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "pbCreateOrderResponse": {
+      "type": "object",
+      "properties": {
+        "order": {
+          "$ref": "#/definitions/pbOrder"
         }
       }
     },
@@ -988,6 +1222,22 @@
         }
       }
     },
+    "pbForgotPasswordRequest": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "pbForgotPasswordResponse": {
+      "type": "object",
+      "properties": {
+        "codeIsSent": {
+          "type": "boolean"
+        }
+      }
+    },
     "pbGetMediaResponse": {
       "type": "object",
       "properties": {
@@ -1027,6 +1277,21 @@
           "items": {
             "type": "object",
             "$ref": "#/definitions/pbMedia"
+          }
+        },
+        "nextPageToken": {
+          "type": "string"
+        }
+      }
+    },
+    "pbListOrderResponse": {
+      "type": "object",
+      "properties": {
+        "orders": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbOrder"
           }
         },
         "nextPageToken": {
@@ -1115,6 +1380,75 @@
         },
         "awsId": {
           "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "pbOrder": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "refNo": {
+          "type": "string"
+        },
+        "username": {
+          "$ref": "#/definitions/pbUser"
+        },
+        "amount": {
+          "type": "number",
+          "format": "double"
+        },
+        "paymentMethod": {
+          "type": "string"
+        },
+        "shippingAddressId": {
+          "$ref": "#/definitions/pbShippingAddress"
+        },
+        "shippingMethod": {
+          "type": "string"
+        },
+        "orderStatus": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbOrderItem"
+          }
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "pbOrderItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "orderId": {
+          "type": "string"
+        },
+        "productId": {
+          "type": "string"
+        },
+        "quantity": {
+          "type": "string",
+          "format": "int64"
+        },
+        "price": {
+          "type": "number",
+          "format": "double"
         },
         "createdAt": {
           "type": "string",
@@ -1213,6 +1547,59 @@
         }
       }
     },
+    "pbResetPasswordRequest": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "pbResetPasswordResponse": {
+      "type": "object",
+      "properties": {
+        "isUpdated": {
+          "type": "boolean"
+        }
+      }
+    },
+    "pbShippingAddress": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "username": {
+          "$ref": "#/definitions/pbUser"
+        },
+        "country": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "town": {
+          "type": "string"
+        },
+        "postalCode": {
+          "type": "string"
+        },
+        "landmark": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
     "pbUpdateCartItemQtyRequest": {
       "type": "object",
       "properties": {
@@ -1223,6 +1610,13 @@
         "productQuantity": {
           "type": "string",
           "format": "int64"
+        },
+        "productId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "action": {
+          "type": "string"
         }
       }
     },
@@ -1419,6 +1813,29 @@
         "createdAt": {
           "type": "string",
           "format": "date-time"
+        },
+        "id": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbVerifyCodeRequest": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "pbVerifyCodeResponse": {
+      "type": "object",
+      "properties": {
+        "isVerified": {
+          "type": "boolean"
         }
       }
     },

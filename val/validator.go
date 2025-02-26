@@ -74,3 +74,7 @@ func ValidateEmailId(value int64) error {
 func ValidateSecretCode(value string) error {
 	return ValidateString(value, 32, 128)
 }
+
+func ValidateCode(value string) error {
+	return ValidateString(value, 6, 6)
+}

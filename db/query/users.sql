@@ -38,4 +38,12 @@ SET
 WHERE
   username = sqlc.arg(username)
 RETURNING *;
+
+-- name: UpdateUserVerificationCode :one
+UPDATE users
+SET
+  verification_code = COALESCE(sqlc.narg(verification_code), verification_code)
+WHERE
+  email = sqlc.arg(email)
+RETURNING *;
   

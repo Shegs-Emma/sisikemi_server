@@ -22,6 +22,11 @@ import "rpc_update_cart_qty.proto";
 import "rpc_update_product.proto";
 import "rpc_delete_product.proto";
 import "rpc_create_cloudinary_media.proto";
+import "rpc_forgot_password.proto";
+import "rpc_verify_code.proto";
+import "rpc_reset_password.proto";
+import "rpc_create_order.proto";
+import "rpc_list_orders.proto";
 
 import "protoc-gen-openapiv2/options/annotations.proto";
 
@@ -81,6 +86,39 @@ service SisikemiFashion {
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
           description: "Use this api to verify new user";
           summary: "Verify email"
+        };
+    }
+
+    rpc ForgotPassword (ForgotPasswordRequest) returns (ForgotPasswordResponse) {
+        option (google.api.http) = {
+            post: "/v1/forgot_password"
+            body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+          description: "Use this api to request for verification code";
+          summary: "Forgot Password"
+        };
+    }
+
+    rpc VerifyCode (VerifyCodeRequest) returns (VerifyCodeResponse) {
+        option (google.api.http) = {
+            post: "/v1/verify_code"
+            body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+          description: "Use this api to verify verification code";
+          summary: "Verify Verification Code"
+        };
+    }
+
+    rpc ResetPassword (ResetPasswordRequest) returns (ResetPasswordResponse) {
+        option (google.api.http) = {
+            post: "/v1/reset_password"
+            body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+          description: "Use this api to reset your password";
+          summary: "Reset Password"
         };
     }
 
@@ -168,6 +206,16 @@ service SisikemiFashion {
           };
     }
 
+    rpc ListOrders(ListOrderRequest) returns (ListOrderResponse) {
+        option (google.api.http) = {
+            get: "/v1/list_orders"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this api to list orders";
+            summary: "List Orders"
+          };
+    }
+
     rpc GetProduct(GetProductRequest) returns (GetProductResponse) {
         option (google.api.http) = {
             get: "/v1/product/{id}"
@@ -249,6 +297,17 @@ service SisikemiFashion {
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
             description: "Use this api to create new image to cloudinary";
             summary: "Create new image in cloudinary"
+          };
+    }
+
+    rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse) {
+        option (google.api.http) = {
+            post: "/v1/create_order"
+            body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this api to create new order";
+            summary: "Create new order"
           };
     }
 }

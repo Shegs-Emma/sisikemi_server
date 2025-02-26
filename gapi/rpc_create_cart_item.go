@@ -2,7 +2,6 @@ package gapi
 
 import (
 	"context"
-	"fmt"
 
 	db "github.com/techschool/simplebank/db/sqlc"
 	"github.com/techschool/simplebank/pb"
@@ -16,8 +15,6 @@ func (server *Server) CreateCartItem (ctx context.Context, req *pb.CreateCartIte
 	if err != nil {
 		return nil, unauthenticatedError(err)
 	}
-
-	fmt.Print(authPayload)
 
 	if authPayload == nil {
 		return nil, status.Errorf(codes.PermissionDenied, "you are not authorized to update this user")

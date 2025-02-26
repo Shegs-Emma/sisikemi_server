@@ -1,0 +1,24 @@
+syntax = "proto3";
+package pb;
+import "order.proto";
+option go_package = "github.com/techschool/simplebank/pb";
+
+message CreateOrderRequest {
+    string username = 1;
+    int64 amount = 2;
+    string payment_method = 3;
+    string shipping_method = 4;
+    int64 user_ref_id = 5;
+    string order_status = 6;
+    string country = 7;
+    string address = 8;
+    string town = 9;
+    string postal_code = 10;
+    string landmark = 11;
+    int32 page_id = 12;
+    int32 page_size = 13;
+}
+
+message CreateOrderResponse {
+    Order order = 1;
+}

@@ -12,6 +12,8 @@ type Store interface {
 	VerifyEmailTx(ctx context.Context, arg VerifyEmailTxParams) (VerifyEmailTxResult, error)
 	CreateProductTx(ctx context.Context, arg CreateProductTxParams) (CreateProductTxResult, error)
 	DeleteProductTx(ctx context.Context, arg DeleteProductTxParams) (DeleteProductTxResult, error)
+	ForgotPasswordTx(ctx context.Context, arg ForgotPasswordTxParams) (ForgotPasswordTxResult, error)
+	CreateOrderTx(ctx context.Context, arg CreateOrderTxParams) (CreateOrderTxResult, error)
 }
 
 type SQLStore struct {

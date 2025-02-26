@@ -22,8 +22,15 @@ func (server *Server) UpdateCartItemQty (ctx context.Context, req *pb.UpdateCart
 		return nil, status.Errorf(codes.PermissionDenied, "you are not authorized to update this user")
 	}
 
+	// Fetch the product in question to check the available quantity
+	fetchedProduct, err := server.store.GetProduct(ctx, req.GetProductId())
+
+	if err != nil {
+		return nil, status.Errorf(codes.PermissionDenied, "product could not be fetched")
+	}
+
 	// Fetch the current user id
-	fetchedUser, err := server.store.GetUserByUsername(ctx, authPayload.Username);
+	fetchedUser, err := server.store.GetUserByUsername(ctx, authPayload.Username)
 
 	if err != nil {
 		return nil, status.Errorf(codes.PermissionDenied, "user could not be fetched")
@@ -39,6 +46,11 @@ func (server *Server) UpdateCartItemQty (ctx context.Context, req *pb.UpdateCart
 	// Check that the current user created the cart item
 	if fetchedUser.ID != fetchedCart.UserRefID {
 		return nil, status.Errorf(codes.PermissionDenied, "you can't update this cart item")
+	}
+
+	// Check that there is enough products
+	if int64(fetchedProduct.Quantity) < req.GetProductQuantity() && req.GetAction() == "increment" {
+		return nil, status.Errorf(codes.PermissionDenied, "you dont have enough quantity")
 	}
 
 	arg := db.UpdateCartItemQtyParams{

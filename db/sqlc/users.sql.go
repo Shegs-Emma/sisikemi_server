@@ -24,7 +24,7 @@ INSERT INTO users (
 ) VALUES (
   $1, $2, $3, $4, $5, $6, $7, $8
 )
-RETURNING username, hashed_password, first_name, last_name, phone_number, profile_photo, email, is_admin, password_changed_at, created_at, is_email_verified, id
+RETURNING username, hashed_password, first_name, last_name, phone_number, profile_photo, email, is_admin, password_changed_at, created_at, is_email_verified, id, verification_code
 `
 
 type CreateUserParams struct {
@@ -63,12 +63,13 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 		&i.CreatedAt,
 		&i.IsEmailVerified,
 		&i.ID,
+		&i.VerificationCode,
 	)
 	return i, err
 }
 
 const getUser = `-- name: GetUser :one
-SELECT username, hashed_password, first_name, last_name, phone_number, profile_photo, email, is_admin, password_changed_at, created_at, is_email_verified, id FROM users
+SELECT username, hashed_password, first_name, last_name, phone_number, profile_photo, email, is_admin, password_changed_at, created_at, is_email_verified, id, verification_code FROM users
 WHERE email = $1 LIMIT 1
 `
 
@@ -88,12 +89,13 @@ func (q *Queries) GetUser(ctx context.Context, email string) (User, error) {
 		&i.CreatedAt,
 		&i.IsEmailVerified,
 		&i.ID,
+		&i.VerificationCode,
 	)
 	return i, err
 }
 
 const getUserById = `-- name: GetUserById :one
-SELECT username, hashed_password, first_name, last_name, phone_number, profile_photo, email, is_admin, password_changed_at, created_at, is_email_verified, id FROM users
+SELECT username, hashed_password, first_name, last_name, phone_number, profile_photo, email, is_admin, password_changed_at, created_at, is_email_verified, id, verification_code FROM users
 WHERE id = $1 LIMIT 1
 `
 
@@ -113,12 +115,13 @@ func (q *Queries) GetUserById(ctx context.Context, id int64) (User, error) {
 		&i.CreatedAt,
 		&i.IsEmailVerified,
 		&i.ID,
+		&i.VerificationCode,
 	)
 	return i, err
 }
 
 const getUserByUsername = `-- name: GetUserByUsername :one
-SELECT username, hashed_password, first_name, last_name, phone_number, profile_photo, email, is_admin, password_changed_at, created_at, is_email_verified, id FROM users
+SELECT username, hashed_password, first_name, last_name, phone_number, profile_photo, email, is_admin, password_changed_at, created_at, is_email_verified, id, verification_code FROM users
 WHERE username = $1 LIMIT 1
 `
 
@@ -138,6 +141,7 @@ func (q *Queries) GetUserByUsername(ctx context.Context, username string) (User,
 		&i.CreatedAt,
 		&i.IsEmailVerified,
 		&i.ID,
+		&i.VerificationCode,
 	)
 	return i, err
 }
@@ -154,7 +158,7 @@ SET
   profile_photo = COALESCE($7, profile_photo)
 WHERE
   username = $8
-RETURNING username, hashed_password, first_name, last_name, phone_number, profile_photo, email, is_admin, password_changed_at, created_at, is_email_verified, id
+RETURNING username, hashed_password, first_name, last_name, phone_number, profile_photo, email, is_admin, password_changed_at, created_at, is_email_verified, id, verification_code
 `
 
 type UpdateUserParams struct {
@@ -193,6 +197,42 @@ func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) (User, e
 		&i.CreatedAt,
 		&i.IsEmailVerified,
 		&i.ID,
+		&i.VerificationCode,
+	)
+	return i, err
+}
+
+const updateUserVerificationCode = `-- name: UpdateUserVerificationCode :one
+UPDATE users
+SET
+  verification_code = COALESCE($1, verification_code)
+WHERE
+  email = $2
+RETURNING username, hashed_password, first_name, last_name, phone_number, profile_photo, email, is_admin, password_changed_at, created_at, is_email_verified, id, verification_code
+`
+
+type UpdateUserVerificationCodeParams struct {
+	VerificationCode pgtype.Text `json:"verification_code"`
+	Email            string      `json:"email"`
+}
+
+func (q *Queries) UpdateUserVerificationCode(ctx context.Context, arg UpdateUserVerificationCodeParams) (User, error) {
+	row := q.db.QueryRow(ctx, updateUserVerificationCode, arg.VerificationCode, arg.Email)
+	var i User
+	err := row.Scan(
+		&i.Username,
+		&i.HashedPassword,
+		&i.FirstName,
+		&i.LastName,
+		&i.PhoneNumber,
+		&i.ProfilePhoto,
+		&i.Email,
+		&i.IsAdmin,
+		&i.PasswordChangedAt,
+		&i.CreatedAt,
+		&i.IsEmailVerified,
+		&i.ID,
+		&i.VerificationCode,
 	)
 	return i, err
 }

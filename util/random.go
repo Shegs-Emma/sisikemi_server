@@ -7,6 +7,7 @@ import (
 )
 
 const alphabet = "abcdefghijklmnopqrstuvwxyz"
+const numbers = "0123456789"
 
 func init() {
 	rand.Intn(100)
@@ -22,6 +23,21 @@ func RandomString(n int) string {
 	k := len(alphabet)
 	for i := 0; i < n; i++ {
 		c := alphabet[rand.Intn(k)]
+		sb.WriteByte(c)
+	}
+	return sb.String()
+}
+
+func RandomFloat(min, max float64) float64 {
+	return min + rand.Float64()*(max-min)
+}
+
+func RandomVerificationCode(n int) string {
+	var sb strings.Builder
+
+	k := len(numbers)
+	for i := 0; i < n; i++ {
+		c := numbers[rand.Intn(k)]
 		sb.WriteByte(c)
 	}
 	return sb.String()

@@ -31,7 +31,7 @@ type CreateCartItemParams struct {
 	ProductID       int32  `json:"product_id"`
 	ProductName     string `json:"product_name"`
 	UserRefID       int64  `json:"user_ref_id"`
-	ProductPrice    string `json:"product_price"`
+	ProductPrice    int64  `json:"product_price"`
 	ProductQuantity int64  `json:"product_quantity"`
 	ProductImage    string `json:"product_image"`
 	ProductColor    string `json:"product_color"`

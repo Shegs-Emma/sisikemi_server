@@ -197,7 +197,7 @@ func randomCartItem(user db.User) db.Cart{
 		ID: util.RandomInt(1, 1000),
 		ProductID: int32(util.RandomInt(1, 1000)),
 		ProductName: util.RandomString(20),
-		ProductPrice: util.RandomString(3),
+		ProductPrice: util.RandomInt(1, 1000),
 		ProductQuantity: util.RandomInt(1, 1000),
 		ProductImage: util.RandomString(20),
 		ProductColor: "Yellow",
