@@ -6,8 +6,8 @@ import (
 	"os"
 	"testing"
 
+	"github.com/Shegs-Emma/sisikemi_server/util"
 	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/techschool/simplebank/util"
 )
 
 var testStore Store

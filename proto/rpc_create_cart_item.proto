@@ -2,7 +2,7 @@ syntax = "proto3";
 package pb;
 
 import "cart.proto";
-option go_package = "github.com/techschool/simplebank/pb";
+option go_package = "github.com/Shegs-Emma/sisikemi_server/pb";
 
 message CreateCartItemRequest {
     int64 product_id = 1;

@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	db "github.com/techschool/simplebank/db/sqlc"
-	"github.com/techschool/simplebank/pb"
+	db "github.com/Shegs-Emma/sisikemi_server/db/sqlc"
+	"github.com/Shegs-Emma/sisikemi_server/pb"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"

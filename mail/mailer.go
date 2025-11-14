@@ -69,9 +69,9 @@ func (m *Mail) SendSMTPEmail(msg Message) error {
 
 	email := mail.NewMSG()
 	email.SetFrom(msg.From).AddTo(msg.To).SetSubject(msg.Subject)
-	email.SetBody(mail.TextPlain, msg.VerifyUrl)
+	// email.SetBody(mail.TextPlain, msg.VerifyUrl)
 	email.SetBody(mail.TextHTML, msg.Content)
-	email.AddAlternative(mail.TextPlain, msg.VerifyUrl)
+	email.AddAlternative(mail.TextPlain, "Verify your email: "+msg.VerifyUrl)
 
 
 	err = email.Send(smtpClient)

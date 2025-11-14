@@ -3,12 +3,12 @@ package gapi
 import (
 	"fmt"
 
+	db "github.com/Shegs-Emma/sisikemi_server/db/sqlc"
+	"github.com/Shegs-Emma/sisikemi_server/pb"
+	"github.com/Shegs-Emma/sisikemi_server/token"
+	"github.com/Shegs-Emma/sisikemi_server/util"
+	"github.com/Shegs-Emma/sisikemi_server/worker"
 	"github.com/cloudinary/cloudinary-go/v2"
-	db "github.com/techschool/simplebank/db/sqlc"
-	"github.com/techschool/simplebank/pb"
-	"github.com/techschool/simplebank/token"
-	"github.com/techschool/simplebank/util"
-	"github.com/techschool/simplebank/worker"
 )
 
 type Server struct {

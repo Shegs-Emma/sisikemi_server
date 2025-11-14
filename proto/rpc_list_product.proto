@@ -3,7 +3,7 @@ syntax = "proto3";
 package pb;
 
 import "product.proto";
-option go_package = "github.com/techschool/simplebank/pb";
+option go_package = "github.com/Shegs-Emma/sisikemi_server/pb";
 
 message ListProductRequest {
     int32 page_id = 1;
@@ -13,4 +13,5 @@ message ListProductRequest {
 message ListProductResponse {
     repeated Product product = 1;
     string next_page_token = 2;
+    int32 total_pages = 3;
 }

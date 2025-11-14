@@ -4,7 +4,7 @@ package pb;
 
 import "product.proto";
 
-option go_package = "github.com/techschool/simplebank/pb";
+option go_package = "github.com/Shegs-Emma/sisikemi_server/pb";
 
 message UpdateProductRequest {
     int64 product_id = 1;

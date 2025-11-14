@@ -1,7 +1,7 @@
 syntax = "proto3";
 package pb;
 import "product.proto";
-option go_package = "github.com/techschool/simplebank/pb";
+option go_package = "github.com/Shegs-Emma/sisikemi_server/pb";
 
 message CreateProductRequest {
     string product_name = 1;

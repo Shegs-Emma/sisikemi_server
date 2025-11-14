@@ -3,11 +3,11 @@ package worker
 import (
 	"context"
 
+	db "github.com/Shegs-Emma/sisikemi_server/db/sqlc"
+	"github.com/Shegs-Emma/sisikemi_server/mail"
+	"github.com/Shegs-Emma/sisikemi_server/util"
 	"github.com/hibiken/asynq"
 	"github.com/rs/zerolog/log"
-	db "github.com/techschool/simplebank/db/sqlc"
-	"github.com/techschool/simplebank/mail"
-	"github.com/techschool/simplebank/util"
 )
 
 const (
