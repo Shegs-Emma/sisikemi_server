@@ -3,10 +3,11 @@ package gapi
 import (
 	"context"
 	"fmt"
+	"math"
 
+	db "github.com/Shegs-Emma/sisikemi_server/db/sqlc"
+	"github.com/Shegs-Emma/sisikemi_server/pb"
 	"github.com/jackc/pgx/v5/pgtype"
-	db "github.com/techschool/simplebank/db/sqlc"
-	"github.com/techschool/simplebank/pb"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -47,9 +48,15 @@ func (server *Server) ListProducts (ctx context.Context, req *pb.ListProductRequ
 		})
 	}
 
+	totalCount, err := server.store.CountProducts(ctx)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "count products error: %s", err)
+	}
+
 	rsp := &pb.ListProductResponse{
 		Product: pbProductItems,
 		NextPageToken: fmt.Sprintf("%d", req.GetPageId() + 1),
+		TotalPages: int32(math.Ceil(float64(totalCount) / float64(req.PageSize))),
 	}
 
 	return rsp, nil

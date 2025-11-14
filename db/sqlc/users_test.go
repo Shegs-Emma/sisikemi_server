@@ -5,9 +5,9 @@ import (
 	"testing"
 	"time"
 
+	"github.com/Shegs-Emma/sisikemi_server/util"
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/stretchr/testify/require"
-	"github.com/techschool/simplebank/util"
 )
 
 func createRandomUser(t *testing.T, media Medium) User {

@@ -3,7 +3,7 @@ package pb;
 import "google/protobuf/timestamp.proto";
 import "product_media.proto";
 import "collection.proto";
-option go_package = "github.com/techschool/simplebank/pb";
+option go_package = "github.com/Shegs-Emma/sisikemi_server/pb";
 
 message Product {
     int64 id = 1;

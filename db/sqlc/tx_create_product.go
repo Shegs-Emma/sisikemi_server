@@ -3,8 +3,8 @@ package db
 import (
 	"context"
 
+	"github.com/Shegs-Emma/sisikemi_server/util"
 	"github.com/jackc/pgx/v5/pgtype"
-	"github.com/techschool/simplebank/util"
 )
 
 type CreateProductTxParams struct {

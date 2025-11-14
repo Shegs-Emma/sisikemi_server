@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/techschool/simplebank/pb"
+	"github.com/Shegs-Emma/sisikemi_server/pb"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

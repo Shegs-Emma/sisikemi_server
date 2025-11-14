@@ -6,11 +6,11 @@ import (
 	"errors"
 	"fmt"
 
+	db "github.com/Shegs-Emma/sisikemi_server/db/sqlc"
+	mymail "github.com/Shegs-Emma/sisikemi_server/mail"
 	"github.com/hibiken/asynq"
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/rs/zerolog/log"
-	db "github.com/techschool/simplebank/db/sqlc"
-	mymail "github.com/techschool/simplebank/mail"
 )
 
 const TaskSendVerificationCodeEmail = "task:send_verification_code_email"

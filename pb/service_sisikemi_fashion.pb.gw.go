@@ -10,6 +10,7 @@ package pb
 
 import (
 	"context"
+	"errors"
 	"io"
 	"net/http"
 
@@ -24,815 +25,777 @@ import (
 )
 
 // Suppress "imported and not used" errors
-var _ codes.Code
-var _ io.Reader
-var _ status.Status
-var _ = runtime.String
-var _ = utilities.NewDoubleArray
-var _ = metadata.Join
+var (
+	_ codes.Code
+	_ io.Reader
+	_ status.Status
+	_ = errors.New
+	_ = runtime.String
+	_ = utilities.NewDoubleArray
+	_ = metadata.Join
+)
 
 func request_SisikemiFashion_CreateUser_0(ctx context.Context, marshaler runtime.Marshaler, client SisikemiFashionClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq CreateUserRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq CreateUserRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.CreateUser(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_SisikemiFashion_CreateUser_0(ctx context.Context, marshaler runtime.Marshaler, server SisikemiFashionServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq CreateUserRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq CreateUserRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.CreateUser(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_SisikemiFashion_LoginUser_0(ctx context.Context, marshaler runtime.Marshaler, client SisikemiFashionClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq LoginUserRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq LoginUserRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.LoginUser(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_SisikemiFashion_LoginUser_0(ctx context.Context, marshaler runtime.Marshaler, server SisikemiFashionServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq LoginUserRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq LoginUserRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.LoginUser(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_SisikemiFashion_UpdateUser_0(ctx context.Context, marshaler runtime.Marshaler, client SisikemiFashionClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq UpdateUserRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq UpdateUserRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.UpdateUser(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_SisikemiFashion_UpdateUser_0(ctx context.Context, marshaler runtime.Marshaler, server SisikemiFashionServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq UpdateUserRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq UpdateUserRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.UpdateUser(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_SisikemiFashion_VerifyEmail_0(ctx context.Context, marshaler runtime.Marshaler, client SisikemiFashionClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq VerifyEmailRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq VerifyEmailRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.VerifyEmail(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_SisikemiFashion_VerifyEmail_0(ctx context.Context, marshaler runtime.Marshaler, server SisikemiFashionServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq VerifyEmailRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq VerifyEmailRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.VerifyEmail(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_SisikemiFashion_ForgotPassword_0(ctx context.Context, marshaler runtime.Marshaler, client SisikemiFashionClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq ForgotPasswordRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq ForgotPasswordRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.ForgotPassword(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_SisikemiFashion_ForgotPassword_0(ctx context.Context, marshaler runtime.Marshaler, server SisikemiFashionServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq ForgotPasswordRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq ForgotPasswordRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.ForgotPassword(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_SisikemiFashion_VerifyCode_0(ctx context.Context, marshaler runtime.Marshaler, client SisikemiFashionClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq VerifyCodeRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq VerifyCodeRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.VerifyCode(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_SisikemiFashion_VerifyCode_0(ctx context.Context, marshaler runtime.Marshaler, server SisikemiFashionServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq VerifyCodeRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq VerifyCodeRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.VerifyCode(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_SisikemiFashion_ResetPassword_0(ctx context.Context, marshaler runtime.Marshaler, client SisikemiFashionClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq ResetPasswordRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq ResetPasswordRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.ResetPassword(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_SisikemiFashion_ResetPassword_0(ctx context.Context, marshaler runtime.Marshaler, server SisikemiFashionServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq ResetPasswordRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq ResetPasswordRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.ResetPassword(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_SisikemiFashion_CreateMedia_0(ctx context.Context, marshaler runtime.Marshaler, client SisikemiFashionClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq CreateMediaRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq CreateMediaRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.CreateMedia(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_SisikemiFashion_CreateMedia_0(ctx context.Context, marshaler runtime.Marshaler, server SisikemiFashionServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq CreateMediaRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq CreateMediaRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.CreateMedia(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_SisikemiFashion_UploadImage_0(ctx context.Context, marshaler runtime.Marshaler, client SisikemiFashionClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq UploadImageRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq UploadImageRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.UploadImage(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_SisikemiFashion_UploadImage_0(ctx context.Context, marshaler runtime.Marshaler, server SisikemiFashionServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq UploadImageRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq UploadImageRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.UploadImage(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_SisikemiFashion_ListMedia_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_SisikemiFashion_ListMedia_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_SisikemiFashion_ListMedia_0(ctx context.Context, marshaler runtime.Marshaler, client SisikemiFashionClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq ListMediaRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq ListMediaRequest
+		metadata runtime.ServerMetadata
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_SisikemiFashion_ListMedia_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := client.ListMedia(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_SisikemiFashion_ListMedia_0(ctx context.Context, marshaler runtime.Marshaler, server SisikemiFashionServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq ListMediaRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq ListMediaRequest
+		metadata runtime.ServerMetadata
+	)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_SisikemiFashion_ListMedia_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.ListMedia(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_SisikemiFashion_GetMedia_0(ctx context.Context, marshaler runtime.Marshaler, client SisikemiFashionClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetMediaRequest
-	var metadata runtime.ServerMetadata
-
 	var (
-		val string
-		ok  bool
-		err error
-		_   = err
+		protoReq GetMediaRequest
+		metadata runtime.ServerMetadata
+		err      error
 	)
-
-	val, ok = pathParams["id"]
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	val, ok := pathParams["id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
 	}
-
 	protoReq.Id, err = runtime.Int64(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
 	}
-
 	msg, err := client.GetMedia(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_SisikemiFashion_GetMedia_0(ctx context.Context, marshaler runtime.Marshaler, server SisikemiFashionServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetMediaRequest
-	var metadata runtime.ServerMetadata
-
 	var (
-		val string
-		ok  bool
-		err error
-		_   = err
+		protoReq GetMediaRequest
+		metadata runtime.ServerMetadata
+		err      error
 	)
-
-	val, ok = pathParams["id"]
+	val, ok := pathParams["id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
 	}
-
 	protoReq.Id, err = runtime.Int64(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
 	}
-
 	msg, err := server.GetMedia(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_SisikemiFashion_CreateCollection_0(ctx context.Context, marshaler runtime.Marshaler, client SisikemiFashionClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq CreateCollectionRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq CreateCollectionRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.CreateCollection(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_SisikemiFashion_CreateCollection_0(ctx context.Context, marshaler runtime.Marshaler, server SisikemiFashionServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq CreateCollectionRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq CreateCollectionRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.CreateCollection(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_SisikemiFashion_ListCollections_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_SisikemiFashion_ListCollections_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_SisikemiFashion_ListCollections_0(ctx context.Context, marshaler runtime.Marshaler, client SisikemiFashionClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq ListCollectionRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq ListCollectionRequest
+		metadata runtime.ServerMetadata
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_SisikemiFashion_ListCollections_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := client.ListCollections(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_SisikemiFashion_ListCollections_0(ctx context.Context, marshaler runtime.Marshaler, server SisikemiFashionServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq ListCollectionRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq ListCollectionRequest
+		metadata runtime.ServerMetadata
+	)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_SisikemiFashion_ListCollections_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.ListCollections(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_SisikemiFashion_CreateProduct_0(ctx context.Context, marshaler runtime.Marshaler, client SisikemiFashionClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq CreateProductRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq CreateProductRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.CreateProduct(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_SisikemiFashion_CreateProduct_0(ctx context.Context, marshaler runtime.Marshaler, server SisikemiFashionServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq CreateProductRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq CreateProductRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.CreateProduct(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_SisikemiFashion_ListProducts_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_SisikemiFashion_ListProducts_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_SisikemiFashion_ListProducts_0(ctx context.Context, marshaler runtime.Marshaler, client SisikemiFashionClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq ListProductRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq ListProductRequest
+		metadata runtime.ServerMetadata
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_SisikemiFashion_ListProducts_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := client.ListProducts(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_SisikemiFashion_ListProducts_0(ctx context.Context, marshaler runtime.Marshaler, server SisikemiFashionServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq ListProductRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq ListProductRequest
+		metadata runtime.ServerMetadata
+	)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_SisikemiFashion_ListProducts_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.ListProducts(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_SisikemiFashion_ListOrders_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_SisikemiFashion_ListOrders_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_SisikemiFashion_ListOrders_0(ctx context.Context, marshaler runtime.Marshaler, client SisikemiFashionClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq ListOrderRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq ListOrderRequest
+		metadata runtime.ServerMetadata
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_SisikemiFashion_ListOrders_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := client.ListOrders(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_SisikemiFashion_ListOrders_0(ctx context.Context, marshaler runtime.Marshaler, server SisikemiFashionServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq ListOrderRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq ListOrderRequest
+		metadata runtime.ServerMetadata
+	)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_SisikemiFashion_ListOrders_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.ListOrders(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_SisikemiFashion_GetProduct_0(ctx context.Context, marshaler runtime.Marshaler, client SisikemiFashionClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetProductRequest
-	var metadata runtime.ServerMetadata
-
 	var (
-		val string
-		ok  bool
-		err error
-		_   = err
+		protoReq GetProductRequest
+		metadata runtime.ServerMetadata
+		err      error
 	)
-
-	val, ok = pathParams["id"]
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	val, ok := pathParams["id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
 	}
-
 	protoReq.Id, err = runtime.Int64(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
 	}
-
 	msg, err := client.GetProduct(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_SisikemiFashion_GetProduct_0(ctx context.Context, marshaler runtime.Marshaler, server SisikemiFashionServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetProductRequest
-	var metadata runtime.ServerMetadata
-
 	var (
-		val string
-		ok  bool
-		err error
-		_   = err
+		protoReq GetProductRequest
+		metadata runtime.ServerMetadata
+		err      error
 	)
-
-	val, ok = pathParams["id"]
+	val, ok := pathParams["id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
 	}
-
 	protoReq.Id, err = runtime.Int64(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
 	}
-
 	msg, err := server.GetProduct(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_SisikemiFashion_CreateCartItem_0(ctx context.Context, marshaler runtime.Marshaler, client SisikemiFashionClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq CreateCartItemRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq CreateCartItemRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.CreateCartItem(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_SisikemiFashion_CreateCartItem_0(ctx context.Context, marshaler runtime.Marshaler, server SisikemiFashionServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq CreateCartItemRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq CreateCartItemRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.CreateCartItem(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_SisikemiFashion_DeleteCartItem_0(ctx context.Context, marshaler runtime.Marshaler, client SisikemiFashionClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq DeleteCartItemRequest
-	var metadata runtime.ServerMetadata
-
 	var (
-		val string
-		ok  bool
-		err error
-		_   = err
+		protoReq DeleteCartItemRequest
+		metadata runtime.ServerMetadata
+		err      error
 	)
-
-	val, ok = pathParams["product_id"]
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	val, ok := pathParams["product_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "product_id")
 	}
-
 	protoReq.ProductId, err = runtime.Int32(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "product_id", err)
 	}
-
 	msg, err := client.DeleteCartItem(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_SisikemiFashion_DeleteCartItem_0(ctx context.Context, marshaler runtime.Marshaler, server SisikemiFashionServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq DeleteCartItemRequest
-	var metadata runtime.ServerMetadata
-
 	var (
-		val string
-		ok  bool
-		err error
-		_   = err
+		protoReq DeleteCartItemRequest
+		metadata runtime.ServerMetadata
+		err      error
 	)
-
-	val, ok = pathParams["product_id"]
+	val, ok := pathParams["product_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "product_id")
 	}
-
 	protoReq.ProductId, err = runtime.Int32(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "product_id", err)
 	}
-
 	msg, err := server.DeleteCartItem(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_SisikemiFashion_ListUserCartItems_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_SisikemiFashion_ListUserCartItems_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_SisikemiFashion_ListUserCartItems_0(ctx context.Context, marshaler runtime.Marshaler, client SisikemiFashionClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq ListUserCartRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq ListUserCartRequest
+		metadata runtime.ServerMetadata
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_SisikemiFashion_ListUserCartItems_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := client.ListUserCartItems(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_SisikemiFashion_ListUserCartItems_0(ctx context.Context, marshaler runtime.Marshaler, server SisikemiFashionServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq ListUserCartRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq ListUserCartRequest
+		metadata runtime.ServerMetadata
+	)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_SisikemiFashion_ListUserCartItems_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.ListUserCartItems(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_SisikemiFashion_UpdateCartItemQty_0(ctx context.Context, marshaler runtime.Marshaler, client SisikemiFashionClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq UpdateCartItemQtyRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq UpdateCartItemQtyRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.UpdateCartItemQty(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_SisikemiFashion_UpdateCartItemQty_0(ctx context.Context, marshaler runtime.Marshaler, server SisikemiFashionServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq UpdateCartItemQtyRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq UpdateCartItemQtyRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.UpdateCartItemQty(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_SisikemiFashion_UpdateProduct_0(ctx context.Context, marshaler runtime.Marshaler, client SisikemiFashionClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq UpdateProductRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq UpdateProductRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.UpdateProduct(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_SisikemiFashion_UpdateProduct_0(ctx context.Context, marshaler runtime.Marshaler, server SisikemiFashionServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq UpdateProductRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq UpdateProductRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.UpdateProduct(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_SisikemiFashion_DeleteProduct_0(ctx context.Context, marshaler runtime.Marshaler, client SisikemiFashionClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq DeleteProductRequest
-	var metadata runtime.ServerMetadata
-
 	var (
-		val string
-		ok  bool
-		err error
-		_   = err
+		protoReq DeleteProductRequest
+		metadata runtime.ServerMetadata
+		err      error
 	)
-
-	val, ok = pathParams["product_id"]
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	val, ok := pathParams["product_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "product_id")
 	}
-
 	protoReq.ProductId, err = runtime.Int32(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "product_id", err)
 	}
-
 	msg, err := client.DeleteProduct(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_SisikemiFashion_DeleteProduct_0(ctx context.Context, marshaler runtime.Marshaler, server SisikemiFashionServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq DeleteProductRequest
-	var metadata runtime.ServerMetadata
-
 	var (
-		val string
-		ok  bool
-		err error
-		_   = err
+		protoReq DeleteProductRequest
+		metadata runtime.ServerMetadata
+		err      error
 	)
-
-	val, ok = pathParams["product_id"]
+	val, ok := pathParams["product_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "product_id")
 	}
-
 	protoReq.ProductId, err = runtime.Int32(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "product_id", err)
 	}
-
 	msg, err := server.DeleteProduct(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_SisikemiFashion_UploadCloudinaryMedia_0(ctx context.Context, marshaler runtime.Marshaler, client SisikemiFashionClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq UploadCloudinaryImageRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq UploadCloudinaryImageRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.UploadCloudinaryMedia(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_SisikemiFashion_UploadCloudinaryMedia_0(ctx context.Context, marshaler runtime.Marshaler, server SisikemiFashionServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq UploadCloudinaryImageRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq UploadCloudinaryImageRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.UploadCloudinaryMedia(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_SisikemiFashion_CreateOrder_0(ctx context.Context, marshaler runtime.Marshaler, client SisikemiFashionClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq CreateOrderRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq CreateOrderRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.CreateOrder(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_SisikemiFashion_CreateOrder_0(ctx context.Context, marshaler runtime.Marshaler, server SisikemiFashionServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq CreateOrderRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq CreateOrderRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.CreateOrder(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 // RegisterSisikemiFashionHandlerServer registers the http handlers for service SisikemiFashion to "mux".
@@ -841,16 +804,13 @@ func local_request_SisikemiFashion_CreateOrder_0(ctx context.Context, marshaler 
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterSisikemiFashionHandlerFromEndpoint instead.
 // GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterSisikemiFashionHandlerServer(ctx context.Context, mux *runtime.ServeMux, server SisikemiFashionServer) error {
-
-	mux.Handle("POST", pattern_SisikemiFashion_CreateUser_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_SisikemiFashion_CreateUser_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/CreateUser", runtime.WithHTTPPathPattern("/v1/create_user"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/CreateUser", runtime.WithHTTPPathPattern("/v1/create_user"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -862,20 +822,15 @@ func RegisterSisikemiFashionHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_CreateUser_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_SisikemiFashion_LoginUser_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_SisikemiFashion_LoginUser_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/LoginUser", runtime.WithHTTPPathPattern("/v1/login_user"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/LoginUser", runtime.WithHTTPPathPattern("/v1/login_user"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -887,20 +842,15 @@ func RegisterSisikemiFashionHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_LoginUser_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("PATCH", pattern_SisikemiFashion_UpdateUser_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPatch, pattern_SisikemiFashion_UpdateUser_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/UpdateUser", runtime.WithHTTPPathPattern("/v1/update_user"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/UpdateUser", runtime.WithHTTPPathPattern("/v1/update_user"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -912,20 +862,15 @@ func RegisterSisikemiFashionHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_UpdateUser_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_SisikemiFashion_VerifyEmail_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_SisikemiFashion_VerifyEmail_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/VerifyEmail", runtime.WithHTTPPathPattern("/v1/verify_email"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/VerifyEmail", runtime.WithHTTPPathPattern("/v1/verify_email"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -937,20 +882,15 @@ func RegisterSisikemiFashionHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_VerifyEmail_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_SisikemiFashion_ForgotPassword_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_SisikemiFashion_ForgotPassword_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/ForgotPassword", runtime.WithHTTPPathPattern("/v1/forgot_password"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/ForgotPassword", runtime.WithHTTPPathPattern("/v1/forgot_password"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -962,20 +902,15 @@ func RegisterSisikemiFashionHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_ForgotPassword_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_SisikemiFashion_VerifyCode_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_SisikemiFashion_VerifyCode_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/VerifyCode", runtime.WithHTTPPathPattern("/v1/verify_code"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/VerifyCode", runtime.WithHTTPPathPattern("/v1/verify_code"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -987,20 +922,15 @@ func RegisterSisikemiFashionHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_VerifyCode_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_SisikemiFashion_ResetPassword_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_SisikemiFashion_ResetPassword_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/ResetPassword", runtime.WithHTTPPathPattern("/v1/reset_password"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/ResetPassword", runtime.WithHTTPPathPattern("/v1/reset_password"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1012,20 +942,15 @@ func RegisterSisikemiFashionHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_ResetPassword_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_SisikemiFashion_CreateMedia_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_SisikemiFashion_CreateMedia_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/CreateMedia", runtime.WithHTTPPathPattern("/v1/create_media"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/CreateMedia", runtime.WithHTTPPathPattern("/v1/create_media"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1037,20 +962,15 @@ func RegisterSisikemiFashionHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_CreateMedia_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_SisikemiFashion_UploadImage_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_SisikemiFashion_UploadImage_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/UploadImage", runtime.WithHTTPPathPattern("/v1/upload_image"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/UploadImage", runtime.WithHTTPPathPattern("/v1/upload_image"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1062,20 +982,15 @@ func RegisterSisikemiFashionHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_UploadImage_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_SisikemiFashion_ListMedia_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_SisikemiFashion_ListMedia_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/ListMedia", runtime.WithHTTPPathPattern("/v1/media"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/ListMedia", runtime.WithHTTPPathPattern("/v1/media"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1087,20 +1002,15 @@ func RegisterSisikemiFashionHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_ListMedia_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_SisikemiFashion_GetMedia_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_SisikemiFashion_GetMedia_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/GetMedia", runtime.WithHTTPPathPattern("/v1/media/{id}"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/GetMedia", runtime.WithHTTPPathPattern("/v1/media/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1112,20 +1022,15 @@ func RegisterSisikemiFashionHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_GetMedia_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_SisikemiFashion_CreateCollection_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_SisikemiFashion_CreateCollection_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/CreateCollection", runtime.WithHTTPPathPattern("/v1/create_collection"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/CreateCollection", runtime.WithHTTPPathPattern("/v1/create_collection"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1137,20 +1042,15 @@ func RegisterSisikemiFashionHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_CreateCollection_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_SisikemiFashion_ListCollections_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_SisikemiFashion_ListCollections_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/ListCollections", runtime.WithHTTPPathPattern("/v1/list_collection"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/ListCollections", runtime.WithHTTPPathPattern("/v1/list_collection"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1162,20 +1062,15 @@ func RegisterSisikemiFashionHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_ListCollections_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_SisikemiFashion_CreateProduct_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_SisikemiFashion_CreateProduct_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/CreateProduct", runtime.WithHTTPPathPattern("/v1/create_product"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/CreateProduct", runtime.WithHTTPPathPattern("/v1/create_product"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1187,20 +1082,15 @@ func RegisterSisikemiFashionHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_CreateProduct_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_SisikemiFashion_ListProducts_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_SisikemiFashion_ListProducts_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/ListProducts", runtime.WithHTTPPathPattern("/v1/list_product"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/ListProducts", runtime.WithHTTPPathPattern("/v1/list_product"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1212,20 +1102,15 @@ func RegisterSisikemiFashionHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_ListProducts_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_SisikemiFashion_ListOrders_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_SisikemiFashion_ListOrders_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/ListOrders", runtime.WithHTTPPathPattern("/v1/list_orders"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/ListOrders", runtime.WithHTTPPathPattern("/v1/list_orders"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1237,20 +1122,15 @@ func RegisterSisikemiFashionHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_ListOrders_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_SisikemiFashion_GetProduct_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_SisikemiFashion_GetProduct_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/GetProduct", runtime.WithHTTPPathPattern("/v1/product/{id}"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/GetProduct", runtime.WithHTTPPathPattern("/v1/product/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1262,20 +1142,15 @@ func RegisterSisikemiFashionHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_GetProduct_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_SisikemiFashion_CreateCartItem_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_SisikemiFashion_CreateCartItem_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/CreateCartItem", runtime.WithHTTPPathPattern("/v1/create_cart_item"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/CreateCartItem", runtime.WithHTTPPathPattern("/v1/create_cart_item"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1287,20 +1162,15 @@ func RegisterSisikemiFashionHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_CreateCartItem_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("DELETE", pattern_SisikemiFashion_DeleteCartItem_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodDelete, pattern_SisikemiFashion_DeleteCartItem_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/DeleteCartItem", runtime.WithHTTPPathPattern("/v1/delete_cart_item/{product_id}"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/DeleteCartItem", runtime.WithHTTPPathPattern("/v1/delete_cart_item/{product_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1312,20 +1182,15 @@ func RegisterSisikemiFashionHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_DeleteCartItem_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_SisikemiFashion_ListUserCartItems_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_SisikemiFashion_ListUserCartItems_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/ListUserCartItems", runtime.WithHTTPPathPattern("/v1/list_user_cart"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/ListUserCartItems", runtime.WithHTTPPathPattern("/v1/list_user_cart"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1337,20 +1202,15 @@ func RegisterSisikemiFashionHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_ListUserCartItems_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("PATCH", pattern_SisikemiFashion_UpdateCartItemQty_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPatch, pattern_SisikemiFashion_UpdateCartItemQty_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/UpdateCartItemQty", runtime.WithHTTPPathPattern("/v1/update_cart_item_qty"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/UpdateCartItemQty", runtime.WithHTTPPathPattern("/v1/update_cart_item_qty"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1362,20 +1222,15 @@ func RegisterSisikemiFashionHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_UpdateCartItemQty_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("PATCH", pattern_SisikemiFashion_UpdateProduct_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPatch, pattern_SisikemiFashion_UpdateProduct_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/UpdateProduct", runtime.WithHTTPPathPattern("/v1/update_product"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/UpdateProduct", runtime.WithHTTPPathPattern("/v1/update_product"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1387,20 +1242,15 @@ func RegisterSisikemiFashionHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_UpdateProduct_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("DELETE", pattern_SisikemiFashion_DeleteProduct_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodDelete, pattern_SisikemiFashion_DeleteProduct_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/DeleteProduct", runtime.WithHTTPPathPattern("/v1/delete_product/{product_id}"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/DeleteProduct", runtime.WithHTTPPathPattern("/v1/delete_product/{product_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1412,20 +1262,15 @@ func RegisterSisikemiFashionHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_DeleteProduct_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_SisikemiFashion_UploadCloudinaryMedia_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_SisikemiFashion_UploadCloudinaryMedia_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/UploadCloudinaryMedia", runtime.WithHTTPPathPattern("/v1/upload_image/cloudinary"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/UploadCloudinaryMedia", runtime.WithHTTPPathPattern("/v1/upload_image/cloudinary"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1437,20 +1282,15 @@ func RegisterSisikemiFashionHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_UploadCloudinaryMedia_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_SisikemiFashion_CreateOrder_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_SisikemiFashion_CreateOrder_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/CreateOrder", runtime.WithHTTPPathPattern("/v1/create_order"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SisikemiFashion/CreateOrder", runtime.WithHTTPPathPattern("/v1/create_order"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1462,9 +1302,7 @@ func RegisterSisikemiFashionHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_CreateOrder_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	return nil
@@ -1491,7 +1329,6 @@ func RegisterSisikemiFashionHandlerFromEndpoint(ctx context.Context, mux *runtim
 			}
 		}()
 	}()
-
 	return RegisterSisikemiFashionHandler(ctx, mux, conn)
 }
 
@@ -1507,14 +1344,11 @@ func RegisterSisikemiFashionHandler(ctx context.Context, mux *runtime.ServeMux, 
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
 // "SisikemiFashionClient" to call the correct interceptors. This client ignores the HTTP middlewares.
 func RegisterSisikemiFashionHandlerClient(ctx context.Context, mux *runtime.ServeMux, client SisikemiFashionClient) error {
-
-	mux.Handle("POST", pattern_SisikemiFashion_CreateUser_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_SisikemiFashion_CreateUser_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/CreateUser", runtime.WithHTTPPathPattern("/v1/create_user"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/CreateUser", runtime.WithHTTPPathPattern("/v1/create_user"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1525,18 +1359,13 @@ func RegisterSisikemiFashionHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_CreateUser_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_SisikemiFashion_LoginUser_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_SisikemiFashion_LoginUser_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/LoginUser", runtime.WithHTTPPathPattern("/v1/login_user"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/LoginUser", runtime.WithHTTPPathPattern("/v1/login_user"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1547,18 +1376,13 @@ func RegisterSisikemiFashionHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_LoginUser_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("PATCH", pattern_SisikemiFashion_UpdateUser_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPatch, pattern_SisikemiFashion_UpdateUser_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/UpdateUser", runtime.WithHTTPPathPattern("/v1/update_user"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/UpdateUser", runtime.WithHTTPPathPattern("/v1/update_user"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1569,18 +1393,13 @@ func RegisterSisikemiFashionHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_UpdateUser_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_SisikemiFashion_VerifyEmail_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_SisikemiFashion_VerifyEmail_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/VerifyEmail", runtime.WithHTTPPathPattern("/v1/verify_email"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/VerifyEmail", runtime.WithHTTPPathPattern("/v1/verify_email"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1591,18 +1410,13 @@ func RegisterSisikemiFashionHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_VerifyEmail_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_SisikemiFashion_ForgotPassword_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_SisikemiFashion_ForgotPassword_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/ForgotPassword", runtime.WithHTTPPathPattern("/v1/forgot_password"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/ForgotPassword", runtime.WithHTTPPathPattern("/v1/forgot_password"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1613,18 +1427,13 @@ func RegisterSisikemiFashionHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_ForgotPassword_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_SisikemiFashion_VerifyCode_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_SisikemiFashion_VerifyCode_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/VerifyCode", runtime.WithHTTPPathPattern("/v1/verify_code"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/VerifyCode", runtime.WithHTTPPathPattern("/v1/verify_code"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1635,18 +1444,13 @@ func RegisterSisikemiFashionHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_VerifyCode_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_SisikemiFashion_ResetPassword_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_SisikemiFashion_ResetPassword_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/ResetPassword", runtime.WithHTTPPathPattern("/v1/reset_password"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/ResetPassword", runtime.WithHTTPPathPattern("/v1/reset_password"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1657,18 +1461,13 @@ func RegisterSisikemiFashionHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_ResetPassword_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_SisikemiFashion_CreateMedia_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_SisikemiFashion_CreateMedia_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/CreateMedia", runtime.WithHTTPPathPattern("/v1/create_media"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/CreateMedia", runtime.WithHTTPPathPattern("/v1/create_media"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1679,18 +1478,13 @@ func RegisterSisikemiFashionHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_CreateMedia_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_SisikemiFashion_UploadImage_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_SisikemiFashion_UploadImage_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/UploadImage", runtime.WithHTTPPathPattern("/v1/upload_image"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/UploadImage", runtime.WithHTTPPathPattern("/v1/upload_image"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1701,18 +1495,13 @@ func RegisterSisikemiFashionHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_UploadImage_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_SisikemiFashion_ListMedia_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_SisikemiFashion_ListMedia_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/ListMedia", runtime.WithHTTPPathPattern("/v1/media"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/ListMedia", runtime.WithHTTPPathPattern("/v1/media"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1723,18 +1512,13 @@ func RegisterSisikemiFashionHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_ListMedia_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_SisikemiFashion_GetMedia_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_SisikemiFashion_GetMedia_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/GetMedia", runtime.WithHTTPPathPattern("/v1/media/{id}"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/GetMedia", runtime.WithHTTPPathPattern("/v1/media/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1745,18 +1529,13 @@ func RegisterSisikemiFashionHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_GetMedia_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_SisikemiFashion_CreateCollection_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_SisikemiFashion_CreateCollection_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/CreateCollection", runtime.WithHTTPPathPattern("/v1/create_collection"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/CreateCollection", runtime.WithHTTPPathPattern("/v1/create_collection"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1767,18 +1546,13 @@ func RegisterSisikemiFashionHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_CreateCollection_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_SisikemiFashion_ListCollections_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_SisikemiFashion_ListCollections_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/ListCollections", runtime.WithHTTPPathPattern("/v1/list_collection"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/ListCollections", runtime.WithHTTPPathPattern("/v1/list_collection"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1789,18 +1563,13 @@ func RegisterSisikemiFashionHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_ListCollections_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_SisikemiFashion_CreateProduct_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_SisikemiFashion_CreateProduct_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/CreateProduct", runtime.WithHTTPPathPattern("/v1/create_product"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/CreateProduct", runtime.WithHTTPPathPattern("/v1/create_product"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1811,18 +1580,13 @@ func RegisterSisikemiFashionHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_CreateProduct_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_SisikemiFashion_ListProducts_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_SisikemiFashion_ListProducts_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/ListProducts", runtime.WithHTTPPathPattern("/v1/list_product"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/ListProducts", runtime.WithHTTPPathPattern("/v1/list_product"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1833,18 +1597,13 @@ func RegisterSisikemiFashionHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_ListProducts_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_SisikemiFashion_ListOrders_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_SisikemiFashion_ListOrders_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/ListOrders", runtime.WithHTTPPathPattern("/v1/list_orders"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/ListOrders", runtime.WithHTTPPathPattern("/v1/list_orders"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1855,18 +1614,13 @@ func RegisterSisikemiFashionHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_ListOrders_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_SisikemiFashion_GetProduct_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_SisikemiFashion_GetProduct_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/GetProduct", runtime.WithHTTPPathPattern("/v1/product/{id}"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/GetProduct", runtime.WithHTTPPathPattern("/v1/product/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1877,18 +1631,13 @@ func RegisterSisikemiFashionHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_GetProduct_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_SisikemiFashion_CreateCartItem_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_SisikemiFashion_CreateCartItem_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/CreateCartItem", runtime.WithHTTPPathPattern("/v1/create_cart_item"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/CreateCartItem", runtime.WithHTTPPathPattern("/v1/create_cart_item"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1899,18 +1648,13 @@ func RegisterSisikemiFashionHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_CreateCartItem_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("DELETE", pattern_SisikemiFashion_DeleteCartItem_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodDelete, pattern_SisikemiFashion_DeleteCartItem_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/DeleteCartItem", runtime.WithHTTPPathPattern("/v1/delete_cart_item/{product_id}"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/DeleteCartItem", runtime.WithHTTPPathPattern("/v1/delete_cart_item/{product_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1921,18 +1665,13 @@ func RegisterSisikemiFashionHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_DeleteCartItem_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_SisikemiFashion_ListUserCartItems_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_SisikemiFashion_ListUserCartItems_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/ListUserCartItems", runtime.WithHTTPPathPattern("/v1/list_user_cart"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/ListUserCartItems", runtime.WithHTTPPathPattern("/v1/list_user_cart"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1943,18 +1682,13 @@ func RegisterSisikemiFashionHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_ListUserCartItems_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("PATCH", pattern_SisikemiFashion_UpdateCartItemQty_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPatch, pattern_SisikemiFashion_UpdateCartItemQty_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/UpdateCartItemQty", runtime.WithHTTPPathPattern("/v1/update_cart_item_qty"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/UpdateCartItemQty", runtime.WithHTTPPathPattern("/v1/update_cart_item_qty"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1965,18 +1699,13 @@ func RegisterSisikemiFashionHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_UpdateCartItemQty_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("PATCH", pattern_SisikemiFashion_UpdateProduct_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPatch, pattern_SisikemiFashion_UpdateProduct_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/UpdateProduct", runtime.WithHTTPPathPattern("/v1/update_product"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/UpdateProduct", runtime.WithHTTPPathPattern("/v1/update_product"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1987,18 +1716,13 @@ func RegisterSisikemiFashionHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_UpdateProduct_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("DELETE", pattern_SisikemiFashion_DeleteProduct_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodDelete, pattern_SisikemiFashion_DeleteProduct_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/DeleteProduct", runtime.WithHTTPPathPattern("/v1/delete_product/{product_id}"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/DeleteProduct", runtime.WithHTTPPathPattern("/v1/delete_product/{product_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2009,18 +1733,13 @@ func RegisterSisikemiFashionHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_DeleteProduct_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_SisikemiFashion_UploadCloudinaryMedia_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_SisikemiFashion_UploadCloudinaryMedia_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/UploadCloudinaryMedia", runtime.WithHTTPPathPattern("/v1/upload_image/cloudinary"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/UploadCloudinaryMedia", runtime.WithHTTPPathPattern("/v1/upload_image/cloudinary"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2031,18 +1750,13 @@ func RegisterSisikemiFashionHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_UploadCloudinaryMedia_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_SisikemiFashion_CreateOrder_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_SisikemiFashion_CreateOrder_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/CreateOrder", runtime.WithHTTPPathPattern("/v1/create_order"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SisikemiFashion/CreateOrder", runtime.WithHTTPPathPattern("/v1/create_order"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2053,114 +1767,63 @@ func RegisterSisikemiFashionHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_SisikemiFashion_CreateOrder_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
 	return nil
 }
 
 var (
-	pattern_SisikemiFashion_CreateUser_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "create_user"}, ""))
-
-	pattern_SisikemiFashion_LoginUser_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "login_user"}, ""))
-
-	pattern_SisikemiFashion_UpdateUser_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "update_user"}, ""))
-
-	pattern_SisikemiFashion_VerifyEmail_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "verify_email"}, ""))
-
-	pattern_SisikemiFashion_ForgotPassword_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "forgot_password"}, ""))
-
-	pattern_SisikemiFashion_VerifyCode_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "verify_code"}, ""))
-
-	pattern_SisikemiFashion_ResetPassword_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "reset_password"}, ""))
-
-	pattern_SisikemiFashion_CreateMedia_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "create_media"}, ""))
-
-	pattern_SisikemiFashion_UploadImage_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "upload_image"}, ""))
-
-	pattern_SisikemiFashion_ListMedia_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "media"}, ""))
-
-	pattern_SisikemiFashion_GetMedia_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "media", "id"}, ""))
-
-	pattern_SisikemiFashion_CreateCollection_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "create_collection"}, ""))
-
-	pattern_SisikemiFashion_ListCollections_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "list_collection"}, ""))
-
-	pattern_SisikemiFashion_CreateProduct_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "create_product"}, ""))
-
-	pattern_SisikemiFashion_ListProducts_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "list_product"}, ""))
-
-	pattern_SisikemiFashion_ListOrders_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "list_orders"}, ""))
-
-	pattern_SisikemiFashion_GetProduct_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "product", "id"}, ""))
-
-	pattern_SisikemiFashion_CreateCartItem_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "create_cart_item"}, ""))
-
-	pattern_SisikemiFashion_DeleteCartItem_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "delete_cart_item", "product_id"}, ""))
-
-	pattern_SisikemiFashion_ListUserCartItems_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "list_user_cart"}, ""))
-
-	pattern_SisikemiFashion_UpdateCartItemQty_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "update_cart_item_qty"}, ""))
-
-	pattern_SisikemiFashion_UpdateProduct_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "update_product"}, ""))
-
-	pattern_SisikemiFashion_DeleteProduct_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "delete_product", "product_id"}, ""))
-
+	pattern_SisikemiFashion_CreateUser_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "create_user"}, ""))
+	pattern_SisikemiFashion_LoginUser_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "login_user"}, ""))
+	pattern_SisikemiFashion_UpdateUser_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "update_user"}, ""))
+	pattern_SisikemiFashion_VerifyEmail_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "verify_email"}, ""))
+	pattern_SisikemiFashion_ForgotPassword_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "forgot_password"}, ""))
+	pattern_SisikemiFashion_VerifyCode_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "verify_code"}, ""))
+	pattern_SisikemiFashion_ResetPassword_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "reset_password"}, ""))
+	pattern_SisikemiFashion_CreateMedia_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "create_media"}, ""))
+	pattern_SisikemiFashion_UploadImage_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "upload_image"}, ""))
+	pattern_SisikemiFashion_ListMedia_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "media"}, ""))
+	pattern_SisikemiFashion_GetMedia_0              = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "media", "id"}, ""))
+	pattern_SisikemiFashion_CreateCollection_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "create_collection"}, ""))
+	pattern_SisikemiFashion_ListCollections_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "list_collection"}, ""))
+	pattern_SisikemiFashion_CreateProduct_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "create_product"}, ""))
+	pattern_SisikemiFashion_ListProducts_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "list_product"}, ""))
+	pattern_SisikemiFashion_ListOrders_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "list_orders"}, ""))
+	pattern_SisikemiFashion_GetProduct_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "product", "id"}, ""))
+	pattern_SisikemiFashion_CreateCartItem_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "create_cart_item"}, ""))
+	pattern_SisikemiFashion_DeleteCartItem_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "delete_cart_item", "product_id"}, ""))
+	pattern_SisikemiFashion_ListUserCartItems_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "list_user_cart"}, ""))
+	pattern_SisikemiFashion_UpdateCartItemQty_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "update_cart_item_qty"}, ""))
+	pattern_SisikemiFashion_UpdateProduct_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "update_product"}, ""))
+	pattern_SisikemiFashion_DeleteProduct_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "delete_product", "product_id"}, ""))
 	pattern_SisikemiFashion_UploadCloudinaryMedia_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "upload_image", "cloudinary"}, ""))
-
-	pattern_SisikemiFashion_CreateOrder_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "create_order"}, ""))
+	pattern_SisikemiFashion_CreateOrder_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "create_order"}, ""))
 )
 
 var (
-	forward_SisikemiFashion_CreateUser_0 = runtime.ForwardResponseMessage
-
-	forward_SisikemiFashion_LoginUser_0 = runtime.ForwardResponseMessage
-
-	forward_SisikemiFashion_UpdateUser_0 = runtime.ForwardResponseMessage
-
-	forward_SisikemiFashion_VerifyEmail_0 = runtime.ForwardResponseMessage
-
-	forward_SisikemiFashion_ForgotPassword_0 = runtime.ForwardResponseMessage
-
-	forward_SisikemiFashion_VerifyCode_0 = runtime.ForwardResponseMessage
-
-	forward_SisikemiFashion_ResetPassword_0 = runtime.ForwardResponseMessage
-
-	forward_SisikemiFashion_CreateMedia_0 = runtime.ForwardResponseMessage
-
-	forward_SisikemiFashion_UploadImage_0 = runtime.ForwardResponseMessage
-
-	forward_SisikemiFashion_ListMedia_0 = runtime.ForwardResponseMessage
-
-	forward_SisikemiFashion_GetMedia_0 = runtime.ForwardResponseMessage
-
-	forward_SisikemiFashion_CreateCollection_0 = runtime.ForwardResponseMessage
-
-	forward_SisikemiFashion_ListCollections_0 = runtime.ForwardResponseMessage
-
-	forward_SisikemiFashion_CreateProduct_0 = runtime.ForwardResponseMessage
-
-	forward_SisikemiFashion_ListProducts_0 = runtime.ForwardResponseMessage
-
-	forward_SisikemiFashion_ListOrders_0 = runtime.ForwardResponseMessage
-
-	forward_SisikemiFashion_GetProduct_0 = runtime.ForwardResponseMessage
-
-	forward_SisikemiFashion_CreateCartItem_0 = runtime.ForwardResponseMessage
-
-	forward_SisikemiFashion_DeleteCartItem_0 = runtime.ForwardResponseMessage
-
-	forward_SisikemiFashion_ListUserCartItems_0 = runtime.ForwardResponseMessage
-
-	forward_SisikemiFashion_UpdateCartItemQty_0 = runtime.ForwardResponseMessage
-
-	forward_SisikemiFashion_UpdateProduct_0 = runtime.ForwardResponseMessage
-
-	forward_SisikemiFashion_DeleteProduct_0 = runtime.ForwardResponseMessage
-
+	forward_SisikemiFashion_CreateUser_0            = runtime.ForwardResponseMessage
+	forward_SisikemiFashion_LoginUser_0             = runtime.ForwardResponseMessage
+	forward_SisikemiFashion_UpdateUser_0            = runtime.ForwardResponseMessage
+	forward_SisikemiFashion_VerifyEmail_0           = runtime.ForwardResponseMessage
+	forward_SisikemiFashion_ForgotPassword_0        = runtime.ForwardResponseMessage
+	forward_SisikemiFashion_VerifyCode_0            = runtime.ForwardResponseMessage
+	forward_SisikemiFashion_ResetPassword_0         = runtime.ForwardResponseMessage
+	forward_SisikemiFashion_CreateMedia_0           = runtime.ForwardResponseMessage
+	forward_SisikemiFashion_UploadImage_0           = runtime.ForwardResponseMessage
+	forward_SisikemiFashion_ListMedia_0             = runtime.ForwardResponseMessage
+	forward_SisikemiFashion_GetMedia_0              = runtime.ForwardResponseMessage
+	forward_SisikemiFashion_CreateCollection_0      = runtime.ForwardResponseMessage
+	forward_SisikemiFashion_ListCollections_0       = runtime.ForwardResponseMessage
+	forward_SisikemiFashion_CreateProduct_0         = runtime.ForwardResponseMessage
+	forward_SisikemiFashion_ListProducts_0          = runtime.ForwardResponseMessage
+	forward_SisikemiFashion_ListOrders_0            = runtime.ForwardResponseMessage
+	forward_SisikemiFashion_GetProduct_0            = runtime.ForwardResponseMessage
+	forward_SisikemiFashion_CreateCartItem_0        = runtime.ForwardResponseMessage
+	forward_SisikemiFashion_DeleteCartItem_0        = runtime.ForwardResponseMessage
+	forward_SisikemiFashion_ListUserCartItems_0     = runtime.ForwardResponseMessage
+	forward_SisikemiFashion_UpdateCartItemQty_0     = runtime.ForwardResponseMessage
+	forward_SisikemiFashion_UpdateProduct_0         = runtime.ForwardResponseMessage
+	forward_SisikemiFashion_DeleteProduct_0         = runtime.ForwardResponseMessage
 	forward_SisikemiFashion_UploadCloudinaryMedia_0 = runtime.ForwardResponseMessage
-
-	forward_SisikemiFashion_CreateOrder_0 = runtime.ForwardResponseMessage
+	forward_SisikemiFashion_CreateOrder_0           = runtime.ForwardResponseMessage
 )

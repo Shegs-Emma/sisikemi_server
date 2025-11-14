@@ -6,9 +6,9 @@ import (
 	"os"
 	"path/filepath"
 
-	db "github.com/techschool/simplebank/db/sqlc"
-	"github.com/techschool/simplebank/pb"
-	"github.com/techschool/simplebank/util"
+	db "github.com/Shegs-Emma/sisikemi_server/db/sqlc"
+	"github.com/Shegs-Emma/sisikemi_server/pb"
+	"github.com/Shegs-Emma/sisikemi_server/util"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

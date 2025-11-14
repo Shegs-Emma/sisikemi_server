@@ -37,8 +37,8 @@ server:
 	go run main.go
 
 mock:
-	mockgen -package mockdb -destination db/mock/store.go github.com/techschool/simplebank/db/sqlc Store
-	mockgen -package mockwk -destination worker/mock/distributor.go github.com/techschool/simplebank/worker TaskDistributor
+	mockgen -package mockdb -destination db/mock/store.go github.com/Shegs-Emma/sisikemi_server/db/sqlc Store
+	mockgen -package mockwk -destination worker/mock/distributor.go github.com/Shegs-Emma/sisikemi_server/worker TaskDistributor
 
 proto:
 	rm -f pb/*.go
@@ -56,5 +56,8 @@ redis:
 mailhog:
 	docker run -p 1025:1025 -p 8025:8025 mailhog/mailhog
 
+dev:
+	air
 
-.PHONY: postgres createdb dropdb migrateup migratedown migratedown1 db_docs db_schema new_migration sqlc test server mock proto redis mailhog
+
+.PHONY: postgres createdb dropdb migrateup migratedown migratedown1 db_docs db_schema new_migration sqlc test server mock proto redis mailhog dev

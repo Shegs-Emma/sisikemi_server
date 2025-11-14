@@ -6,12 +6,12 @@ import (
 	"fmt"
 	"testing"
 
+	mockdb "github.com/Shegs-Emma/sisikemi_server/db/mock"
+	db "github.com/Shegs-Emma/sisikemi_server/db/sqlc"
+	"github.com/Shegs-Emma/sisikemi_server/pb"
+	"github.com/Shegs-Emma/sisikemi_server/util"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/require"
-	mockdb "github.com/techschool/simplebank/db/mock"
-	db "github.com/techschool/simplebank/db/sqlc"
-	"github.com/techschool/simplebank/pb"
-	"github.com/techschool/simplebank/util"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

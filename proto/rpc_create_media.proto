@@ -3,7 +3,7 @@ syntax = "proto3";
 package pb;
 
 import "media.proto";
-option go_package = "github.com/techschool/simplebank/pb"; 
+option go_package = "github.com/Shegs-Emma/sisikemi_server/pb"; 
 
 message CreateMediaRequest {
     string media_ref = 1;

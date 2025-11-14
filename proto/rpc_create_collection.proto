@@ -2,7 +2,7 @@ syntax = "proto3";
 package pb;
 
 import "collection.proto";
-option go_package = "github.com/techschool/simplebank/pb";
+option go_package = "github.com/Shegs-Emma/sisikemi_server/pb";
 
 message CreateCollectionRequest {
     string collection_name = 1;

@@ -1,4 +1,4 @@
-module github.com/techschool/simplebank
+module github.com/Shegs-Emma/sisikemi_server
 
 go 1.22.6
 
@@ -36,7 +36,6 @@ require (
 	github.com/creasty/defaults v1.7.0 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
-	github.com/ericlagergren/decimal v0.0.0-20240411145413-00de7ca16731 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/go-test/deep v1.1.1 // indirect
 	github.com/golang/protobuf v1.5.4 // indirect

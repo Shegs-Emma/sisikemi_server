@@ -3,8 +3,8 @@ package gapi
 import (
 	"context"
 
-	"github.com/techschool/simplebank/pb"
-	"github.com/techschool/simplebank/val"
+	"github.com/Shegs-Emma/sisikemi_server/pb"
+	"github.com/Shegs-Emma/sisikemi_server/val"
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

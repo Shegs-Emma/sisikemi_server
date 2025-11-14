@@ -1,7 +1,7 @@
 syntax = "proto3";
 package pb;
 import "google/protobuf/timestamp.proto";
-option go_package = "github.com/techschool/simplebank/pb";
+option go_package = "github.com/Shegs-Emma/sisikemi_server/pb";
 
 message Media {
     int64 id = 1;
