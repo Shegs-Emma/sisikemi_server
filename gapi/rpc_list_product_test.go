@@ -142,6 +142,10 @@ func TestListProductAPI(t *testing.T) {
 						Offset: 0,
 					}).
 					Return(productItems, nil)
+
+				store.EXPECT().
+					CountProducts(gomock.Any()).
+					Return(int64(10), nil)
 			},
 			buildContext: func(t *testing.T, tokenMaker token.Maker) context.Context {
 				return newContextWithBearerToken(t, tokenMaker, user.Username, user.IsAdmin, time.Minute)
