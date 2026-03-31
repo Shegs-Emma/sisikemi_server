@@ -426,6 +426,51 @@
         },
         "parameters": [
           {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "collection",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "minPrice",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "maxPrice",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sortDir",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "productName",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
             "name": "pageId",
             "in": "query",
             "required": false,
@@ -1313,6 +1358,10 @@
           "type": "string"
         },
         "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalCount": {
           "type": "integer",
           "format": "int32"
         }

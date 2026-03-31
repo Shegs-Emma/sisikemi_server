@@ -25,10 +25,58 @@ WHERE id = $1 LIMIT 1
 FOR NO KEY UPDATE;
 
 -- name: ListProducts :many
-SELECT * FROM products
-ORDER BY id
-LIMIT $1
-OFFSET $2;
+SELECT 
+    p.id,
+    p.product_ref_no,
+    p.product_name,
+    p.product_description,
+    p.product_code,
+    p.price,
+    p.sale_price,
+    p.quantity,
+    p.color,
+    p.size,
+    p.status,
+    p.created_at,
+    p.collection,
+    p.product_image_main,
+    p.product_image_other_1,
+    p.product_image_other_2,
+    p.product_image_other_3,
+
+    -- Collection
+    c.collection_name AS collection_name,
+
+    -- Image URLs (corrected)
+    pm_main.product_media_ref AS main_image_url,
+    pm_o1.product_media_ref   AS other_image_1_url,
+    pm_o2.product_media_ref   AS other_image_2_url,
+    pm_o3.product_media_ref   AS other_image_3_url
+
+FROM products p
+LEFT JOIN collections c ON p.collection = c.id
+LEFT JOIN product_media pm_main ON p.product_image_main = pm_main.id
+LEFT JOIN product_media pm_o1   ON p.product_image_other_1 = pm_o1.id
+LEFT JOIN product_media pm_o2   ON p.product_image_other_2 = pm_o2.id
+LEFT JOIN product_media pm_o3   ON p.product_image_other_3 = pm_o3.id
+
+WHERE
+    (sqlc.narg(search)::text IS NULL OR p.product_name ILIKE '%' || sqlc.narg(search) || '%')
+AND (sqlc.narg(collection)::bigint IS NULL OR p.collection = sqlc.narg(collection)::bigint)
+AND (sqlc.narg(min_price)::int IS NULL OR p.price >= sqlc.narg(min_price))
+AND (sqlc.narg(max_price)::int IS NULL OR p.price <= sqlc.narg(max_price))
+AND (sqlc.narg(product_name)::text IS NULL OR p.product_name ILIKE '%' || sqlc.narg(product_name) || '%')
+
+ORDER BY
+    CASE WHEN sqlc.narg(sort_field)::text = 'price'        AND sqlc.narg(sort_order)::text = 'asc'  THEN p.price END ASC,
+    CASE WHEN sqlc.narg(sort_field)::text = 'price'        AND sqlc.narg(sort_order)::text = 'desc' THEN p.price END DESC,
+    CASE WHEN sqlc.narg(sort_field)::text = 'created_at'   AND sqlc.narg(sort_order)::text = 'asc'  THEN p.created_at END ASC,
+    CASE WHEN sqlc.narg(sort_field)::text = 'created_at'   AND sqlc.narg(sort_order)::text = 'desc' THEN p.created_at END DESC,
+    CASE WHEN sqlc.narg(sort_field)::text = 'product_name' AND sqlc.narg(sort_order)::text = 'asc'  THEN p.product_name END ASC,
+    CASE WHEN sqlc.narg(sort_field)::text = 'product_name' AND sqlc.narg(sort_order)::text = 'desc' THEN p.product_name END DESC,
+    p.id DESC
+
+LIMIT $1 OFFSET $2;
 
 -- name: UpdateProduct :one
 UPDATE products
@@ -56,5 +104,17 @@ RETURNING *;
 DELETE FROM products
 WHERE id = $1;
 
+
 -- name: CountProducts :one
-SELECT COUNT(*) AS total FROM products;
+SELECT COUNT(*)
+FROM products
+WHERE
+    (sqlc.narg(search)::text IS NULL OR product_name ILIKE '%' || sqlc.narg(search) || '%')
+AND
+    (sqlc.narg(collection)::bigint IS NULL OR collection = sqlc.narg(collection)::bigint)
+AND
+    (sqlc.narg(min_price)::int IS NULL OR price >= sqlc.narg(min_price))
+AND
+     (sqlc.narg(max_price)::int IS NULL OR price <= sqlc.narg(max_price))
+AND
+    (sqlc.narg(product_name)::text IS NULL OR product_name ILIKE '%' || sqlc.narg(product_name) || '%');

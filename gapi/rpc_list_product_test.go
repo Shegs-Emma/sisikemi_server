@@ -144,7 +144,12 @@ func TestListProductAPI(t *testing.T) {
 					Return(productItems, nil)
 
 				store.EXPECT().
-					CountProducts(gomock.Any()).
+					CountProducts(gomock.Any(), db.CountProductsParams{
+						Search: ToPgText("Shatope"),
+						Collection: ToPgInt8(1),
+						MinPrice: ToPgInt(20000),
+						MaxPrice: ToPgInt(300000),
+					}).
 					Return(int64(10), nil)
 			},
 			buildContext: func(t *testing.T, tokenMaker token.Maker) context.Context {

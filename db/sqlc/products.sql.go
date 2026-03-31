@@ -7,19 +7,45 @@ package db
 
 import (
 	"context"
+	"time"
 
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const countProducts = `-- name: CountProducts :one
-SELECT COUNT(*) AS total FROM products
+SELECT COUNT(*)
+FROM products
+WHERE
+    ($1::text IS NULL OR product_name ILIKE '%' || $1 || '%')
+AND
+    ($2::bigint IS NULL OR collection = $2::bigint)
+AND
+    ($3::int IS NULL OR price >= $3)
+AND
+     ($4::int IS NULL OR price <= $4)
+AND
+    ($5::text IS NULL OR product_name ILIKE '%' || $5 || '%')
 `
 
-func (q *Queries) CountProducts(ctx context.Context) (int64, error) {
-	row := q.db.QueryRow(ctx, countProducts)
-	var total int64
-	err := row.Scan(&total)
-	return total, err
+type CountProductsParams struct {
+	Search      pgtype.Text `json:"search"`
+	Collection  pgtype.Int8 `json:"collection"`
+	MinPrice    pgtype.Int4 `json:"min_price"`
+	MaxPrice    pgtype.Int4 `json:"max_price"`
+	ProductName pgtype.Text `json:"product_name"`
+}
+
+func (q *Queries) CountProducts(ctx context.Context, arg CountProductsParams) (int64, error) {
+	row := q.db.QueryRow(ctx, countProducts,
+		arg.Search,
+		arg.Collection,
+		arg.MinPrice,
+		arg.MaxPrice,
+		arg.ProductName,
+	)
+	var count int64
+	err := row.Scan(&count)
+	return count, err
 }
 
 const createProduct = `-- name: CreateProduct :one
@@ -147,26 +173,116 @@ func (q *Queries) GetProduct(ctx context.Context, id int64) (Product, error) {
 }
 
 const listProducts = `-- name: ListProducts :many
-SELECT id, product_ref_no, product_name, product_description, product_code, price, sale_price, product_image_main, product_image_other_1, product_image_other_2, product_image_other_3, collection, quantity, status, last_updated_at, created_at, size, color FROM products
-ORDER BY id
-LIMIT $1
-OFFSET $2
+SELECT 
+    p.id,
+    p.product_ref_no,
+    p.product_name,
+    p.product_description,
+    p.product_code,
+    p.price,
+    p.sale_price,
+    p.quantity,
+    p.color,
+    p.size,
+    p.status,
+    p.created_at,
+    p.collection,
+    p.product_image_main,
+    p.product_image_other_1,
+    p.product_image_other_2,
+    p.product_image_other_3,
+
+    -- Collection
+    c.collection_name AS collection_name,
+
+    -- Image URLs (corrected)
+    pm_main.product_media_ref AS main_image_url,
+    pm_o1.product_media_ref   AS other_image_1_url,
+    pm_o2.product_media_ref   AS other_image_2_url,
+    pm_o3.product_media_ref   AS other_image_3_url
+
+FROM products p
+LEFT JOIN collections c ON p.collection = c.id
+LEFT JOIN product_media pm_main ON p.product_image_main = pm_main.id
+LEFT JOIN product_media pm_o1   ON p.product_image_other_1 = pm_o1.id
+LEFT JOIN product_media pm_o2   ON p.product_image_other_2 = pm_o2.id
+LEFT JOIN product_media pm_o3   ON p.product_image_other_3 = pm_o3.id
+
+WHERE
+    ($3::text IS NULL OR p.product_name ILIKE '%' || $3 || '%')
+AND ($4::bigint IS NULL OR p.collection = $4::bigint)
+AND ($5::int IS NULL OR p.price >= $5)
+AND ($6::int IS NULL OR p.price <= $6)
+AND ($7::text IS NULL OR p.product_name ILIKE '%' || $7 || '%')
+
+ORDER BY
+    CASE WHEN $8::text = 'price'        AND $9::text = 'asc'  THEN p.price END ASC,
+    CASE WHEN $8::text = 'price'        AND $9::text = 'desc' THEN p.price END DESC,
+    CASE WHEN $8::text = 'created_at'   AND $9::text = 'asc'  THEN p.created_at END ASC,
+    CASE WHEN $8::text = 'created_at'   AND $9::text = 'desc' THEN p.created_at END DESC,
+    CASE WHEN $8::text = 'product_name' AND $9::text = 'asc'  THEN p.product_name END ASC,
+    CASE WHEN $8::text = 'product_name' AND $9::text = 'desc' THEN p.product_name END DESC,
+    p.id DESC
+
+LIMIT $1 OFFSET $2
 `
 
 type ListProductsParams struct {
-	Limit  int32 `json:"limit"`
-	Offset int32 `json:"offset"`
+	Limit       int32       `json:"limit"`
+	Offset      int32       `json:"offset"`
+	Search      pgtype.Text `json:"search"`
+	Collection  pgtype.Int8 `json:"collection"`
+	MinPrice    pgtype.Int4 `json:"min_price"`
+	MaxPrice    pgtype.Int4 `json:"max_price"`
+	ProductName pgtype.Text `json:"product_name"`
+	SortField   pgtype.Text `json:"sort_field"`
+	SortOrder   pgtype.Text `json:"sort_order"`
 }
 
-func (q *Queries) ListProducts(ctx context.Context, arg ListProductsParams) ([]Product, error) {
-	rows, err := q.db.Query(ctx, listProducts, arg.Limit, arg.Offset)
+type ListProductsRow struct {
+	ID                 int64         `json:"id"`
+	ProductRefNo       string        `json:"product_ref_no"`
+	ProductName        string        `json:"product_name"`
+	ProductDescription string        `json:"product_description"`
+	ProductCode        string        `json:"product_code"`
+	Price              int64         `json:"price"`
+	SalePrice          string        `json:"sale_price"`
+	Quantity           int32         `json:"quantity"`
+	Color              []string      `json:"color"`
+	Size               []string      `json:"size"`
+	Status             ProductStatus `json:"status"`
+	CreatedAt          time.Time     `json:"created_at"`
+	Collection         int64         `json:"collection"`
+	ProductImageMain   pgtype.Text   `json:"product_image_main"`
+	ProductImageOther1 pgtype.Text   `json:"product_image_other_1"`
+	ProductImageOther2 pgtype.Text   `json:"product_image_other_2"`
+	ProductImageOther3 pgtype.Text   `json:"product_image_other_3"`
+	CollectionName     pgtype.Text   `json:"collection_name"`
+	MainImageUrl       pgtype.Text   `json:"main_image_url"`
+	OtherImage1Url     pgtype.Text   `json:"other_image_1_url"`
+	OtherImage2Url     pgtype.Text   `json:"other_image_2_url"`
+	OtherImage3Url     pgtype.Text   `json:"other_image_3_url"`
+}
+
+func (q *Queries) ListProducts(ctx context.Context, arg ListProductsParams) ([]ListProductsRow, error) {
+	rows, err := q.db.Query(ctx, listProducts,
+		arg.Limit,
+		arg.Offset,
+		arg.Search,
+		arg.Collection,
+		arg.MinPrice,
+		arg.MaxPrice,
+		arg.ProductName,
+		arg.SortField,
+		arg.SortOrder,
+	)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	items := []Product{}
+	items := []ListProductsRow{}
 	for rows.Next() {
-		var i Product
+		var i ListProductsRow
 		if err := rows.Scan(
 			&i.ID,
 			&i.ProductRefNo,
@@ -175,17 +291,21 @@ func (q *Queries) ListProducts(ctx context.Context, arg ListProductsParams) ([]P
 			&i.ProductCode,
 			&i.Price,
 			&i.SalePrice,
+			&i.Quantity,
+			&i.Color,
+			&i.Size,
+			&i.Status,
+			&i.CreatedAt,
+			&i.Collection,
 			&i.ProductImageMain,
 			&i.ProductImageOther1,
 			&i.ProductImageOther2,
 			&i.ProductImageOther3,
-			&i.Collection,
-			&i.Quantity,
-			&i.Status,
-			&i.LastUpdatedAt,
-			&i.CreatedAt,
-			&i.Size,
-			&i.Color,
+			&i.CollectionName,
+			&i.MainImageUrl,
+			&i.OtherImage1Url,
+			&i.OtherImage2Url,
+			&i.OtherImage3Url,
 		); err != nil {
 			return nil, err
 		}

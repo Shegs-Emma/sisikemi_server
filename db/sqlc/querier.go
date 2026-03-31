@@ -11,7 +11,7 @@ import (
 )
 
 type Querier interface {
-	CountProducts(ctx context.Context) (int64, error)
+	CountProducts(ctx context.Context, arg CountProductsParams) (int64, error)
 	CreateCartItem(ctx context.Context, arg CreateCartItemParams) (Cart, error)
 	CreateCollection(ctx context.Context, arg CreateCollectionParams) (Collection, error)
 	CreateMedia(ctx context.Context, arg CreateMediaParams) (Medium, error)
@@ -52,7 +52,7 @@ type Querier interface {
 	ListOrderItems(ctx context.Context, arg ListOrderItemsParams) ([]OrderItem, error)
 	ListOrders(ctx context.Context, arg ListOrdersParams) ([]Order, error)
 	ListProductMedia(ctx context.Context, arg ListProductMediaParams) ([]ProductMedium, error)
-	ListProducts(ctx context.Context, arg ListProductsParams) ([]Product, error)
+	ListProducts(ctx context.Context, arg ListProductsParams) ([]ListProductsRow, error)
 	ListShippingAddresses(ctx context.Context, arg ListShippingAddressesParams) ([]ShippingAddress, error)
 	ListUserCartItems(ctx context.Context, arg ListUserCartItemsParams) ([]Cart, error)
 	UpdateCartItemQty(ctx context.Context, arg UpdateCartItemQtyParams) (Cart, error)
