@@ -20,9 +20,9 @@ WHERE
 AND
     ($2::bigint IS NULL OR collection = $2::bigint)
 AND
-    ($3::int IS NULL OR price >= $3)
+    ($3::bigint IS NULL OR price >= $3)
 AND
-     ($4::int IS NULL OR price <= $4)
+     ($4::bigint IS NULL OR price <= $4)
 AND
     ($5::text IS NULL OR product_name ILIKE '%' || $5 || '%')
 `
@@ -30,8 +30,8 @@ AND
 type CountProductsParams struct {
 	Search      pgtype.Text `json:"search"`
 	Collection  pgtype.Int8 `json:"collection"`
-	MinPrice    pgtype.Int4 `json:"min_price"`
-	MaxPrice    pgtype.Int4 `json:"max_price"`
+	MinPrice    pgtype.Int8 `json:"min_price"`
+	MaxPrice    pgtype.Int8 `json:"max_price"`
 	ProductName pgtype.Text `json:"product_name"`
 }
 
@@ -195,33 +195,63 @@ SELECT
     -- Collection
     c.collection_name AS collection_name,
 
-    -- Image URLs (corrected)
-    pm_main.product_media_ref AS main_image_url,
-    pm_o1.product_media_ref   AS other_image_1_url,
-    pm_o2.product_media_ref   AS other_image_2_url,
-    pm_o3.product_media_ref   AS other_image_3_url
+    -- Image URLs
+    m_main.url AS main_image_url,
+    m_o1.url AS other_image_1_url,
+    m_o2.url AS other_image_2_url,
+    m_o3.url AS other_image_3_url
 
 FROM products p
 LEFT JOIN collections c ON p.collection = c.id
-LEFT JOIN product_media pm_main ON p.product_image_main = pm_main.id
-LEFT JOIN product_media pm_o1   ON p.product_image_other_1 = pm_o1.id
-LEFT JOIN product_media pm_o2   ON p.product_image_other_2 = pm_o2.id
-LEFT JOIN product_media pm_o3   ON p.product_image_other_3 = pm_o3.id
+LEFT JOIN product_media pm_main 
+    ON pm_main.product_media_ref = p.product_image_main 
+LEFT JOIN media m_main 
+    ON m_main.media_ref = pm_main.media_id
+LEFT JOIN product_media pm_o1   
+    ON pm_o1.product_media_ref = p.product_image_other_1 
+LEFT JOIN media m_o1   
+    ON m_o1.media_ref = pm_o1.media_id
+LEFT JOIN product_media pm_o2   
+    ON pm_o2.product_media_ref = p.product_image_other_2 
+LEFT JOIN media m_o2   
+    ON m_o2.media_ref = pm_o2.media_id
+LEFT JOIN product_media pm_o3   
+    ON pm_o3.product_media_ref = p.product_image_other_3 
+LEFT JOIN media m_o3   
+    ON m_o3.media_ref = pm_o3.media_id
 
 WHERE
-    ($3::text IS NULL OR p.product_name ILIKE '%' || $3 || '%')
-AND ($4::bigint IS NULL OR p.collection = $4::bigint)
-AND ($5::int IS NULL OR p.price >= $5)
-AND ($6::int IS NULL OR p.price <= $6)
-AND ($7::text IS NULL OR p.product_name ILIKE '%' || $7 || '%')
+    ($3::text IS NULL OR p.product_name ILIKE '%' || $3::text || '%')
+    AND ($4::bigint IS NULL OR p.collection = $4::bigint)
+    AND ($5::bigint IS NULL OR p.price >= $5::bigint)
+    AND ($6::bigint IS NULL OR p.price <= $6::bigint)
+    AND ($7::text IS NULL OR p.product_name ILIKE '%' || $7::text || '%')
 
 ORDER BY
-    CASE WHEN $8::text = 'price'        AND $9::text = 'asc'  THEN p.price END ASC,
-    CASE WHEN $8::text = 'price'        AND $9::text = 'desc' THEN p.price END DESC,
-    CASE WHEN $8::text = 'created_at'   AND $9::text = 'asc'  THEN p.created_at END ASC,
-    CASE WHEN $8::text = 'created_at'   AND $9::text = 'desc' THEN p.created_at END DESC,
-    CASE WHEN $8::text = 'product_name' AND $9::text = 'asc'  THEN p.product_name END ASC,
-    CASE WHEN $8::text = 'product_name' AND $9::text = 'desc' THEN p.product_name END DESC,
+    CASE 
+        WHEN $8::text = 'price' AND $9::text = 'asc' 
+        THEN p.price 
+    END ASC,
+    CASE 
+        WHEN $8::text = 'price' AND $9::text = 'desc' 
+        THEN p.price 
+    END DESC,
+    CASE 
+        WHEN $8::text = 'created_at' AND $9::text = 'asc' 
+        THEN p.created_at 
+    END ASC,
+    CASE 
+        WHEN $8::text = 'created_at' AND $9::text = 'desc' 
+        THEN p.created_at 
+    END DESC,
+    CASE 
+        WHEN $8::text = 'product_name' AND $9::text = 'asc' 
+        THEN p.product_name 
+    END ASC,
+    CASE 
+        WHEN $8::text = 'product_name' AND $9::text = 'desc' 
+        THEN p.product_name 
+    END DESC,
     p.id DESC
 
 LIMIT $1 OFFSET $2
@@ -232,8 +262,8 @@ type ListProductsParams struct {
 	Offset      int32       `json:"offset"`
 	Search      pgtype.Text `json:"search"`
 	Collection  pgtype.Int8 `json:"collection"`
-	MinPrice    pgtype.Int4 `json:"min_price"`
-	MaxPrice    pgtype.Int4 `json:"max_price"`
+	MinPrice    pgtype.Int8 `json:"min_price"`
+	MaxPrice    pgtype.Int8 `json:"max_price"`
 	ProductName pgtype.Text `json:"product_name"`
 	SortField   pgtype.Text `json:"sort_field"`
 	SortOrder   pgtype.Text `json:"sort_order"`

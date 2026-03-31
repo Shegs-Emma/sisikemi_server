@@ -8,8 +8,8 @@ option go_package = "github.com/Shegs-Emma/sisikemi_server/pb";
 message ListProductRequest {
     string search = 1;
     int64 collection = 2;
-    int32 min_price = 3;
-    int32 max_price = 4;
+    int64 min_price = 3;
+    int64 max_price = 4;
     string sort_by = 5;
     string sort_dir = 6;
     string product_name = 7;

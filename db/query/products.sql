@@ -47,33 +47,63 @@ SELECT
     -- Collection
     c.collection_name AS collection_name,
 
-    -- Image URLs (corrected)
-    pm_main.product_media_ref AS main_image_url,
-    pm_o1.product_media_ref   AS other_image_1_url,
-    pm_o2.product_media_ref   AS other_image_2_url,
-    pm_o3.product_media_ref   AS other_image_3_url
+    -- Image URLs
+    m_main.url AS main_image_url,
+    m_o1.url AS other_image_1_url,
+    m_o2.url AS other_image_2_url,
+    m_o3.url AS other_image_3_url
 
 FROM products p
 LEFT JOIN collections c ON p.collection = c.id
-LEFT JOIN product_media pm_main ON p.product_image_main = pm_main.id
-LEFT JOIN product_media pm_o1   ON p.product_image_other_1 = pm_o1.id
-LEFT JOIN product_media pm_o2   ON p.product_image_other_2 = pm_o2.id
-LEFT JOIN product_media pm_o3   ON p.product_image_other_3 = pm_o3.id
+LEFT JOIN product_media pm_main 
+    ON pm_main.product_media_ref = p.product_image_main 
+LEFT JOIN media m_main 
+    ON m_main.media_ref = pm_main.media_id
+LEFT JOIN product_media pm_o1   
+    ON pm_o1.product_media_ref = p.product_image_other_1 
+LEFT JOIN media m_o1   
+    ON m_o1.media_ref = pm_o1.media_id
+LEFT JOIN product_media pm_o2   
+    ON pm_o2.product_media_ref = p.product_image_other_2 
+LEFT JOIN media m_o2   
+    ON m_o2.media_ref = pm_o2.media_id
+LEFT JOIN product_media pm_o3   
+    ON pm_o3.product_media_ref = p.product_image_other_3 
+LEFT JOIN media m_o3   
+    ON m_o3.media_ref = pm_o3.media_id
 
 WHERE
-    (sqlc.narg(search)::text IS NULL OR p.product_name ILIKE '%' || sqlc.narg(search) || '%')
-AND (sqlc.narg(collection)::bigint IS NULL OR p.collection = sqlc.narg(collection)::bigint)
-AND (sqlc.narg(min_price)::int IS NULL OR p.price >= sqlc.narg(min_price))
-AND (sqlc.narg(max_price)::int IS NULL OR p.price <= sqlc.narg(max_price))
-AND (sqlc.narg(product_name)::text IS NULL OR p.product_name ILIKE '%' || sqlc.narg(product_name) || '%')
+    (sqlc.narg('search')::text IS NULL OR p.product_name ILIKE '%' || sqlc.narg('search')::text || '%')
+    AND (sqlc.narg('collection')::bigint IS NULL OR p.collection = sqlc.narg('collection')::bigint)
+    AND (sqlc.narg('min_price')::bigint IS NULL OR p.price >= sqlc.narg('min_price')::bigint)
+    AND (sqlc.narg('max_price')::bigint IS NULL OR p.price <= sqlc.narg('max_price')::bigint)
+    AND (sqlc.narg('product_name')::text IS NULL OR p.product_name ILIKE '%' || sqlc.narg('product_name')::text || '%')
 
 ORDER BY
-    CASE WHEN sqlc.narg(sort_field)::text = 'price'        AND sqlc.narg(sort_order)::text = 'asc'  THEN p.price END ASC,
-    CASE WHEN sqlc.narg(sort_field)::text = 'price'        AND sqlc.narg(sort_order)::text = 'desc' THEN p.price END DESC,
-    CASE WHEN sqlc.narg(sort_field)::text = 'created_at'   AND sqlc.narg(sort_order)::text = 'asc'  THEN p.created_at END ASC,
-    CASE WHEN sqlc.narg(sort_field)::text = 'created_at'   AND sqlc.narg(sort_order)::text = 'desc' THEN p.created_at END DESC,
-    CASE WHEN sqlc.narg(sort_field)::text = 'product_name' AND sqlc.narg(sort_order)::text = 'asc'  THEN p.product_name END ASC,
-    CASE WHEN sqlc.narg(sort_field)::text = 'product_name' AND sqlc.narg(sort_order)::text = 'desc' THEN p.product_name END DESC,
+    CASE 
+        WHEN sqlc.narg('sort_field')::text = 'price' AND sqlc.narg('sort_order')::text = 'asc' 
+        THEN p.price 
+    END ASC,
+    CASE 
+        WHEN sqlc.narg('sort_field')::text = 'price' AND sqlc.narg('sort_order')::text = 'desc' 
+        THEN p.price 
+    END DESC,
+    CASE 
+        WHEN sqlc.narg('sort_field')::text = 'created_at' AND sqlc.narg('sort_order')::text = 'asc' 
+        THEN p.created_at 
+    END ASC,
+    CASE 
+        WHEN sqlc.narg('sort_field')::text = 'created_at' AND sqlc.narg('sort_order')::text = 'desc' 
+        THEN p.created_at 
+    END DESC,
+    CASE 
+        WHEN sqlc.narg('sort_field')::text = 'product_name' AND sqlc.narg('sort_order')::text = 'asc' 
+        THEN p.product_name 
+    END ASC,
+    CASE 
+        WHEN sqlc.narg('sort_field')::text = 'product_name' AND sqlc.narg('sort_order')::text = 'desc' 
+        THEN p.product_name 
+    END DESC,
     p.id DESC
 
 LIMIT $1 OFFSET $2;
@@ -113,8 +143,8 @@ WHERE
 AND
     (sqlc.narg(collection)::bigint IS NULL OR collection = sqlc.narg(collection)::bigint)
 AND
-    (sqlc.narg(min_price)::int IS NULL OR price >= sqlc.narg(min_price))
+    (sqlc.narg(min_price)::bigint IS NULL OR price >= sqlc.narg(min_price))
 AND
-     (sqlc.narg(max_price)::int IS NULL OR price <= sqlc.narg(max_price))
+     (sqlc.narg(max_price)::bigint IS NULL OR price <= sqlc.narg(max_price))
 AND
     (sqlc.narg(product_name)::text IS NULL OR product_name ILIKE '%' || sqlc.narg(product_name) || '%');

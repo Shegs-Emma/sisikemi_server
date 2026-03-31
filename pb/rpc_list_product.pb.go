@@ -25,8 +25,8 @@ type ListProductRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Search        string                 `protobuf:"bytes,1,opt,name=search,proto3" json:"search,omitempty"`
 	Collection    int64                  `protobuf:"varint,2,opt,name=collection,proto3" json:"collection,omitempty"`
-	MinPrice      int32                  `protobuf:"varint,3,opt,name=min_price,json=minPrice,proto3" json:"min_price,omitempty"`
-	MaxPrice      int32                  `protobuf:"varint,4,opt,name=max_price,json=maxPrice,proto3" json:"max_price,omitempty"`
+	MinPrice      int64                  `protobuf:"varint,3,opt,name=min_price,json=minPrice,proto3" json:"min_price,omitempty"`
+	MaxPrice      int64                  `protobuf:"varint,4,opt,name=max_price,json=maxPrice,proto3" json:"max_price,omitempty"`
 	SortBy        string                 `protobuf:"bytes,5,opt,name=sort_by,json=sortBy,proto3" json:"sort_by,omitempty"`
 	SortDir       string                 `protobuf:"bytes,6,opt,name=sort_dir,json=sortDir,proto3" json:"sort_dir,omitempty"`
 	ProductName   string                 `protobuf:"bytes,7,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty"`
@@ -80,14 +80,14 @@ func (x *ListProductRequest) GetCollection() int64 {
 	return 0
 }
 
-func (x *ListProductRequest) GetMinPrice() int32 {
+func (x *ListProductRequest) GetMinPrice() int64 {
 	if x != nil {
 		return x.MinPrice
 	}
 	return 0
 }
 
-func (x *ListProductRequest) GetMaxPrice() int32 {
+func (x *ListProductRequest) GetMaxPrice() int64 {
 	if x != nil {
 		return x.MaxPrice
 	}
@@ -207,8 +207,8 @@ const file_rpc_list_product_proto_rawDesc = "" +
 	"\n" +
 	"collection\x18\x02 \x01(\x03R\n" +
 	"collection\x12\x1b\n" +
-	"\tmin_price\x18\x03 \x01(\x05R\bminPrice\x12\x1b\n" +
-	"\tmax_price\x18\x04 \x01(\x05R\bmaxPrice\x12\x17\n" +
+	"\tmin_price\x18\x03 \x01(\x03R\bminPrice\x12\x1b\n" +
+	"\tmax_price\x18\x04 \x01(\x03R\bmaxPrice\x12\x17\n" +
 	"\asort_by\x18\x05 \x01(\tR\x06sortBy\x12\x19\n" +
 	"\bsort_dir\x18\x06 \x01(\tR\asortDir\x12!\n" +
 	"\fproduct_name\x18\a \x01(\tR\vproductName\x12\x17\n" +
