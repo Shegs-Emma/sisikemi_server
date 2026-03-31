@@ -23,8 +23,15 @@ const (
 
 type ListProductRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	PageId        int32                  `protobuf:"varint,1,opt,name=page_id,json=pageId,proto3" json:"page_id,omitempty"`
-	PageSize      int32                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	Search        string                 `protobuf:"bytes,1,opt,name=search,proto3" json:"search,omitempty"`
+	Collection    int64                  `protobuf:"varint,2,opt,name=collection,proto3" json:"collection,omitempty"`
+	MinPrice      int64                  `protobuf:"varint,3,opt,name=min_price,json=minPrice,proto3" json:"min_price,omitempty"`
+	MaxPrice      int64                  `protobuf:"varint,4,opt,name=max_price,json=maxPrice,proto3" json:"max_price,omitempty"`
+	SortBy        string                 `protobuf:"bytes,5,opt,name=sort_by,json=sortBy,proto3" json:"sort_by,omitempty"`
+	SortDir       string                 `protobuf:"bytes,6,opt,name=sort_dir,json=sortDir,proto3" json:"sort_dir,omitempty"`
+	ProductName   string                 `protobuf:"bytes,7,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty"`
+	PageId        int32                  `protobuf:"varint,8,opt,name=page_id,json=pageId,proto3" json:"page_id,omitempty"`
+	PageSize      int32                  `protobuf:"varint,9,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -59,6 +66,55 @@ func (*ListProductRequest) Descriptor() ([]byte, []int) {
 	return file_rpc_list_product_proto_rawDescGZIP(), []int{0}
 }
 
+func (x *ListProductRequest) GetSearch() string {
+	if x != nil {
+		return x.Search
+	}
+	return ""
+}
+
+func (x *ListProductRequest) GetCollection() int64 {
+	if x != nil {
+		return x.Collection
+	}
+	return 0
+}
+
+func (x *ListProductRequest) GetMinPrice() int64 {
+	if x != nil {
+		return x.MinPrice
+	}
+	return 0
+}
+
+func (x *ListProductRequest) GetMaxPrice() int64 {
+	if x != nil {
+		return x.MaxPrice
+	}
+	return 0
+}
+
+func (x *ListProductRequest) GetSortBy() string {
+	if x != nil {
+		return x.SortBy
+	}
+	return ""
+}
+
+func (x *ListProductRequest) GetSortDir() string {
+	if x != nil {
+		return x.SortDir
+	}
+	return ""
+}
+
+func (x *ListProductRequest) GetProductName() string {
+	if x != nil {
+		return x.ProductName
+	}
+	return ""
+}
+
 func (x *ListProductRequest) GetPageId() int32 {
 	if x != nil {
 		return x.PageId
@@ -78,6 +134,7 @@ type ListProductResponse struct {
 	Product       []*Product             `protobuf:"bytes,1,rep,name=product,proto3" json:"product,omitempty"`
 	NextPageToken string                 `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	TotalPages    int32                  `protobuf:"varint,3,opt,name=total_pages,json=totalPages,proto3" json:"total_pages,omitempty"`
+	TotalCount    int32                  `protobuf:"varint,4,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -133,19 +190,37 @@ func (x *ListProductResponse) GetTotalPages() int32 {
 	return 0
 }
 
+func (x *ListProductResponse) GetTotalCount() int32 {
+	if x != nil {
+		return x.TotalCount
+	}
+	return 0
+}
+
 var File_rpc_list_product_proto protoreflect.FileDescriptor
 
 const file_rpc_list_product_proto_rawDesc = "" +
 	"\n" +
-	"\x16rpc_list_product.proto\x12\x02pb\x1a\rproduct.proto\"J\n" +
-	"\x12ListProductRequest\x12\x17\n" +
-	"\apage_id\x18\x01 \x01(\x05R\x06pageId\x12\x1b\n" +
-	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\"\x85\x01\n" +
+	"\x16rpc_list_product.proto\x12\x02pb\x1a\rproduct.proto\"\x93\x02\n" +
+	"\x12ListProductRequest\x12\x16\n" +
+	"\x06search\x18\x01 \x01(\tR\x06search\x12\x1e\n" +
+	"\n" +
+	"collection\x18\x02 \x01(\x03R\n" +
+	"collection\x12\x1b\n" +
+	"\tmin_price\x18\x03 \x01(\x03R\bminPrice\x12\x1b\n" +
+	"\tmax_price\x18\x04 \x01(\x03R\bmaxPrice\x12\x17\n" +
+	"\asort_by\x18\x05 \x01(\tR\x06sortBy\x12\x19\n" +
+	"\bsort_dir\x18\x06 \x01(\tR\asortDir\x12!\n" +
+	"\fproduct_name\x18\a \x01(\tR\vproductName\x12\x17\n" +
+	"\apage_id\x18\b \x01(\x05R\x06pageId\x12\x1b\n" +
+	"\tpage_size\x18\t \x01(\x05R\bpageSize\"\xa6\x01\n" +
 	"\x13ListProductResponse\x12%\n" +
 	"\aproduct\x18\x01 \x03(\v2\v.pb.ProductR\aproduct\x12&\n" +
 	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\x12\x1f\n" +
 	"\vtotal_pages\x18\x03 \x01(\x05R\n" +
-	"totalPagesB*Z(github.com/Shegs-Emma/sisikemi_server/pbb\x06proto3"
+	"totalPages\x12\x1f\n" +
+	"\vtotal_count\x18\x04 \x01(\x05R\n" +
+	"totalCountB*Z(github.com/Shegs-Emma/sisikemi_server/pbb\x06proto3"
 
 var (
 	file_rpc_list_product_proto_rawDescOnce sync.Once

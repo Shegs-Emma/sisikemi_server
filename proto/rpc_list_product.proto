@@ -6,12 +6,21 @@ import "product.proto";
 option go_package = "github.com/Shegs-Emma/sisikemi_server/pb";
 
 message ListProductRequest {
-    int32 page_id = 1;
-    int32 page_size = 2;
+    string search = 1;
+    int64 collection = 2;
+    int64 min_price = 3;
+    int64 max_price = 4;
+    string sort_by = 5;
+    string sort_dir = 6;
+    string product_name = 7;
+
+    int32 page_id = 8;
+    int32 page_size = 9;
 }
 
 message ListProductResponse {
     repeated Product product = 1;
     string next_page_token = 2;
     int32 total_pages = 3;
+    int32 total_count = 4;
 }
